@@ -51,7 +51,7 @@ class _Home extends State<Home>{
       drawer: Drawer(
         child: Text('Test1'),
         
-      )
+      ) 
       ,*/
       body: CustomScrollView(
         slivers: <Widget>[
@@ -72,7 +72,7 @@ class _Home extends State<Home>{
           )
         ],
       ),
-      
+
         /*body: Container(
           color: Colors.white, 
           width: MediaQuery.of(context).size.width,
