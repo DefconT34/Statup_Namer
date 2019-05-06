@@ -52,7 +52,7 @@ class _Home extends State<Home>{
         child: Text('Test1'),
         
       )
-      ,
+      ,*/
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -71,8 +71,9 @@ class _Home extends State<Home>{
             ),
           )
         ],
-      ),*/
-        body: Container(
+      ),
+      
+        /*body: Container(
           color: Colors.white, 
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height ,
@@ -88,7 +89,7 @@ class _Home extends State<Home>{
               ), 
           )
           
-        ),/**/
+        ),*/
     );
   }
 }
