@@ -17,14 +17,16 @@
 
   Plan du fichier
     <style>   1. Jetons de charte   2. Base   3. Structure (bandeau, sidebar,
-              topbar)   4. Formulaire   5. Composants (liste avec recherche,
-              compteur, date)   6. Étape 2   7. Étape 3   8. Tableau de bord
-              9. Modales, toasts, notifications   10. Accessibilité
+              topbar)   4. Formulaire   5. Ergonomie (sections, navigation de
+              sections, barre d'actions, aides)   6. Composants (liste avec
+              recherche, compteur, date)   7. Étape 2   8. Étape 3
+              9. Tableau de bord   10. Modales, toasts, notifications
+              11. Accessibilité
     <body>    Bandeau · Sidebar · Topbar · Vue « Tableau de bord » ·
               Vue « Inscription » (3 étapes) · Modales · Zone des toasts
     <script>  0. Outils   1. Données de référence   2. État   3. Saisie
               (majuscules, masques)   4. Composants   5. Validation
-              6. Navigation   7. Étape 1   8. Étape 2   9. Étape 3
+              6. Navigation   7. Aides à la saisie   8. Étape 2   9. Étape 3
               10. Progression et tableau de bord   11. Notifications et toasts
               12. Soumission   13. Initialisation
   ============================================================================
@@ -47,6 +49,7 @@
   --fnce-orange-soft: #FFF3E0;     /* fond de l'onglet actif */
   --fnce-orange-track: #FDE7D9;    /* rail des jauges */
   --fnce-orange-line: #FDBA74;
+  --fnce-orange-wash: #FFFAF5;
   --fnce-green-900: #064E3B;       /* dégradé vert : début */
   --fnce-green-800: #065F46;
   --fnce-green-600: #059669;       /* dégradé vert : fin, coches */
@@ -79,7 +82,7 @@
   --topbar-h: 64px;
   --shadow-card: 0 1px 2px rgba(15, 23, 42, .05), 0 8px 24px rgba(15, 23, 42, .06);
 
-  /* Surcharges des variables Bootstrap */
+  /* Surcharges des variables Bootstrap (--bs-body-bg reste blanc : il colore les champs) */
   --bs-body-font-family: "Nunito", "Poppins", ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
   --bs-body-color: var(--fnce-ink);
   --bs-link-color-rgb: 46, 58, 135;
@@ -98,7 +101,7 @@ body { font-size: .9375rem; line-height: 1.5; -webkit-font-smoothing: antialiase
 .text-ink { color: var(--fnce-ink) !important; }
 .text-muted-2 { color: var(--fnce-muted) !important; }
 .min-w-0 { min-width: 0; }
-.anchor-target { scroll-margin-top: calc(var(--topbar-h) + 1rem); }
+.tabular { font-variant-numeric: tabular-nums; }
 .skip-link:focus { position: fixed; top: .75rem; left: .75rem; z-index: 2000; padding: .6rem 1rem; border-radius: 8px; background: #fff; color: var(--fnce-navy); font-weight: 800; box-shadow: 0 8px 24px rgba(0, 0, 0, .2); }
 
 /* ==========================================================================
@@ -122,7 +125,6 @@ body { font-size: .9375rem; line-height: 1.5; -webkit-font-smoothing: antialiase
   .sidebar.offcanvas-xl { position: sticky; top: 0; flex: 0 0 var(--sidebar-w); width: var(--sidebar-w); height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
 }
 .sidebar .offcanvas-header { justify-content: flex-end; padding-bottom: 0; }
-.sidebar .offcanvas-title { font-weight: 800; }
 .sidebar .offcanvas-body { flex: 1 1 auto; display: flex; flex-direction: column; gap: 1.25rem; padding: 1.25rem 1rem; }
 .sidebar-brand { display: flex; align-items: center; gap: .75rem; padding: 0 .25rem; }
 .brand-mark { flex: 0 0 44px; height: 44px; border-radius: 12px; background: #fff; color: var(--fnce-green-900); display: grid; place-items: center; font-size: 1.35rem; box-shadow: 0 6px 16px rgba(0, 0, 0, .18); }
@@ -183,10 +185,10 @@ main { padding: 1.5rem 1rem 3rem; outline: none; }
 
 /* Stepper à onglets */
 .wizard-tabs { display: flex; gap: .5rem; padding: .85rem .85rem 0; border-bottom: 1px solid var(--fnce-line); }
-.wizard-tab { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: .65rem; margin-bottom: -1px; padding: .75rem .9rem; border: 0; border-bottom: 3px solid transparent; border-radius: 8px 8px 0 0; background: var(--fnce-tab-bg); color: var(--fnce-muted); font-weight: 700; font-size: .9rem; line-height: 1.25; text-align: left; transition: background-color .15s ease, color .15s ease; }
+.wizard-tab { position: relative; flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: .65rem; margin-bottom: -1px; padding: .75rem .9rem; border: 0; border-bottom: 3px solid transparent; border-radius: 8px 8px 0 0; background: var(--fnce-tab-bg); color: var(--fnce-muted); font-weight: 700; font-size: .9rem; line-height: 1.25; text-align: left; transition: background-color .15s ease, color .15s ease; }
 .wizard-tab:hover { background: #E9EBEF; color: var(--fnce-ink); }
 .wizard-tab[aria-selected="true"] { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border-bottom-color: var(--fnce-orange); }
-.wizard-tab:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; position: relative; z-index: 1; }
+.wizard-tab:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; z-index: 1; }
 .tab-num { flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; border: 2px solid currentColor; background: #fff; font-weight: 800; font-size: .85rem; }
 .tab-num .bi { display: none; font-size: .95rem; }
 .wizard-tab.done .tab-num { background: var(--fnce-green-600); border-color: var(--fnce-green-600); color: #fff; }
@@ -197,46 +199,44 @@ main { padding: 1.5rem 1rem 3rem; outline: none; }
   .wizard-tab { flex-direction: column; justify-content: flex-start; text-align: center; gap: .35rem; padding: .6rem .35rem; font-size: .74rem; }
 }
 
-.step-panel { padding: 1.5rem 1rem .5rem; }
+.step-panel { padding: 1.25rem .75rem .75rem; }
 .step-panel:focus { outline: none; }
-@media (min-width: 768px) { .step-panel { padding: 1.75rem 1.75rem .75rem; } }
+@media (min-width: 768px) { .step-panel { padding: 1.75rem 1.75rem 1rem; } }
 
 /* Titres de section : barre orange 4 px + icône orange + titre gras */
 .section-title { display: flex; align-items: center; gap: .55rem; margin: 0 0 1rem; font-size: 1.02rem; font-weight: 800; line-height: 1.3; color: var(--fnce-ink); }
 .section-title::before { content: ""; flex: 0 0 4px; align-self: stretch; min-height: 1.3em; border-radius: 2px; background: var(--fnce-orange); }
 .section-title > .bi { color: var(--fnce-orange); font-size: 1.1em; }
 .section-title:focus { outline: none; }
-.subsection-title { display: block; width: 100%; margin: 0 0 .85rem; padding-bottom: .35rem; border-bottom: 1px solid var(--fnce-line); font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
-.subsection-title .bi { color: var(--fnce-orange); margin-right: .35rem; }
-
-/* Encadrés en pointillés */
-.box-dashed { border: 2px dashed; border-radius: 10px; padding: 1.1rem 1.1rem 1.2rem; }
-.box-ident { border-color: var(--fnce-yellow); background: var(--fnce-cream); }
-.box-confirm { border-color: var(--fnce-lavender); background: var(--fnce-lavender-bg); }
-.box-note { margin: -.45rem 0 .9rem; font-size: .8rem; color: var(--fnce-muted); }
+.subsection-title { display: flex; align-items: center; gap: .4rem; width: 100%; margin: 1.5rem 0 .85rem; padding-bottom: .35rem; border-bottom: 1px solid var(--fnce-line); font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
+.subsection-title:first-of-type { margin-top: 0; }
+.subsection-title .bi { color: var(--fnce-orange); font-size: .95rem; }
 
 /* Champs */
 .form-label { margin-bottom: .3rem; font-size: 13px; font-weight: 700; color: var(--fnce-ink-2); }
 .req { color: var(--fnce-red); font-weight: 800; margin-left: .15rem; }
-.form-control, .form-select { height: 42px; border: 1px solid var(--fnce-border); border-radius: 4px; font-size: .9rem; color: var(--fnce-ink); }
+.opt { margin-left: .35rem; font-size: .72rem; font-weight: 600; color: #6B7280; }
+.form-control, .form-select { height: 42px; border: 1px solid var(--fnce-border); border-radius: 4px; font-size: .9rem; color: var(--fnce-ink); transition: border-color .15s ease, box-shadow .15s ease; }
 .form-control::placeholder { color: #6B7280; opacity: 1; }
+.form-control:not([readonly]):not(:disabled):not(:focus):not(.is-invalid):not(.is-valid):hover,
+.form-select:not(:disabled):not(:focus):not(.is-invalid):hover { border-color: #9CA3AF; }
 .form-control:focus, .form-select:focus { border-color: var(--fnce-orange); box-shadow: 0 0 0 .2rem rgba(242, 101, 34, .18); }
 .form-control[readonly] { background-color: var(--fnce-ro-bg); color: var(--fnce-ro-text); font-size: .84rem; font-weight: 800; text-transform: uppercase; text-overflow: ellipsis; }
 .form-control:disabled, .form-select:disabled { background-color: #F3F4F6; }
+input.form-control:-webkit-autofill { -webkit-text-fill-color: var(--fnce-ink); box-shadow: inset 0 0 0 1000px #fff; }
 .form-text { font-size: .78rem; color: var(--fnce-muted); }
 .w-code { flex: 0 0 84px; width: 84px; }
+.w-code-lg { flex: 0 0 116px; width: 116px; }
 /* Ligne « N° RCCM · Forme juridique » : côte à côte dès que la largeur le permet */
 .row > .col-rccm { flex: 1 1 320px; width: auto; }
 .row > .col-fj { flex: 0 0 140px; width: auto; }
-.w-code-lg { flex: 0 0 116px; width: 116px; }
-.tabular { font-variant-numeric: tabular-nums; }
 
 /* États de validation : couleurs de la charte (coche verte, erreur rouge) */
 .form-control.is-valid { border-color: var(--fnce-green-600); background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23059669' d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z'/%3e%3c/svg%3e"); }
 .form-control.is-invalid { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23B91C1C' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23B91C1C' stroke='none'/%3e%3c/svg%3e"); }
 .form-select.is-invalid:not([multiple]):not([size]) { --bs-form-select-bg-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23B91C1C' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23B91C1C' stroke='none'/%3e%3c/svg%3e"); }
 .valid-feedback, .invalid-feedback { font-size: .8rem; font-weight: 700; }
-.valid-feedback .bi { margin-right: .2rem; }
+.valid-feedback .bi, .invalid-feedback .bi { margin-right: .25rem; }
 
 /* Boutons radio */
 .form-check-input { border-color: #9CA3AF; }
@@ -249,19 +249,13 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
 /* Pièce d'identité : bascule ONECI / Autre (transition douce) */
 .piece-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; margin-bottom: 1rem; }
+.piece-head .section-title { flex: 1 1 auto; }
 .piece-mode { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0; padding: .35rem .9rem; border-radius: 50rem; background: var(--fnce-page); }
 .piece-mode .form-check { margin: 0; }
 .piece-panel { transition: opacity .22s ease, transform .22s ease; }
 .piece-panel.is-leaving, .piece-panel.is-entering { opacity: 0; transform: translateY(8px); }
 
-.sync-hint { display: flex; gap: .3rem; align-items: flex-start; font-weight: 700; }
-.sync-hint.is-ok { color: var(--fnce-green-text); }
-.sync-hint.is-warn { color: var(--fnce-warn-text); }
-
-/* Pied de formulaire */
-.form-footer { padding: 0 1rem 1.5rem; }
-@media (min-width: 768px) { .form-footer { padding: 0 1.75rem 1.75rem; } }
-.form-footer hr { margin: .75rem 0 1.25rem; border-color: var(--fnce-line); opacity: 1; }
+/* Boutons */
 .btn-next { --bs-btn-color: #fff; --bs-btn-bg: var(--fnce-navy); --bs-btn-border-color: var(--fnce-navy); --bs-btn-hover-color: #fff; --bs-btn-hover-bg: var(--fnce-navy-hover); --bs-btn-hover-border-color: var(--fnce-navy-hover); --bs-btn-active-color: #fff; --bs-btn-active-bg: #1C2459; --bs-btn-active-border-color: #1C2459; --bs-btn-disabled-color: #fff; --bs-btn-disabled-bg: var(--fnce-navy); --bs-btn-disabled-border-color: var(--fnce-navy); --bs-btn-focus-shadow-rgb: 46, 58, 135; border-radius: 50rem; padding: .62rem 2.4rem; font-weight: 800; }
 .btn-prev { --bs-btn-color: var(--fnce-ink-2); --bs-btn-bg: #fff; --bs-btn-border-color: #CBD5E1; --bs-btn-hover-color: var(--fnce-ink); --bs-btn-hover-bg: #F8FAFC; --bs-btn-hover-border-color: #94A3B8; --bs-btn-active-bg: #F1F5F9; --bs-btn-active-border-color: #94A3B8; --bs-btn-focus-shadow-rgb: 100, 116, 139; border-radius: 50rem; padding: .62rem 1.8rem; font-weight: 800; }
 .btn-submit { --bs-btn-color: #fff; --bs-btn-hover-color: #fff; --bs-btn-active-color: #fff; --bs-btn-disabled-color: #fff; --bs-btn-border-color: transparent; --bs-btn-hover-border-color: transparent; --bs-btn-focus-shadow-rgb: 5, 150, 105; border-radius: 50rem; padding: .62rem 2rem; font-weight: 800; background-image: linear-gradient(135deg, var(--fnce-green-900), var(--fnce-green-text)); }
@@ -270,9 +264,95 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .submitted-alert > .bi { color: var(--fnce-green-600); }
 
 /* ==========================================================================
-   5. COMPOSANTS : LISTE AVEC RECHERCHE, COMPTEUR, DATE
+   5. ERGONOMIE : SECTIONS, NAVIGATION DE SECTIONS, BARRE D'ACTIONS, AIDES
    ========================================================================== */
-/* Liste déroulante avec recherche et bouton d'effacement « × » */
+/* Chaque section est un panneau ; celle qui contient le champ actif est mise en valeur */
+.form-section { position: relative; padding: 1.1rem 1.1rem 1.25rem; border: 2px solid transparent; border-radius: 12px; transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease; scroll-margin-top: calc(var(--topbar-h) + 1rem); }
+.form-section + .form-section { margin-top: 1rem; }
+@media (max-width: 575.98px) { .form-section { padding: .9rem .75rem 1rem; } } /* petit écran : plus de place pour les champs */
+.form-section.plain:focus-within { background: #FFFCF8; border-color: #FBE2D1; }
+.box-dashed { border-style: dashed; }
+.box-dashed:focus-within { box-shadow: 0 0 0 4px rgba(242, 101, 34, .1); }
+.box-ident { border-color: var(--fnce-yellow); background: var(--fnce-cream); }
+.box-confirm { border-color: var(--fnce-lavender); background: var(--fnce-lavender-bg); }
+.box-note { margin: -.45rem 0 .9rem; font-size: .8rem; color: var(--fnce-muted); }
+@media (min-width: 992px) { .form-section { scroll-margin-top: calc(var(--topbar-h) + 4.75rem); } }
+/* Rangées adaptatives : selon la largeur réelle de la section (classes posées en JavaScript),
+   un champ « cq-full » passe en pleine largeur sous son seuil (data-cq, 470 px par défaut) et
+   les couples code/libellé se replient : aucune valeur n'est tronquée, quel que soit l'écran. */
+.row > .cq-full.is-full { flex: 0 0 auto; width: 100%; }
+.form-section.is-tiny .cq-wrap { flex-wrap: wrap; }
+.form-section.is-tiny .cq-wrap > .flex-grow-1 { flex: 1 1 100%; }
+
+/* Pastille d'avancement d'une section (« 3/5 » puis « Complet ») */
+.sec-badge { margin-left: auto; display: inline-flex; align-items: center; gap: .3rem; padding: .18rem .6rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .72rem; font-weight: 800; white-space: nowrap; }
+.sec-badge.is-complete { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
+.sec-badge.is-dgi { background: #FEF3C7; color: var(--fnce-warn-text); }
+.box-confirm .sec-badge { background: #fff; }
+.box-confirm .sec-badge.is-complete { background: var(--fnce-green-soft); }
+
+/* Navigation de sections (étape 1) : pastilles cliquables, collantes sur grand écran */
+.section-nav { position: relative; display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; margin: -.25rem 0 1.25rem; padding: .25rem .1rem .5rem; }
+.section-nav::-webkit-scrollbar { display: none; }
+@media (min-width: 992px) {
+  .section-nav { position: sticky; top: var(--topbar-h); z-index: 10; flex-wrap: wrap; margin: -1.75rem -1.75rem 1.25rem; padding: .7rem 1.75rem; background: rgba(255, 255, 255, .97); border-bottom: 1px solid var(--fnce-line); }
+}
+.sn-chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .45rem .38rem .75rem; border: 1px solid var(--fnce-line); border-radius: 50rem; background: #fff; color: var(--fnce-ink-2); font-size: .8rem; font-weight: 700; white-space: nowrap; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
+.sn-chip > .bi { color: var(--fnce-orange); }
+/* Écrans moyens : sans icônes, les pastilles tiennent sur une seule ligne (barre collante moins haute) */
+@media (min-width: 992px) and (max-width: 1399.98px) { .sn-chip > .bi { display: none; } }
+.sn-chip:hover { border-color: var(--fnce-orange-line); }
+.sn-chip.is-active { border-color: var(--fnce-orange); background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
+.sn-chip:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
+.sn-state { display: inline-flex; align-items: center; gap: .2rem; min-width: 2.2rem; justify-content: center; padding: .08rem .45rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .72rem; font-weight: 800; }
+.sn-state.is-dgi { background: #FEF3C7; color: var(--fnce-warn-text); }
+.sn-chip.is-complete .sn-state { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
+.sn-chip.pop { animation: fnce-pop .45s ease; }
+@keyframes fnce-pop { 40% { transform: scale(1.08); } }
+
+/* Barre d'actions collante : séparateur, statut de l'étape, boutons centrés, navigation dans les erreurs */
+.form-footer { position: sticky; bottom: 0; z-index: 12; padding: .75rem .75rem; background: rgba(255, 255, 255, .97); border-top: 1px solid var(--fnce-line); border-radius: 0 0 12px 12px; box-shadow: 0 -10px 24px rgba(15, 23, 42, .06); }
+@media (min-width: 768px) { .form-footer { padding: .85rem 1.75rem; } }
+.ab-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .6rem 1rem; }
+.ab-left { justify-self: start; display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.ab-right { justify-self: end; }
+.ab-step { font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
+.ab-count { font-size: .84rem; font-weight: 800; color: var(--fnce-ink); }
+.ab-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
+.ab-errors { display: inline-flex; align-items: center; gap: .4rem; padding: .42rem .85rem; border: 1px solid #FCA5A5; border-radius: 50rem; background: var(--fnce-red-soft); color: var(--fnce-red); font-size: .8rem; font-weight: 800; white-space: nowrap; }
+.ab-errors:hover { background: #FEE2E2; }
+.ab-errors:focus-visible { outline: 3px solid rgba(185, 28, 28, .4); outline-offset: 2px; }
+@media (max-width: 767.98px) {
+  .ab-inner { grid-template-columns: 1fr auto; grid-template-areas: "left right" "btns btns"; }
+  .ab-left { grid-area: left; }
+  .ab-right { grid-area: right; }
+  .ab-buttons { grid-area: btns; gap: .5rem; }
+  .ab-buttons .btn { flex: 1 1 0; padding-left: .75rem; padding-right: .75rem; }
+}
+
+/* Aides contextuelles sous les champs */
+.field-hint { display: flex; align-items: flex-start; gap: .35rem; margin-top: .3rem; font-size: .78rem; font-weight: 700; color: var(--fnce-muted); }
+.field-hint:empty { display: none; }
+.field-hint.is-ok { color: var(--fnce-green-text); }
+.field-hint.is-warn { color: var(--fnce-warn-text); }
+.field-hint .bi { flex: 0 0 auto; line-height: 1.5; }
+.amount-words { margin-top: .4rem; padding: .35rem .65rem; border-left: 3px solid var(--fnce-orange-line); border-radius: 0 6px 6px 0; background: var(--fnce-orange-wash); color: var(--fnce-ink-2); font-size: .78rem; font-style: italic; line-height: 1.4; }
+.amount-words:empty { display: none; }
+.suggest-chip { display: inline-flex; align-items: center; gap: .35rem; margin-top: .45rem; padding: .25rem .75rem; border: 1px dashed var(--fnce-orange-line); border-radius: 50rem; background: var(--fnce-orange-wash); color: var(--fnce-orange-text); font-size: .76rem; font-weight: 800; text-align: left; }
+.suggest-chip strong { white-space: nowrap; }
+.suggest-chip:hover { border-style: solid; background: var(--fnce-orange-soft); }
+.suggest-chip:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
+.email-suggest { margin-top: .35rem; font-size: .78rem; font-weight: 700; color: var(--fnce-warn-text); }
+.email-suggest button { padding: 0; border: 0; background: none; color: var(--fnce-navy); font-weight: 800; text-decoration: underline; }
+.phone-group .input-group-text { min-width: 58px; justify-content: center; background: var(--fnce-ro-bg); border-color: var(--fnce-border); color: var(--fnce-muted); font-size: .82rem; font-weight: 800; }
+.sync-hint { display: flex; gap: .3rem; align-items: flex-start; font-weight: 700; }
+.sync-hint.is-ok { color: var(--fnce-green-text); }
+.sync-hint.is-warn { color: var(--fnce-warn-text); }
+
+/* ==========================================================================
+   6. COMPOSANTS : LISTE AVEC RECHERCHE, COMPTEUR, DATE
+   ========================================================================== */
+/* Liste avec recherche et bouton d'effacement « × » */
 .combo { position: relative; }
 .combo-input.form-control { padding-right: 4.3rem; }
 .combo-input.form-control.is-invalid { background-image: none; padding-right: 4.3rem; }
@@ -290,10 +370,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .combo-list mark { padding: 0; background: none; color: inherit; font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
 .combo-list .combo-empty { color: var(--fnce-muted); cursor: default; }
 
-/* Champ numérique avec compteur (spinner) */
+/* Champ numérique avec compteur (spinner), unité affichée dans le champ */
 .spin { position: relative; }
 .spin .form-control { padding-right: 2.7rem; font-variant-numeric: tabular-nums; }
+.spin.has-unit .form-control { padding-right: 5.4rem; }
 .spin .form-control.is-invalid { background-image: none; }
+.spin-unit { position: absolute; top: 50%; right: 2.8rem; transform: translateY(-50%); color: var(--fnce-muted); font-size: .76rem; font-weight: 800; letter-spacing: .03em; pointer-events: none; }
 .spin-btns { position: absolute; top: 1px; right: 1px; bottom: 1px; width: 2.2rem; display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--fnce-line); border-radius: 0 3px 3px 0; }
 .spin-btns button { flex: 1 1 0; display: grid; place-items: center; padding: 0; border: 0; background: #F9FAFB; color: var(--fnce-muted); font-size: .62rem; line-height: 1; }
 .spin-btns button + button { border-top: 1px solid var(--fnce-line); }
@@ -311,7 +393,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .date-native { position: absolute; right: .35rem; bottom: 0; width: 32px; height: 1px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
 
 /* ==========================================================================
-   6. ÉTAPE 2 : PAIEMENT ET ÉTABLISSEMENTS SECONDAIRES
+   7. ÉTAPE 2 : PAIEMENT ET ÉTABLISSEMENTS SECONDAIRES
    ========================================================================== */
 .pay-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
 @media (max-width: 575.98px) { .pay-options { grid-template-columns: 1fr; } }
@@ -326,7 +408,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 .btn-verify { border: 1px solid var(--fnce-navy); background: #fff; color: var(--fnce-navy); font-weight: 800; min-width: 104px; }
 .btn-verify:hover, .btn-verify:focus-visible { background: var(--fnce-navy); color: #fff; border-color: var(--fnce-navy); }
 .btn-verify:disabled { background: #fff; color: var(--fnce-navy); border-color: #A5B4FC; opacity: 1; }
-.pay-status { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .85rem; border: 1px solid; border-radius: 50rem; font-size: .84rem; font-weight: 800; }
+.pay-status { display: inline-flex; align-items: center; gap: .45rem; min-height: 42px; padding: .45rem .85rem; border: 1px solid; border-radius: 50rem; font-size: .84rem; font-weight: 800; }
 .ps-none { background: #F3F4F6; color: var(--fnce-ink-2); border-color: var(--fnce-border); }
 .ps-pending { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border-color: var(--fnce-orange-line); }
 .ps-checking { background: var(--fnce-navy-soft); color: var(--fnce-navy); border-color: #A5B4FC; }
@@ -340,17 +422,30 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 .etab-alert > .bi { font-size: 1.1rem; }
 .etab-alert .btn-link { color: var(--fnce-navy); font-size: inherit; text-decoration: underline; }
 .btn-add { --bs-btn-color: #1A1A1A; --bs-btn-bg: var(--fnce-orange); --bs-btn-border-color: var(--fnce-orange); --bs-btn-hover-color: #1A1A1A; --bs-btn-hover-bg: #E0561A; --bs-btn-hover-border-color: #E0561A; --bs-btn-active-bg: #C94C15; --bs-btn-active-color: #1A1A1A; --bs-btn-focus-shadow-rgb: 242, 101, 34; border-radius: 50rem; padding: .45rem 1.1rem; font-weight: 800; }
-.etab-table-wrap { position: relative; border: 1px solid var(--fnce-line); border-radius: 10px; } /* contient les libellés masqués (évite un défilement horizontal de la page) */
+/* position: relative contient les libellés masqués (sinon la page défile horizontalement) */
+.etab-table-wrap { position: relative; border: 1px solid var(--fnce-line); border-radius: 10px; }
 .etab-table { --bs-table-bg: #fff; margin: 0; font-size: .88rem; }
-.etab-table thead th { background: #F8FAFC; color: var(--fnce-ink-2); font-size: .74rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; border-bottom: 1px solid var(--fnce-line); }
+.etab-table thead th { background: #F8FAFC; color: var(--fnce-ink-2); font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; border-bottom: 1px solid var(--fnce-line); }
 .etab-table tbody tr:last-child td { border-bottom: 0; }
 .etab-table .etab-empty td { padding: 1.5rem; text-align: center; color: var(--fnce-muted); }
 .btn-row { position: relative; width: 34px; height: 34px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--fnce-line); border-radius: 8px; background: #fff; color: var(--fnce-ink-2); }
 .btn-row.edit:hover { color: var(--fnce-navy); border-color: #A5B4FC; background: var(--fnce-navy-soft); }
 .btn-row.del:hover { color: var(--fnce-red); border-color: #FCA5A5; background: var(--fnce-red-soft); }
+/* Sur mobile, le tableau devient une liste de fiches */
+.etab-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.etab-card { position: relative; padding: .85rem 1rem; border: 1px solid var(--fnce-line); border-radius: 12px; background: #fff; }
+.etab-card-head { display: flex; align-items: flex-start; gap: .6rem; }
+.etab-card-title { margin: 0; font-size: .92rem; font-weight: 800; }
+.etab-card-sub { margin: 0; font-size: .78rem; font-weight: 700; color: var(--fnce-muted); }
+.etab-num { flex: 0 0 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--fnce-orange-soft); color: var(--fnce-orange-text); font-size: .76rem; font-weight: 800; }
+.etab-card .doc-actions { margin-left: auto; }
+.etab-card dl { display: grid; grid-template-columns: auto 1fr; gap: .15rem .75rem; margin: .6rem 0 0; font-size: .82rem; }
+.etab-card dt { color: var(--fnce-muted); font-weight: 700; }
+.etab-card dd { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+.etab-cards .etab-empty { padding: 1.25rem; border: 1px dashed var(--fnce-border); border-radius: 12px; text-align: center; color: var(--fnce-muted); font-size: .86rem; }
 
 /* ==========================================================================
-   7. ÉTAPE 3 : PIÈCES JOINTES
+   8. ÉTAPE 3 : PIÈCES JOINTES
    ========================================================================== */
 .compl-box { min-width: min(100%, 280px); }
 .doc-card { height: 100%; display: flex; flex-direction: column; gap: .85rem; padding: 1rem; border: 1px solid var(--fnce-line); border-radius: 12px; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
@@ -387,7 +482,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 .meter-lg { height: 14px; border-radius: 7px; }
 
 /* ==========================================================================
-   8. TABLEAU DE BORD
+   9. TABLEAU DE BORD
    ========================================================================== */
 .dash-card { background: #fff; border: 1px solid var(--fnce-line); border-radius: 12px; box-shadow: var(--shadow-card); padding: 1.25rem; }
 .card-title-sm { margin: 0 0 1rem; font-size: .95rem; font-weight: 800; color: var(--fnce-ink); }
@@ -434,7 +529,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 
 .todo-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
 .todo-btn { width: 100%; display: flex; align-items: center; gap: .6rem; padding: .55rem .75rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #fff; color: var(--fnce-ink); font-size: .86rem; font-weight: 700; text-align: left; }
-.todo-btn:hover { border-color: var(--fnce-orange-line); background: #FFFAF5; }
+.todo-btn:hover { border-color: var(--fnce-orange-line); background: var(--fnce-orange-wash); }
 .todo-btn:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
 .todo-btn .bi { margin-left: auto; color: var(--fnce-muted); }
 .todo-step { flex: 0 0 auto; padding: .1rem .5rem; border-radius: 50rem; background: var(--fnce-orange-soft); color: var(--fnce-orange-text); font-size: .72rem; font-weight: 800; }
@@ -448,7 +543,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 @media (max-width: 575.98px) { .recap-dl { grid-template-columns: 1fr; gap: .1rem; } .recap-dl dd { margin-bottom: .45rem; } }
 
 /* ==========================================================================
-   9. MODALES, TOASTS, NOTIFICATIONS
+   10. MODALES, TOASTS, NOTIFICATIONS
    ========================================================================== */
 .modal-content { border: 0; border-radius: 14px; box-shadow: 0 24px 60px rgba(15, 23, 42, .25); }
 .modal-header, .modal-footer { border-color: var(--fnce-line); }
@@ -458,6 +553,8 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 .recap-certify { padding: .75rem 1rem .75rem 2.6rem; border-radius: 10px; background: var(--fnce-page); }
 
 .toast-container { z-index: 1090; }
+/* Les toasts se posent au-dessus de la barre d'actions collante, sans masquer « Suivant » ni le bouton des erreurs */
+#toastZone { bottom: var(--toast-bottom, 0px); transition: bottom .2s ease; }
 .fnce-toast { width: min(360px, calc(100vw - 2rem)); overflow: hidden; border: 0; border-radius: 12px; box-shadow: 0 12px 32px rgba(15, 23, 42, .28); color: #fff; }
 .fnce-toast .toast-body { padding: .85rem .9rem; font-size: .88rem; }
 .fnce-toast .toast-ic { font-size: 1.2rem; line-height: 1.2; }
@@ -480,7 +577,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 .notif-empty { padding: 1rem; text-align: center; color: var(--fnce-muted); font-size: .85rem; }
 
 /* ==========================================================================
-   10. ACCESSIBILITÉ : MOUVEMENT RÉDUIT
+   11. ACCESSIBILITÉ : MOUVEMENT RÉDUIT
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
@@ -678,7 +775,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
           </div>
           <div class="col-lg-5">
             <article class="dash-card h-100" aria-labelledby="companyTitle">
-              <h2 class="card-title-sm" id="companyTitle">Entreprise (données DGI)</h2>
+              <h2 class="card-title-sm" id="companyTitle">Établissement principal</h2>
               <dl class="recap-dl" id="companyDl"></dl>
             </article>
           </div>
@@ -726,14 +823,26 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                    ÉTAPE 1 – IDENTIFICATION DU COMMERCE
                    ============================================================ -->
               <div class="step-panel" role="tabpanel" id="step-1" aria-labelledby="tab-1" tabindex="-1">
+
+                <!-- Navigation de sections : avancement de chaque bloc, clic = premier champ à compléter -->
+                <nav class="section-nav" aria-label="Sections de l'étape 1">
+                  <button type="button" class="sn-chip" data-sec="ident"><i class="bi bi-briefcase" aria-hidden="true"></i>Identification<span class="sn-state is-dgi"><i class="bi bi-lock-fill" aria-hidden="true"></i>DGI</span></button>
+                  <button type="button" class="sn-chip" data-sec="confirm"><i class="bi bi-patch-check" aria-hidden="true"></i>Confirmation<span class="sn-state"></span></button>
+                  <button type="button" class="sn-chip" data-sec="etab"><i class="bi bi-building" aria-hidden="true"></i>Établissement<span class="visually-hidden"> principal</span><span class="sn-state"></span></button>
+                  <button type="button" class="sn-chip" data-sec="rep"><i class="bi bi-person" aria-hidden="true"></i>Représentant<span class="visually-hidden"> légal</span><span class="sn-state"></span></button>
+                  <button type="button" class="sn-chip" data-sec="piece"><i class="bi bi-person-vcard" aria-hidden="true"></i>Pièce d'identité<span class="sn-state"></span></button>
+                </nav>
+
+                <!-- Deux rangées équilibrées : 1) données DGI et confirmation côte à côte (on recopie
+                     en lisant à gauche) ; 2) établissement principal | représentant légal + pièce. -->
                 <div class="row g-4">
 
-                  <!-- ---------------- Colonne gauche ---------------- -->
-                  <div class="col-lg-6">
+                  <!-- ---------------- Rangée 1, gauche ---------------- -->
+                  <div class="col-lg-6 d-flex">
 
                     <!-- A. Identification de l'Entreprise (lecture seule, données DGI) -->
-                    <section class="box-dashed box-ident" aria-labelledby="secIdentTitle">
-                      <h2 class="section-title" id="secIdentTitle"><i class="bi bi-briefcase-fill" aria-hidden="true"></i>Identification de l'Entreprise</h2>
+                    <section class="form-section box-dashed box-ident flex-fill min-w-0" id="secIdent" data-section="ident" aria-labelledby="secIdentTitle">
+                      <h2 class="section-title" id="secIdentTitle" tabindex="-1"><i class="bi bi-briefcase-fill" aria-hidden="true"></i>Identification de l'Entreprise<span class="sec-badge is-dgi"><i class="bi bi-lock-fill" aria-hidden="true"></i>DGI</span></h2>
                       <p class="box-note"><i class="bi bi-cloud-check me-1" aria-hidden="true"></i>Données pré-remplies depuis la DGI (lecture seule).</p>
                       <div class="row g-3">
                         <div class="col-sm-5">
@@ -741,12 +850,12 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                           <input type="text" class="form-control" id="dgiNcc" data-dgi="ncc" readonly>
                         </div>
                         <div class="col-sm-7">
-                          <label class="form-label" for="dgiDenomination">Dénomination</label>
+                          <label class="form-label" for="dgiDenomination">Raison sociale</label>
                           <input type="text" class="form-control" id="dgiDenomination" data-dgi="denomination" readonly>
                         </div>
                         <div class="col-12">
                           <label class="form-label" for="dgiCentreCode">Centre<span class="visually-hidden"> (code)</span></label>
-                          <div class="d-flex gap-2">
+                          <div class="d-flex gap-2 cq-wrap">
                             <input type="text" class="form-control w-code text-center" id="dgiCentreCode" data-dgi="centreCode" readonly>
                             <input type="text" class="form-control flex-grow-1 min-w-0" id="dgiCentreLib" data-dgi="centreLibelle" aria-label="Libellé du centre" readonly>
                           </div>
@@ -761,19 +870,29 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                         </div>
                         <div class="col-12">
                           <label class="form-label" for="dgiActCode">Activité<span class="visually-hidden"> (code)</span></label>
-                          <div class="d-flex gap-2">
+                          <div class="d-flex gap-2 cq-wrap">
                             <input type="text" class="form-control w-code-lg text-center" id="dgiActCode" data-dgi="activiteCode" readonly>
                             <input type="text" class="form-control flex-grow-1 min-w-0" id="dgiActLib" data-dgi="activiteLibelle" aria-label="Libellé de l'activité" readonly>
                           </div>
                         </div>
                       </div>
                     </section>
+                  </div>
+
+                  <!-- ---------------- Rangée 1, droite ---------------- -->
+                  <div class="col-lg-6 d-flex">
 
                     <!-- B. Confirmation données (ressaisie comparée en temps réel au bloc A) -->
-                    <section class="box-dashed box-confirm mt-4" aria-labelledby="secConfirmTitle">
-                      <h2 class="section-title" id="secConfirmTitle"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>Confirmation données</h2>
-                      <p class="box-note">Ressaisissez la forme juridique et le N° RCCM tels qu'enregistrés à la DGI.</p>
+                    <section class="form-section box-dashed box-confirm flex-fill min-w-0" id="secConfirm" data-section="confirm" aria-labelledby="secConfirmTitle">
+                      <h2 class="section-title" id="secConfirmTitle" tabindex="-1"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>Confirmation données<span class="sec-badge" data-sec-badge="confirm"></span></h2>
+                      <p class="box-note">Ressaisissez ces informations telles qu'enregistrées à la DGI : chacune est vérifiée pendant la saisie.</p>
                       <div class="row g-3">
+                        <div class="col-12">
+                          <label class="form-label" for="confRaison">Raison sociale<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="confRaison" placeholder="Nom officiel de l'entreprise" required data-rule="dgi:denomination" data-bind="confirmation.raisonSociale" data-label="Confirmation de la raison sociale" aria-describedby="confRaison-ok">
+                          <div class="valid-feedback" id="confRaison-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
+                          <div class="invalid-feedback" id="confRaison-error"></div>
+                        </div>
                         <div class="col-sm-5">
                           <label class="form-label" for="confForme">Forme juridique<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="confForme" placeholder="Ex. : SA, SARL, SAS" required data-rule="dgi:formeJuridique" data-bind="confirmation.formeJuridique" data-label="Confirmation de la forme juridique" aria-describedby="confForme-ok">
@@ -786,66 +905,141 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                           <div class="valid-feedback" id="confRccm-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
                           <div class="invalid-feedback" id="confRccm-error"></div>
                         </div>
+                        <div class="col-12">
+                          <label class="form-label" for="confActivite">Activité<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="confActivite" placeholder="Code ou libellé de l'activité" required data-rule="dgi:activite" data-bind="confirmation.activite" data-label="Confirmation de l'activité" aria-describedby="confActivite-ok">
+                          <div class="valid-feedback" id="confActivite-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
+                          <div class="invalid-feedback" id="confActivite-error"></div>
+                        </div>
                       </div>
                     </section>
+                  </div>
 
-                    <!-- C. Siège social (hors encadré) -->
-                    <fieldset class="mt-4">
-                      <legend class="subsection-title"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Siège social</legend>
+                  <!-- ---------------- Rangée 2, gauche ---------------- -->
+                  <div class="col-lg-6">
+
+                    <!-- C. Établissement principal (hors encadré) -->
+                    <section class="form-section plain" id="secEtab" data-section="etab" aria-labelledby="secEtabTitle">
+                      <h2 class="section-title" id="secEtabTitle" tabindex="-1"><i class="bi bi-building-fill" aria-hidden="true"></i>Établissement principal<span class="sec-badge" data-sec-badge="etab"></span></h2>
+
+                      <h3 class="subsection-title"><i class="bi bi-journal-bookmark" aria-hidden="true"></i>Immatriculation</h3>
                       <div class="row g-3">
-                        <div class="col-sm-6 col-xxl-4">
-                          <label class="form-label" for="villeSiege">Ville Siège<span class="req" aria-hidden="true">*</span></label>
-                          <div class="combo">
-                            <input type="text" class="form-control combo-input" id="villeSiege" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="villeSiege-list" autocomplete="off" spellcheck="false" placeholder="Rechercher…" required data-no-upper data-label="Ville du siège">
-                            <button type="button" class="combo-clear" aria-label="Effacer la ville du siège" hidden><i class="bi bi-x-lg" aria-hidden="true"></i></button>
-                            <span class="combo-toggle" aria-hidden="true"><i class="bi bi-chevron-down"></i></span>
-                            <ul class="combo-list" id="villeSiege-list" role="listbox" aria-label="Villes" hidden></ul>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="etDateCreation">Date de création<span class="req" aria-hidden="true">*</span></label>
+                          <div class="date-field">
+                            <input type="text" class="form-control" id="etDateCreation" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" required data-mask="date" data-rule="date past" data-bind="etablissement.dateCreation" data-label="Date de création de l'entreprise">
+                            <button type="button" class="date-btn" aria-label="Choisir la date de création dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
+                            <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
                           </div>
-                          <div class="invalid-feedback" id="villeSiege-error"></div>
+                          <div class="field-hint" id="etDateCreation-hint" data-for="etDateCreation"></div>
+                          <button type="button" class="suggest-chip" id="etDateCreation-suggest" title="Reprendre la date d'immatriculation du RCCM" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre la </span>Date du RCCM : <strong id="etDateCreation-suggest-val"></strong></span></button>
+                          <div class="invalid-feedback" id="etDateCreation-error"></div>
                         </div>
-                        <div class="col-sm-6 col-xxl-5">
-                          <label class="form-label" for="quartierSiege">Quartier Siège<span class="req" aria-hidden="true">*</span></label>
-                          <input type="text" class="form-control" id="quartierSiege" required data-bind="siege.quartier" data-label="Quartier du siège">
-                          <div class="invalid-feedback" id="quartierSiege-error"></div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="etSigle">Nom abrégé / Sigle<span class="opt">facultatif</span></label>
+                          <input type="text" class="form-control" id="etSigle" placeholder="Ex. : MB" data-bind="etablissement.sigle">
                         </div>
-                        <div class="col-12 col-xxl-3">
-                          <label class="form-label" for="rueSiege">Rue</label>
-                          <input type="text" class="form-control" id="rueSiege" data-bind="siege.rue">
+                        <div class="col-sm-6">
+                          <label class="form-label" for="etTitre">N° Titre de commerce<span class="opt">facultatif</span></label>
+                          <input type="text" class="form-control" id="etTitre" placeholder="N° du titre de commerce" data-rule="docNum" data-bind="etablissement.titreCommerce" data-label="N° du titre de commerce">
+                          <div class="invalid-feedback" id="etTitre-error"></div>
                         </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="etFnce">N° d'inscription FNCE<span class="opt">facultatif</span></label>
+                          <input type="text" class="form-control" id="etFnce" placeholder="Si déjà inscrit au FNCE" data-rule="docNum" data-bind="etablissement.numFnce" data-label="N° d'inscription FNCE">
+                          <div class="field-hint" id="etFnce-hint" data-for="etFnce">Première inscription : laissez vide, le numéro sera attribué à la validation.</div>
+                          <div class="invalid-feedback" id="etFnce-error"></div>
+                        </div>
+                      </div>
+
+                      <h3 class="subsection-title"><i class="bi bi-cash-stack" aria-hidden="true"></i>Capital et structure</h3>
+                      <div class="row g-3">
                         <div class="col-sm-7">
                           <label class="form-label" for="capital">Capital social<span class="req" aria-hidden="true">*</span></label>
-                          <div class="spin">
-                            <input type="text" class="form-control" id="capital" inputmode="numeric" role="spinbutton" aria-valuemin="0" autocomplete="off" required data-mask="thousands" data-kind="number" data-rule="positive" data-bind="siege.capital" data-min="0" data-step="1000000" data-unit="FCFA" data-label="Capital social" aria-describedby="capital-hint">
+                          <div class="spin has-unit">
+                            <input type="text" class="form-control" id="capital" inputmode="numeric" role="spinbutton" aria-valuemin="0" autocomplete="off" required data-mask="thousands" data-kind="number" data-rule="positive" data-bind="etablissement.capital" data-min="0" data-step="1000000" data-unit="FCFA" data-label="Capital social">
+                            <span class="spin-unit" aria-hidden="true">FCFA</span>
                             <div class="spin-btns">
                               <button type="button" tabindex="-1" data-spin="1" aria-label="Augmenter le capital d'un million"><i class="bi bi-caret-up-fill" aria-hidden="true"></i></button>
                               <button type="button" tabindex="-1" data-spin="-1" aria-label="Diminuer le capital d'un million"><i class="bi bi-caret-down-fill" aria-hidden="true"></i></button>
                             </div>
                           </div>
-                          <div class="form-text" id="capital-hint">En FCFA. Flèches ↑ / ↓ : ± 1 000 000.</div>
+                          <div class="amount-words" id="capital-words" data-for="capital"></div>
                           <div class="invalid-feedback" id="capital-error"></div>
                         </div>
                         <div class="col-sm-5">
                           <label class="form-label" for="nbEts">Nbre ets secondaire<span class="req" aria-hidden="true">*</span></label>
                           <div class="spin">
-                            <input type="text" class="form-control" id="nbEts" inputmode="numeric" role="spinbutton" aria-valuemin="0" aria-valuemax="999" autocomplete="off" required data-mask="digits" data-max-digits="3" data-kind="number" data-bind="siege.nbEts" data-min="0" data-max-value="999" data-step="1" data-label="Nombre d'établissements secondaires" aria-describedby="nbEts-sync">
+                            <input type="text" class="form-control" id="nbEts" inputmode="numeric" role="spinbutton" aria-valuemin="0" aria-valuemax="999" autocomplete="off" required data-mask="digits" data-max-digits="3" data-kind="number" data-bind="etablissement.nbEts" data-min="0" data-max-value="999" data-step="1" data-label="Nombre d'établissements secondaires">
                             <div class="spin-btns">
                               <button type="button" tabindex="-1" data-spin="1" aria-label="Augmenter le nombre d'établissements"><i class="bi bi-caret-up-fill" aria-hidden="true"></i></button>
                               <button type="button" tabindex="-1" data-spin="-1" aria-label="Diminuer le nombre d'établissements"><i class="bi bi-caret-down-fill" aria-hidden="true"></i></button>
                             </div>
                           </div>
-                          <div class="form-text sync-hint" id="nbEts-sync"></div>
+                          <div class="form-text sync-hint" id="nbEts-sync" data-for="nbEts"></div>
                           <div class="invalid-feedback" id="nbEts-error"></div>
                         </div>
                       </div>
-                    </fieldset>
+
+                      <h3 class="subsection-title"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Localisation du siège</h3>
+                      <div class="row g-3">
+                        <div class="col-sm-5 cq-full" data-cq="505">
+                          <label class="form-label" for="etLocalite">Localité<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="etLocalite" placeholder="Rechercher…" required data-label="Localité du siège">
+                          <div class="invalid-feedback" id="etLocalite-error"></div>
+                        </div>
+                        <div class="col-sm-7 cq-full" data-cq="505">
+                          <label class="form-label" for="etQuartier">Quartier<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="etQuartier" required data-bind="etablissement.quartier" data-label="Quartier du siège">
+                          <div class="invalid-feedback" id="etQuartier-error"></div>
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label" for="etRue">Rue<span class="opt">facultatif</span></label>
+                          <input type="text" class="form-control" id="etRue" placeholder="Ex. : BOULEVARD LATRILLE, LOT 12" data-bind="etablissement.rue">
+                        </div>
+                      </div>
+
+                      <h3 class="subsection-title"><i class="bi bi-telephone-fill" aria-hidden="true"></i>Coordonnées</h3>
+                      <div class="row g-3">
+                        <div class="col-sm-6 cq-full" data-cq="425">
+                          <label class="form-label" for="etMobile">Contact mobile<span class="req" aria-hidden="true">*</span></label>
+                          <div class="input-group phone-group">
+                            <span class="input-group-text" id="etMobile-cc">+225</span>
+                            <input type="tel" class="form-control text-center tabular" id="etMobile" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile" data-bind="etablissement.mobile" data-label="Contact mobile de l'établissement" aria-describedby="etMobile-cc">
+                          </div>
+                          <div class="field-hint" id="etMobile-op" data-for="etMobile"></div>
+                          <button type="button" class="suggest-chip" id="etMobile-suggest" title="Reprendre le numéro du représentant légal" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre le </span>Mobile du représentant : <strong id="etMobile-suggest-val"></strong></span></button>
+                          <div class="invalid-feedback" id="etMobile-error"></div>
+                        </div>
+                        <div class="col-sm-6 cq-full" data-cq="425">
+                          <label class="form-label" for="etTelFixe">Téléphone fixe<span class="opt">facultatif</span></label>
+                          <div class="input-group phone-group">
+                            <span class="input-group-text" id="etTelFixe-cc">+225</span>
+                            <input type="tel" class="form-control text-center tabular" id="etTelFixe" inputmode="numeric" placeholder="27 20 00 00 00" autocomplete="off" data-mask="phone" data-kind="digits" data-rule="fixe" data-bind="etablissement.telFixe" data-label="Téléphone fixe" aria-describedby="etTelFixe-cc">
+                          </div>
+                          <div class="field-hint" id="etTelFixe-op" data-for="etTelFixe"></div>
+                          <div class="invalid-feedback" id="etTelFixe-error"></div>
+                        </div>
+                        <div class="col-sm-6 cq-full" data-cq="400">
+                          <label class="form-label" for="etBp">Boîte postale<span class="opt">facultatif</span></label>
+                          <input type="text" class="form-control" id="etBp" placeholder="Ex. : 01 BP 1234 ABIDJAN 01" data-bind="etablissement.bp">
+                        </div>
+                        <div class="col-sm-6 cq-full" data-cq="400">
+                          <label class="form-label" for="etEmail">Email officiel<span class="opt">facultatif</span></label>
+                          <input type="email" class="form-control" id="etEmail" inputmode="email" placeholder="contact@entreprise.ci" autocomplete="off" data-rule="email" data-bind="etablissement.email" data-label="Email officiel">
+                          <div class="email-suggest" id="etEmail-suggest" data-for="etEmail" hidden></div>
+                          <div class="invalid-feedback" id="etEmail-error"></div>
+                        </div>
+                      </div>
+                    </section>
                   </div>
 
-                  <!-- ---------------- Colonne droite ---------------- -->
+                  <!-- ---------------- Rangée 2, droite ---------------- -->
                   <div class="col-lg-6">
 
                     <!-- D. Représentant légal -->
-                    <section aria-labelledby="secRepTitle">
-                      <h2 class="section-title" id="secRepTitle"><i class="bi bi-person-fill" aria-hidden="true"></i>Représentant légal</h2>
+                    <section class="form-section plain" id="secRep" data-section="rep" aria-labelledby="secRepTitle">
+                      <h2 class="section-title" id="secRepTitle" tabindex="-1"><i class="bi bi-person-fill" aria-hidden="true"></i>Représentant légal<span class="sec-badge" data-sec-badge="rep"></span></h2>
                       <div class="row g-3">
                         <div class="col-sm-7">
                           <label class="form-label" for="repNom">Nom<span class="req" aria-hidden="true">*</span></label>
@@ -873,51 +1067,60 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                           <input type="text" class="form-control" id="repPrenoms" required data-bind="representant.prenoms" data-label="Prénoms du représentant">
                           <div class="invalid-feedback" id="repPrenoms-error"></div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-5">
                           <label class="form-label" for="repNaissance">Né(e) le<span class="req" aria-hidden="true">*</span></label>
                           <div class="date-field">
                             <input type="text" class="form-control" id="repNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" required data-mask="date" data-rule="date age18" data-bind="representant.naissance" data-label="Date de naissance du représentant">
                             <button type="button" class="date-btn" aria-label="Choisir la date de naissance dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
                             <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
                           </div>
+                          <div class="field-hint" id="repNaissance-hint" data-for="repNaissance"></div>
                           <div class="invalid-feedback" id="repNaissance-error"></div>
                         </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="repLieu">Lieu<span class="req" aria-hidden="true">*</span></label>
-                          <input type="text" class="form-control" id="repLieu" required data-bind="representant.lieu" data-label="Lieu de naissance">
+                        <div class="col-sm-7">
+                          <label class="form-label" for="repLieu">Lieu<span class="visually-hidden"> de naissance</span><span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="repLieu" placeholder="Saisir ou choisir…" required data-label="Lieu de naissance">
                           <div class="invalid-feedback" id="repLieu-error"></div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-5 cq-full" data-cq="440">
                           <label class="form-label" for="repNationalite">Nationalité<span class="req" aria-hidden="true">*</span></label>
-                          <div class="combo">
-                            <input type="text" class="form-control combo-input" id="repNationalite" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="repNationalite-list" autocomplete="off" spellcheck="false" placeholder="Rechercher…" required data-no-upper data-label="Nationalité">
-                            <button type="button" class="combo-clear" aria-label="Effacer la nationalité" hidden><i class="bi bi-x-lg" aria-hidden="true"></i></button>
-                            <span class="combo-toggle" aria-hidden="true"><i class="bi bi-chevron-down"></i></span>
-                            <ul class="combo-list" id="repNationalite-list" role="listbox" aria-label="Nationalités" hidden></ul>
-                          </div>
+                          <input type="text" class="form-control" id="repNationalite" placeholder="Rechercher…" required data-label="Nationalité">
                           <div class="invalid-feedback" id="repNationalite-error"></div>
                         </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="repFonction">Fonction</label>
-                          <input type="text" class="form-control" id="repFonction" data-bind="representant.fonction">
+                        <div class="col-sm-7 cq-full" data-cq="440">
+                          <label class="form-label" for="repFonction">Fonction<span class="opt">facultatif</span></label>
+                          <input type="text" class="form-control" id="repFonction" placeholder="Saisir ou choisir…" data-label="Fonction">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 cq-full">
                           <label class="form-label" for="repMobile">Téléphone mobile<span class="req" aria-hidden="true">*</span></label>
-                          <input type="tel" class="form-control text-center tabular" id="repMobile" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile" data-bind="representant.mobile" data-label="Téléphone mobile">
+                          <div class="input-group phone-group">
+                            <span class="input-group-text" id="repMobile-cc">+225</span>
+                            <input type="tel" class="form-control text-center tabular" id="repMobile" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile" data-bind="representant.mobile" data-label="Téléphone mobile du représentant" aria-describedby="repMobile-cc">
+                          </div>
+                          <div class="field-hint" id="repMobile-op" data-for="repMobile"></div>
                           <div class="invalid-feedback" id="repMobile-error"></div>
                         </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="repMobile2">Confirmation<span class="req" aria-hidden="true">*</span></label>
-                          <input type="tel" class="form-control text-center tabular" id="repMobile2" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile match:repMobile" data-bind="representant.mobile2" data-label="Confirmation du téléphone mobile">
+                        <div class="col-sm-6 cq-full">
+                          <label class="form-label" for="repMobile2">Confirmation<span class="visually-hidden"> du téléphone mobile</span><span class="req" aria-hidden="true">*</span></label>
+                          <div class="input-group phone-group">
+                            <span class="input-group-text" id="repMobile2-cc">+225</span>
+                            <input type="tel" class="form-control text-center tabular" id="repMobile2" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile match:repMobile" data-bind="representant.mobile2" data-label="Confirmation du téléphone mobile" aria-describedby="repMobile2-cc">
+                          </div>
                           <div class="invalid-feedback" id="repMobile2-error"></div>
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label" for="repEmail">Email<span class="req" aria-hidden="true">*</span></label>
+                          <input type="email" class="form-control" id="repEmail" inputmode="email" placeholder="prenom.nom@exemple.ci" autocomplete="off" required data-rule="email" data-bind="representant.email" data-label="Email du représentant">
+                          <div class="email-suggest" id="repEmail-suggest" data-for="repEmail" hidden></div>
+                          <div class="invalid-feedback" id="repEmail-error"></div>
                         </div>
                       </div>
                     </section>
 
                     <!-- E. Pièce d'identité (ONECI avec NNI, ou autre pièce + filiation) -->
-                    <section class="mt-4" aria-labelledby="secPieceTitle">
+                    <section class="form-section plain" id="secPiece" data-section="piece" aria-labelledby="secPieceTitle">
                       <div class="piece-head">
-                        <h2 class="section-title m-0" id="secPieceTitle"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i>Pièce d'identité</h2>
+                        <h2 class="section-title m-0" id="secPieceTitle" tabindex="-1"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i>Pièce d'identité<span class="sec-badge" data-sec-badge="piece"></span></h2>
                         <fieldset class="piece-mode">
                           <legend class="visually-hidden">Type de pièce d'identité</legend>
                           <div class="form-check form-check-inline">
@@ -934,7 +1137,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                       <!-- Option ONECI -->
                       <div class="piece-panel" id="pieceOneci" data-cond="ONECI">
                         <div class="row g-3">
-                          <div class="col-sm-6">
+                          <div class="col-sm-6 cq-full">
                             <label class="form-label" for="oneciType">Type<span class="req" aria-hidden="true">*</span></label>
                             <select class="form-select" id="oneciType" required data-bind="piece.oneci.type" data-label="Type de pièce ONECI">
                               <option value="">Sélectionner…</option>
@@ -943,13 +1146,13 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                             </select>
                             <div class="invalid-feedback" id="oneciType-error"></div>
                           </div>
-                          <div class="col-sm-6">
+                          <div class="col-sm-6 cq-full">
                             <label class="form-label" for="oneciNumero">N°<span class="req" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control" id="oneciNumero" placeholder="Ex. : CI000000000" required data-rule="pieceNum" data-bind="piece.oneci.numero" data-label="N° de la pièce ONECI">
                             <div class="invalid-feedback" id="oneciNumero-error"></div>
                           </div>
                           <div class="col-sm-6">
-                            <label class="form-label" for="oneciDelivre">Délivré le</label>
+                            <label class="form-label" for="oneciDelivre">Délivré le<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="oneciDelivre" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.oneci.delivre" data-label="Date de délivrance de la pièce">
                               <button type="button" class="date-btn" aria-label="Choisir la date de délivrance dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
@@ -959,9 +1162,13 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                           </div>
                           <div class="col-sm-6">
                             <label class="form-label" for="oneciNni">NNI<span class="req" aria-hidden="true">*</span></label>
-                            <input type="text" class="form-control tabular" id="oneciNni" inputmode="numeric" placeholder="11 chiffres" autocomplete="off" required data-mask="digits" data-max-digits="11" data-kind="digits" data-rule="nni" data-bind="piece.oneci.nni" data-label="NNI" aria-describedby="oneciNni-count">
-                            <div class="form-text" id="oneciNni-count"></div>
+                            <input type="text" class="form-control tabular" id="oneciNni" inputmode="numeric" placeholder="11 chiffres" autocomplete="off" required data-mask="digits" data-max-digits="11" data-kind="digits" data-rule="nni" data-bind="piece.oneci.nni" data-label="NNI">
+                            <div class="field-hint" id="oneciNni-count" data-for="oneciNni"></div>
                             <div class="invalid-feedback" id="oneciNni-error"></div>
+                          </div>
+                          <div class="col-sm-6 cq-full">
+                            <label class="form-label" for="oneciLieu">Lieu de délivrance<span class="opt">facultatif</span></label>
+                            <input type="text" class="form-control" id="oneciLieu" placeholder="Saisir ou choisir…" data-label="Lieu de délivrance de la pièce">
                           </div>
                         </div>
                       </div>
@@ -969,7 +1176,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                       <!-- Option Autre (le NNI est masqué) -->
                       <div class="piece-panel" id="pieceAutre" data-cond="AUTRE" hidden>
                         <div class="row g-3">
-                          <div class="col-sm-6">
+                          <div class="col-sm-6 cq-full">
                             <label class="form-label" for="autreType">Type<span class="req" aria-hidden="true">*</span></label>
                             <select class="form-select" id="autreType" required data-bind="piece.autre.type" data-label="Type de pièce">
                               <option value="">Sélectionner…</option>
@@ -980,13 +1187,13 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                             </select>
                             <div class="invalid-feedback" id="autreType-error"></div>
                           </div>
-                          <div class="col-sm-6">
+                          <div class="col-sm-6 cq-full">
                             <label class="form-label" for="autreNumero">N°<span class="req" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control" id="autreNumero" required data-rule="pieceNum" data-bind="piece.autre.numero" data-label="N° de la pièce">
                             <div class="invalid-feedback" id="autreNumero-error"></div>
                           </div>
                           <div class="col-sm-6">
-                            <label class="form-label" for="autreDelivre">Délivré le</label>
+                            <label class="form-label" for="autreDelivre">Délivré le<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="autreDelivre" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.delivre" data-label="Date de délivrance de la pièce">
                               <button type="button" class="date-btn" aria-label="Choisir la date de délivrance dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
@@ -994,8 +1201,12 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                             </div>
                             <div class="invalid-feedback" id="autreDelivre-error"></div>
                           </div>
+                          <div class="col-sm-6 cq-full">
+                            <label class="form-label" for="autreLieu">Lieu de délivrance<span class="opt">facultatif</span></label>
+                            <input type="text" class="form-control" id="autreLieu" placeholder="Saisir ou choisir…" data-label="Lieu de délivrance de la pièce">
+                          </div>
                           <div class="col-12">
-                            <h3 class="subsection-title mt-2 mb-0">Filiation</h3>
+                            <h3 class="subsection-title mt-2 mb-0"><i class="bi bi-people-fill" aria-hidden="true"></i>Filiation</h3>
                           </div>
                           <div class="col-sm-6">
                             <label class="form-label" for="pereNom">Nom du père<span class="req" aria-hidden="true">*</span></label>
@@ -1003,7 +1214,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                             <div class="invalid-feedback" id="pereNom-error"></div>
                           </div>
                           <div class="col-sm-6">
-                            <label class="form-label" for="pereNaissance">Date de naissance du père</label>
+                            <label class="form-label" for="pereNaissance">Date de naissance du père<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="pereNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.pereNaissance">
                               <button type="button" class="date-btn" aria-label="Choisir la date de naissance du père dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
@@ -1017,7 +1228,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                             <div class="invalid-feedback" id="mereNom-error"></div>
                           </div>
                           <div class="col-sm-6">
-                            <label class="form-label" for="mereNaissance">Date de naissance de la mère</label>
+                            <label class="form-label" for="mereNaissance">Date de naissance de la mère<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="mereNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.mereNaissance">
                               <button type="button" class="date-btn" aria-label="Choisir la date de naissance de la mère dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
@@ -1036,36 +1247,10 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                    ÉTAPE 2 – PAIEMENTS / ÉTABLISSEMENTS SECONDAIRES
                    ============================================================ -->
               <div class="step-panel" role="tabpanel" id="step-2" aria-labelledby="tab-2" tabindex="-1" hidden>
-                <div class="row g-4">
-                  <div class="col-lg-6">
-                    <section aria-labelledby="secPrincipalTitle">
-                      <h2 class="section-title" id="secPrincipalTitle"><i class="bi bi-building-fill" aria-hidden="true"></i>Établissement principal</h2>
-                      <div class="row g-3">
-                        <div class="col-sm-6">
-                          <label class="form-label" for="sigle">Nom abrégé / Sigle</label>
-                          <input type="text" class="form-control" id="sigle" placeholder="Ex. : MB" data-bind="principal.sigle">
-                        </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="bp">Adresse postale (BP)</label>
-                          <input type="text" class="form-control" id="bp" placeholder="Ex. : 01 BP 1234 ABIDJAN 01" data-bind="principal.bp">
-                        </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="telFixe">Téléphone fixe</label>
-                          <input type="tel" class="form-control text-center tabular" id="telFixe" inputmode="numeric" placeholder="27 20 00 00 00" autocomplete="off" data-mask="phone" data-kind="digits" data-rule="fixe" data-bind="principal.telFixe" data-label="Téléphone fixe">
-                          <div class="invalid-feedback" id="telFixe-error"></div>
-                        </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="email">Email officiel<span class="req" aria-hidden="true">*</span></label>
-                          <input type="email" class="form-control" id="email" placeholder="contact@entreprise.ci" autocomplete="email" required data-rule="email" data-bind="principal.email" data-label="Email officiel">
-                          <div class="invalid-feedback" id="email-error"></div>
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-
-                  <div class="col-lg-6">
-                    <section class="anchor-target" id="secPaiement" aria-labelledby="secPaiementTitle">
-                      <h2 class="section-title" id="secPaiementTitle" tabindex="-1"><i class="bi bi-wallet2" aria-hidden="true"></i>Paiement</h2>
+                <section class="form-section plain" id="secPaiement" data-section="pay" aria-labelledby="secPaiementTitle">
+                  <h2 class="section-title" id="secPaiementTitle" tabindex="-1"><i class="bi bi-wallet2" aria-hidden="true"></i>Paiement<span class="sec-badge" data-sec-badge="pay"></span></h2>
+                  <div class="row g-4">
+                    <div class="col-lg-6">
                       <fieldset class="radio-group" id="payMode" data-group data-required data-label="Mode de paiement">
                         <legend class="form-label">Mode de paiement<span class="req" aria-hidden="true">*</span></legend>
                         <div class="pay-options">
@@ -1078,58 +1263,62 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                         </div>
                         <div class="invalid-feedback" id="payMode-error"></div>
                       </fieldset>
-                      <div class="row g-3 mt-1">
-                        <div class="col-sm-7">
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row g-3">
+                        <div class="col-12">
                           <label class="form-label" for="payRef">Référence de transaction<span class="req" aria-hidden="true">*</span></label>
                           <div class="input-group">
-                            <input type="text" class="form-control" id="payRef" required autocomplete="off" data-rule="payRef paid" data-bind="paiement.reference" data-label="Référence de transaction" aria-describedby="payRef-hint">
+                            <input type="text" class="form-control" id="payRef" required autocomplete="off" data-rule="payRef paid" data-bind="paiement.reference" data-label="Référence de transaction">
                             <button type="button" class="btn btn-verify" id="btnVerify">Vérifier</button>
                           </div>
-                          <div class="form-text" id="payRef-hint"></div>
+                          <div class="field-hint" id="payRef-hint" data-for="payRef"></div>
                           <div class="invalid-feedback" id="payRef-error"></div>
                         </div>
                         <div class="col-sm-5">
                           <label class="form-label" for="payMontant">Montant</label>
                           <input type="text" class="form-control" id="payMontant" readonly>
                         </div>
-                        <div class="col-12">
+                        <div class="col-sm-7">
                           <span class="form-label d-block" id="payStatutLabel">Statut</span>
                           <div id="payStatut" role="status" aria-labelledby="payStatutLabel"></div>
                         </div>
                       </div>
-                    </section>
+                    </div>
                   </div>
+                </section>
 
-                  <div class="col-12">
-                    <section class="anchor-target" id="etabSection" aria-labelledby="secEtabTitle">
-                      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
-                        <h2 class="section-title m-0" id="secEtabTitle" tabindex="-1"><i class="bi bi-shop" aria-hidden="true"></i>Établissements secondaires</h2>
-                        <div class="d-flex flex-wrap align-items-center gap-2">
-                          <span class="etab-counter" id="etabCounter"></span>
-                          <button type="button" class="btn btn-add" id="btnAddEtab"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Ajouter</button>
-                        </div>
-                      </div>
-                      <!-- Zone d'avertissement (annoncée aux lecteurs d'écran) -->
-                      <div id="etabLive" aria-live="polite"></div>
-                      <div class="table-responsive etab-table-wrap">
-                        <table class="table etab-table align-middle">
-                          <caption class="visually-hidden">Liste des établissements secondaires</caption>
-                          <thead>
-                            <tr>
-                              <th scope="col" class="text-center">N°</th>
-                              <th scope="col">Nom</th>
-                              <th scope="col">Ville/Commune</th>
-                              <th scope="col">Quartier</th>
-                              <th scope="col">Activité</th>
-                              <th scope="col" class="text-end">Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody id="etabBody"></tbody>
-                        </table>
-                      </div>
-                    </section>
+                <section class="form-section plain" id="etabSection" data-section="ets" aria-labelledby="secEtsTitle">
+                  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                    <h2 class="section-title m-0" id="secEtsTitle" tabindex="-1"><i class="bi bi-shop" aria-hidden="true"></i>Établissements secondaires</h2>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                      <span class="etab-counter" id="etabCounter"></span>
+                      <button type="button" class="btn btn-add" id="btnAddEtab"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Ajouter</button>
+                    </div>
                   </div>
-                </div>
+                  <!-- Zone d'avertissement (annoncée aux lecteurs d'écran) -->
+                  <div id="etabLive" aria-live="polite"></div>
+                  <!-- Tableau (≥ 768 px) -->
+                  <div class="table-responsive etab-table-wrap d-none d-md-block">
+                    <table class="table etab-table align-middle">
+                      <caption class="visually-hidden">Liste des établissements secondaires</caption>
+                      <thead>
+                        <tr>
+                          <th scope="col" class="text-center">N°</th>
+                          <th scope="col">Dénomination sociale</th>
+                          <th scope="col">Activité constatée</th>
+                          <th scope="col">Localité</th>
+                          <th scope="col">Quartier</th>
+                          <th scope="col">Rue</th>
+                          <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="etabBody"></tbody>
+                    </table>
+                  </div>
+                  <!-- Fiches (mobile) -->
+                  <ul class="etab-cards d-md-none" id="etabCards" aria-label="Liste des établissements secondaires"></ul>
+                </section>
               </div>
 
               <!-- ============================================================
@@ -1154,14 +1343,22 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 
             </fieldset>
 
-            <!-- Pied de formulaire : navigation entre étapes -->
+            <!-- Barre d'actions collante : séparateur, statut, boutons centrés, navigation dans les erreurs -->
             <div class="form-footer">
-              <hr>
-              <div class="d-flex flex-wrap justify-content-center gap-3">
-                <button type="button" class="btn btn-prev" id="btnPrev" hidden><i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Précédent</button>
-                <button type="submit" class="btn btn-next" id="btnNext">Suivant<i class="bi bi-arrow-right ms-2" aria-hidden="true"></i></button>
-                <button type="button" class="btn btn-submit" id="btnSubmit" hidden><i class="bi bi-send-check me-2" aria-hidden="true"></i>Soumettre le dossier</button>
-                <button type="button" class="btn btn-submit" id="btnSubmitted" disabled hidden><i class="bi bi-check2-circle me-2" aria-hidden="true"></i>Dossier soumis</button>
+              <div class="ab-inner">
+                <div class="ab-left">
+                  <span class="ab-step" id="abStep">Étape 1 sur 3</span>
+                  <span class="ab-count" id="abCount"></span>
+                </div>
+                <div class="ab-buttons">
+                  <button type="button" class="btn btn-prev" id="btnPrev" hidden><i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Précédent</button>
+                  <button type="submit" class="btn btn-next" id="btnNext">Suivant<i class="bi bi-arrow-right ms-2" aria-hidden="true"></i></button>
+                  <button type="button" class="btn btn-submit" id="btnSubmit" hidden><i class="bi bi-send-check me-2" aria-hidden="true"></i>Soumettre le dossier</button>
+                  <button type="button" class="btn btn-submit" id="btnSubmitted" disabled hidden><i class="bi bi-check2-circle me-2" aria-hidden="true"></i>Dossier soumis</button>
+                </div>
+                <div class="ab-right">
+                  <button type="button" class="ab-errors" id="abErrors" hidden><i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span id="abErrorsText"></span><i class="bi bi-arrow-down-short" aria-hidden="true"></i></button>
+                </div>
               </div>
             </div>
           </form>
@@ -1185,29 +1382,29 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
         <p class="small text-muted-2">Les champs marqués d'un astérisque (<span class="req" aria-hidden="true">*</span>) sont obligatoires.</p>
         <div class="row g-3">
           <div class="col-12">
-            <label class="form-label" for="etabNom">Nom<span class="req" aria-hidden="true">*</span></label>
-            <input type="text" class="form-control" id="etabNom" required placeholder="Ex. : AGENCE PLATEAU">
-            <div class="invalid-feedback" id="etabNom-error"></div>
+            <label class="form-label" for="etabDenom">Dénomination sociale<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" class="form-control" id="etabDenom" required placeholder="Ex. : AGENCE PLATEAU" data-label="Dénomination sociale">
+            <div class="invalid-feedback" id="etabDenom-error"></div>
           </div>
-          <div class="col-sm-6">
-            <label class="form-label" for="etabVille">Ville/Commune<span class="req" aria-hidden="true">*</span></label>
-            <div class="combo">
-              <input type="text" class="form-control combo-input" id="etabVille" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="etabVille-list" autocomplete="off" spellcheck="false" placeholder="Rechercher…" required data-no-upper>
-              <button type="button" class="combo-clear" aria-label="Effacer la ville ou commune" hidden><i class="bi bi-x-lg" aria-hidden="true"></i></button>
-              <span class="combo-toggle" aria-hidden="true"><i class="bi bi-chevron-down"></i></span>
-              <ul class="combo-list" id="etabVille-list" role="listbox" aria-label="Villes et communes" hidden></ul>
-            </div>
-            <div class="invalid-feedback" id="etabVille-error"></div>
+          <div class="col-12">
+            <label class="form-label" for="etabActivite">Activité constatée<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" class="form-control" id="etabActivite" required placeholder="Saisir ou choisir…" data-label="Activité constatée">
+            <div class="field-hint" id="etabActivite-hint" data-for="etabActivite">Activité réellement exercée dans cet établissement.</div>
+            <div class="invalid-feedback" id="etabActivite-error"></div>
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="etabLocalite">Localité<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" class="form-control" id="etabLocalite" placeholder="Rechercher…" required data-label="Localité">
+            <div class="invalid-feedback" id="etabLocalite-error"></div>
           </div>
           <div class="col-sm-6">
             <label class="form-label" for="etabQuartier">Quartier<span class="req" aria-hidden="true">*</span></label>
-            <input type="text" class="form-control" id="etabQuartier" required>
+            <input type="text" class="form-control" id="etabQuartier" required data-label="Quartier">
             <div class="invalid-feedback" id="etabQuartier-error"></div>
           </div>
-          <div class="col-12">
-            <label class="form-label" for="etabActivite">Activité<span class="req" aria-hidden="true">*</span></label>
-            <input type="text" class="form-control" id="etabActivite" required>
-            <div class="invalid-feedback" id="etabActivite-error"></div>
+          <div class="col-sm-6">
+            <label class="form-label" for="etabRue">Rue<span class="opt">facultatif</span></label>
+            <input type="text" class="form-control" id="etabRue" placeholder="Ex. : AVENUE CHARDY" data-label="Rue">
           </div>
         </div>
       </div>
@@ -1245,7 +1442,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 </div>
 
 <!-- Zone des toasts (en bas à droite), annoncée aux lecteurs d'écran -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastZone" aria-live="polite"></div>
+<div class="toast-container position-fixed end-0 p-3" id="toastZone" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script>
@@ -1280,6 +1477,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     return s;
   };
   const fmtFCFA = (n) => (n == null || n === '' ? '—' : `${fmtThousands(n)} FCFA`);
+  const fmtIntl = (d) => (d ? `+225 ${fmtPhone(d)}` : '—');
   const fmtSize = (b) => (b < 1048576 ? `${Math.max(1, Math.round(b / 1024))} Ko` : `${(b / 1048576).toFixed(1).replace('.', ',')} Mo`);
   const plural = (n, one, many = `${one}s`) => `${n}${NBSP}${n > 1 ? many : one}`;
   const fmtDateTime = (d) => new Intl.DateTimeFormat('fr-FR', { dateStyle: 'short', timeStyle: 'short' }).format(d);
@@ -1314,6 +1512,65 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     return age;
   }
 
+  /* Montant en lettres (usage administratif) : 20 943 530 000 →
+     « Vingt milliards neuf cent quarante-trois millions cinq cent trente mille francs CFA » */
+  const UNITES = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize'];
+  const DIZAINES = ['', 'dix', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante'];
+  function moinsDeCent(n) {
+    if (n < 17) return UNITES[n];
+    if (n < 20) return `dix-${UNITES[n - 10]}`;
+    if (n < 70) {
+      const d = Math.floor(n / 10);
+      const u = n % 10;
+      if (u === 0) return DIZAINES[d];
+      return u === 1 ? `${DIZAINES[d]} et un` : `${DIZAINES[d]}-${UNITES[u]}`;
+    }
+    if (n < 80) return n === 71 ? 'soixante et onze' : `soixante-${moinsDeCent(n - 60)}`;
+    return n === 80 ? 'quatre-vingts' : `quatre-vingt-${moinsDeCent(n - 80)}`;
+  }
+  /* pluriel : « cents » et « quatre-vingts » ne prennent un s qu'en fin de nombre ou devant million(s)/milliard(s) */
+  function moinsDeMille(n, pluriel) {
+    const c = Math.floor(n / 100);
+    const r = n % 100;
+    const parts = [];
+    if (c) parts.push(c === 1 ? 'cent' : `${UNITES[c]} cent${r === 0 && pluriel ? 's' : ''}`);
+    if (r) parts.push(r === 80 && !pluriel ? 'quatre-vingt' : moinsDeCent(r));
+    return parts.join(' ');
+  }
+  function montantEnLettres(n) {
+    if (!Number.isSafeInteger(n) || n <= 0) return '';
+    const parts = [];
+    let reste = n;
+    let finParNom = false; // « vingt milliards DE francs CFA »
+    for (const [valeur, nom] of [[1e12, 'billion'], [1e9, 'milliard'], [1e6, 'million']]) {
+      const q = Math.floor(reste / valeur);
+      reste -= q * valeur;
+      if (q) { parts.push(`${moinsDeMille(q, true)} ${nom}${q > 1 ? 's' : ''}`); finParNom = true; }
+    }
+    const milliers = Math.floor(reste / 1000);
+    reste -= milliers * 1000;
+    if (milliers) { parts.push(milliers === 1 ? 'mille' : `${moinsDeMille(milliers, false)} mille`); finParNom = false; }
+    if (reste) { parts.push(moinsDeMille(reste, true)); finParNom = false; }
+    const unite = n === 1 ? 'franc CFA' : 'francs CFA';
+    const texte = `${parts.join(' ')} ${finParNom ? 'de ' : ''}${unite}`;
+    return texte.charAt(0).toUpperCase() + texte.slice(1);
+  }
+
+  /* Distance d'édition (suggestion de correction des adresses e-mail) */
+  function levenshtein(a, b) {
+    const row = Array.from({ length: b.length + 1 }, (_, j) => j);
+    for (let i = 1; i <= a.length; i += 1) {
+      let prev = row[0];
+      row[0] = i;
+      for (let j = 1; j <= b.length; j += 1) {
+        const tmp = row[j];
+        row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+        prev = tmp;
+      }
+    }
+    return row[b.length];
+  }
+
   /* Lecture / écriture d'un chemin « a.b.c » dans l'état */
   const getPath = (obj, path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj);
   const setPath = (obj, path, value) => {
@@ -1335,15 +1592,24 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     activiteCode: 'SCE0502',
     activiteLibelle: 'BANQUES',
   });
+  /* Date d'immatriculation extraite du RCCM (« DU 31-07-2017 » → 31/07/2017) */
+  const RCCM_DATE = (() => { const m = /DU\s+(\d{2})-(\d{2})-(\d{4})/i.exec(DGI.rccm); return m ? `${m[1]}/${m[2]}/${m[3]}` : ''; })();
 
-  const VILLES = ['ABENGOUROU', 'ABIDJAN', 'ABOISSO', 'ADZOPE', 'AGBOVILLE', 'AGNIBILEKROU', 'ANYAMA', 'BANGOLO', 'BEOUMI', 'BIANKOUMA', 'BINGERVILLE', 'BONDOUKOU', 'BONGOUANOU', 'BOUAFLE', 'BOUAKE', 'BOUNA', 'BOUNDIALI', 'DABOU', 'DALOA', 'DANANE', 'DAOUKRO', 'DIMBOKRO', 'DIVO', 'DUEKOUE', 'FERKESSEDOUGOU', 'GAGNOA', 'GRAND-BASSAM', 'GRAND-LAHOU', 'GUIGLO', 'ISSIA', 'JACQUEVILLE', 'KATIOLA', 'KORHOGO', 'LAKOTA', 'MAN', 'MANKONO', 'ODIENNE', 'OUME', 'SAN-PEDRO', 'SASSANDRA', 'SEGUELA', 'SINFRA', 'SONGON', 'SOUBRE', 'TABOU', 'TANDA', 'TIASSALE', 'TINGRELA', 'TOUBA', 'TOUMODI', 'VAVOUA', 'YAMOUSSOUKRO', 'ZUENOULA'];
+  const VILLES = ['ABENGOUROU', 'ABIDJAN', 'ABOISSO', 'ADIAKE', 'ADZOPE', 'AGBOVILLE', 'AGNIBILEKROU', 'AKOUPE', 'ALEPE', 'ANYAMA', 'ARRAH', 'BANGOLO', 'BEOUMI', 'BETTIE', 'BIANKOUMA', 'BINGERVILLE', 'BLOLEQUIN', 'BOCANDA', 'BONDOUKOU', 'BONGOUANOU', 'BONOUA', 'BOUAFLE', 'BOUAKE', 'BOUNA', 'BOUNDIALI', 'DABOU', 'DALOA', 'DANANE', 'DAOUKRO', 'DIDIEVI', 'DIKODOUGOU', 'DIMBOKRO', 'DIVO', 'DUEKOUE', 'FACOBLY', 'FERKESSEDOUGOU', 'FRESCO', 'GAGNOA', 'GRAND-BASSAM', 'GRAND-BEREBY', 'GRAND-LAHOU', 'GUIGLO', 'GUITRY', 'ISSIA', 'JACQUEVILLE', 'KANI', 'KATIOLA', 'KORHOGO', 'KORO', 'KOUIBLY', 'KOUNAHIRI', 'LAKOTA', "M'BAHIAKRO", "M'BATTO", 'MAN', 'MANKONO', 'MEAGUI', 'ODIENNE', 'OUANGOLODOUGOU', 'OUELLE', 'OUME', 'PRIKRO', 'SAKASSOU', 'SAN-PEDRO', 'SASSANDRA', 'SEGUELA', 'SIKENSI', 'SINFRA', 'SONGON', 'SOUBRE', 'TAABO', 'TABOU', 'TAI', 'TANDA', 'TIASSALE', 'TIEBISSOU', 'TINGRELA', 'TOUBA', 'TOULEPLEU', 'TOUMODI', 'VAVOUA', 'YAKASSE-ATTOBROU', 'YAMOUSSOUKRO', 'ZOUAN-HOUNIEN', 'ZUENOULA'];
   const COMMUNES_ABIDJAN = ['ABOBO', 'ADJAME', 'ATTECOUBE', 'COCODY', 'KOUMASSI', 'MARCORY', 'PLATEAU', 'PORT-BOUET', 'TREICHVILLE', 'YOPOUGON'].map((c) => `ABIDJAN - ${c}`);
-  const VILLES_COMMUNES = [...COMMUNES_ABIDJAN, ...VILLES.filter((v) => v !== 'ABIDJAN')].sort((a, b) => a.localeCompare(b, 'fr'));
+  const LOCALITES_ETS = [...COMMUNES_ABIDJAN, ...VILLES.filter((v) => v !== 'ABIDJAN')].sort((a, b) => a.localeCompare(b, 'fr'));
   const NATIONALITES = [
     'Ivoirienne',
     ...['Algérienne', 'Allemande', 'Américaine', 'Belge', 'Béninoise', 'Britannique', 'Burkinabè', 'Camerounaise', 'Canadienne', 'Cap-verdienne', 'Centrafricaine', 'Chinoise', 'Congolaise (Brazzaville)', 'Congolaise (RDC)', 'Égyptienne', 'Espagnole', 'Française', 'Gabonaise', 'Gambienne', 'Ghanéenne', 'Guinéenne', 'Indienne', 'Italienne', 'Libanaise', 'Libérienne', 'Malienne', 'Marocaine', 'Mauritanienne', 'Nigériane', 'Nigérienne', 'Portugaise', 'Sénégalaise', 'Sierra-léonaise', 'Suisse', 'Tchadienne', 'Togolaise', 'Tunisienne'].sort((a, b) => a.localeCompare(b, 'fr')),
     'Autre',
   ];
+  /* Suggestions (saisie libre acceptée) */
+  const FONCTIONS = ['ADMINISTRATEUR GENERAL', 'ASSOCIE UNIQUE', 'CO-GERANT', 'DIRECTEUR ADMINISTRATIF ET FINANCIER', 'DIRECTEUR GENERAL', 'DIRECTEUR GENERAL ADJOINT', 'GERANT', 'MANDATAIRE', 'PRESIDENT', "PRESIDENT DU CONSEIL D'ADMINISTRATION", 'PRESIDENT DIRECTEUR GENERAL'];
+  const ACTIVITES = ['AGRICULTURE', 'AGRO-INDUSTRIE', 'ASSURANCES', 'BANQUES', 'BATIMENT ET TRAVAUX PUBLICS', 'COMMERCE DE DETAIL', 'COMMERCE DE GROS', 'COMMERCE GENERAL', 'CONSEIL', 'ENERGIE', 'ENSEIGNEMENT', 'HOTELLERIE', 'IMMOBILIER', 'IMPORT-EXPORT', 'INDUSTRIE', 'LOGISTIQUE', 'MICROFINANCE', 'MINES', 'PHARMACIE', 'RESTAURATION', 'SANTE', 'SERVICES INFORMATIQUES', 'TELECOMMUNICATIONS', 'TRANSPORT'];
+  /* Plan de numérotation ivoirien à 10 chiffres */
+  const OPERATEURS_MOBILE = { '01': 'Moov Africa', '05': 'MTN', '07': 'Orange' };
+  const OPERATEURS_FIXE = { '21': 'Moov Africa', '25': 'MTN', '27': 'Orange' };
+  const EMAIL_DOMAINS = ['gmail.com', 'yahoo.fr', 'yahoo.com', 'hotmail.com', 'hotmail.fr', 'outlook.com', 'outlook.fr', 'live.fr', 'live.com', 'icloud.com', 'aol.com', 'protonmail.com'];
 
   /* Pièces jointes exigées (étape 3) */
   const DOCS = [
@@ -1379,19 +1645,23 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     submitted: false,
     submittedAt: null,
     dossierRef: '',
-    confirmation: { formeJuridique: '', rccm: '' },
-    siege: { ville: 'ABIDJAN', quartier: 'COCODY-RIVERA BEVERLY HILLS', rue: '', capital: 20943530000, nbEts: 2 },
-    representant: { nom: '', sexe: '', prenoms: '', naissance: '', lieu: 'BOUAKE', nationalite: 'Ivoirienne', fonction: 'DIRECTEUR GENERAL', mobile: '0755555525', mobile2: '0755555525' },
+    confirmation: { raisonSociale: '', formeJuridique: '', rccm: '', activite: '' },
+    etablissement: {
+      dateCreation: '', sigle: '', titreCommerce: '', numFnce: '',
+      capital: 20943530000, nbEts: 2,
+      localite: 'ABIDJAN', quartier: 'COCODY-RIVERA BEVERLY HILLS', rue: '',
+      mobile: '', bp: '', telFixe: '', email: '',
+    },
+    representant: { nom: '', sexe: '', prenoms: '', naissance: '', lieu: 'BOUAKE', nationalite: 'Ivoirienne', fonction: 'DIRECTEUR GENERAL', mobile: '0755555525', mobile2: '0755555525', email: '' },
     piece: {
       mode: 'ONECI',
-      oneci: { type: 'Nouvelle CNI', numero: 'CI001346702', delivre: '', nni: '11693044220' },
-      autre: { type: '', numero: '', delivre: '', pereNom: '', pereNaissance: '', mereNom: '', mereNaissance: '' },
+      oneci: { type: 'Nouvelle CNI', numero: 'CI001346702', delivre: '', lieuDelivrance: '', nni: '11693044220' },
+      autre: { type: '', numero: '', delivre: '', lieuDelivrance: '', pereNom: '', pereNaissance: '', mereNom: '', mereNaissance: '' },
     },
-    principal: { sigle: '', bp: '', telFixe: '', email: '' },
     paiement: { mode: '', reference: '', montant: MONTANT_FNCE, statut: 'NON_PAYE' },
     etablissements: [
-      { id: uid('ets'), nom: 'AGENCE PLATEAU', ville: 'ABIDJAN - PLATEAU', quartier: 'PLATEAU', activite: 'BANQUES' },
-      { id: uid('ets'), nom: 'AGENCE SAN-PEDRO', ville: 'SAN-PEDRO', quartier: 'CENTRE-VILLE', activite: 'BANQUES' },
+      { id: uid('ets'), denomination: 'AGENCE PLATEAU', activite: 'BANQUES', localite: 'ABIDJAN - PLATEAU', quartier: 'PLATEAU', rue: '' },
+      { id: uid('ets'), denomination: 'AGENCE SAN-PEDRO', activite: 'BANQUES', localite: 'SAN-PEDRO', quartier: 'CENTRE-VILLE', rue: '' },
     ],
     documents: { pieceIdentite: null, rccm: null, photo: null, nomination: null },
     notifications: [],
@@ -1401,7 +1671,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
    * 3. SAISIE : MAJUSCULES AUTOMATIQUES ET MASQUES
    * ======================================================================== */
   /* Toute saisie dans un champ texte passe en MAJUSCULES (le curseur est conservé).
-     Exclus : champs e-mail (type="email") et listes avec recherche (data-no-upper). */
+     Exclus : champs e-mail (type="email") et listes fermées (data-no-upper). */
   function toUpper(el) {
     if (!(el instanceof HTMLInputElement) || el.type !== 'text' || el.readOnly || 'noUpper' in el.dataset) return;
     const up = el.value.toUpperCase();
@@ -1468,7 +1738,8 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 
   /* 4.1 Liste avec recherche (motif ARIA « combobox » + « listbox ») :
      filtrage sans accents, flèches ↑/↓, Entrée, Échap, bouton « × » d'effacement.
-     La valeur retenue est toujours une option de la liste. */
+     - liste fermée (free = false) : la valeur retenue est toujours une option ;
+     - saisie libre (free = true) : les options ne sont que des suggestions. */
   function highlight(text, query) {
     const q = stripAccents(query).toUpperCase().trim();
     const base = stripAccents(text).toUpperCase();
@@ -1478,22 +1749,38 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
   }
 
   class Combo {
-    constructor(root, items, onChange) {
-      this.root = root;
-      this.input = $('.combo-input', root);
-      this.list = $('.combo-list', root);
-      this.clearBtn = $('.combo-clear', root);
-      this.toggleEl = $('.combo-toggle', root);
+    constructor(input, items, { free = false, bindPath = null, label = '' } = {}) {
+      this.input = input;
       this.items = items;
-      this.onChange = onChange;
+      this.free = free;
+      this.bindPath = bindPath;
+      this.onChange = () => {};
       this.value = '';
       this.filtered = items.slice();
       this.active = -1;
 
-      this.input.addEventListener('input', () => { this.filter(this.input.value); this.open(); this.syncClear(); });
-      this.input.addEventListener('keydown', (e) => this.onKey(e));
-      this.input.addEventListener('click', () => { if (!this.isOpen()) { this.filter(''); this.open(); } });
-      this.input.addEventListener('blur', () => this.commit());
+      // Construction du composant autour du champ existant (amélioration progressive)
+      const wrap = document.createElement('div');
+      wrap.className = 'combo';
+      input.before(wrap);
+      wrap.append(input);
+      input.classList.add('combo-input');
+      Object.entries({ role: 'combobox', 'aria-autocomplete': 'list', 'aria-expanded': 'false', 'aria-controls': `${input.id}-list`, autocomplete: 'off', spellcheck: 'false' })
+        .forEach(([k, v]) => input.setAttribute(k, v));
+      if (!free) input.dataset.noUpper = '';
+      wrap.insertAdjacentHTML('beforeend', `
+        <button type="button" class="combo-clear" aria-label="Effacer : ${esc(label)}" hidden><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+        <span class="combo-toggle" aria-hidden="true"><i class="bi bi-chevron-down"></i></span>
+        <ul class="combo-list" id="${input.id}-list" role="listbox" aria-label="${esc(label)}" hidden></ul>`);
+      this.root = wrap;
+      this.list = $('.combo-list', wrap);
+      this.clearBtn = $('.combo-clear', wrap);
+      this.toggleEl = $('.combo-toggle', wrap);
+
+      input.addEventListener('input', () => { this.filter(input.value); this.open(); this.syncClear(); });
+      input.addEventListener('keydown', (e) => this.onKey(e));
+      input.addEventListener('click', () => { if (!this.isOpen()) { this.filter(''); this.open(); } });
+      input.addEventListener('blur', () => this.commit());
       this.list.addEventListener('mousedown', (e) => e.preventDefault()); // garde le focus dans le champ
       this.list.addEventListener('click', (e) => {
         const li = e.target.closest('[role="option"]:not([aria-disabled="true"])');
@@ -1504,14 +1791,14 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       this.clearBtn.addEventListener('mousedown', (e) => e.preventDefault());
       this.clearBtn.addEventListener('click', () => {
         this.select('');
-        this.input.focus();
+        input.focus();
         this.filter('');
         this.open();
       });
       this.toggleEl.addEventListener('mousedown', (e) => {
         e.preventDefault();
-        if (isDisabled(this.input)) return;
-        this.input.focus();
+        if (isDisabled(input)) return;
+        input.focus();
         if (this.isOpen()) this.close(); else { this.filter(''); this.open(); }
       });
     }
@@ -1533,12 +1820,14 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     filter(query) {
       const q = norm(query);
       this.filtered = q ? this.items.filter((it) => norm(it).includes(q)) : this.items.slice();
-      this.active = q ? (this.filtered.length ? 0 : -1) : this.filtered.indexOf(this.value);
+      // Saisie libre : aucune option présélectionnée, Entrée conserve le texte tapé
+      if (q) this.active = this.free || !this.filtered.length ? -1 : 0;
+      else this.active = this.filtered.indexOf(this.value);
     }
     render() {
       const q = this.input.value === this.value ? '' : this.input.value;
       if (!this.filtered.length) {
-        this.list.innerHTML = '<li class="combo-empty" role="option" aria-disabled="true" aria-selected="false">Aucun résultat</li>';
+        this.list.innerHTML = `<li class="combo-empty" role="option" aria-disabled="true" aria-selected="false">${this.free ? 'Aucune suggestion : votre saisie sera conservée' : 'Aucun résultat'}</li>`;
         return;
       }
       this.list.innerHTML = this.filtered.map((it, i) => {
@@ -1576,8 +1865,10 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
           break;
         case 'Enter':
           if (!this.isOpen()) break;
-          e.preventDefault(); // n'envoie pas le formulaire
-          if (this.filtered.length) this.select(this.filtered[Math.max(this.active, 0)]);
+          e.preventDefault(); // Entrée valide la liste, sans changer de champ
+          if (this.active >= 0) this.select(this.filtered[this.active]);
+          else if (this.free) this.select(this.input.value.trim());
+          else if (this.filtered.length) this.select(this.filtered[0]);
           this.close();
           break;
         case 'Escape':
@@ -1585,8 +1876,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
           e.preventDefault();
           e.stopPropagation(); // ferme la liste sans fermer la modale parente
           this.close();
-          this.input.value = this.value;
-          this.syncClear();
+          if (!this.free) { this.input.value = this.value; this.syncClear(); } // saisie libre : le texte tapé est conservé
           break;
         case 'Tab':
           if (this.isOpen() && this.active >= 0 && this.input.value !== this.value) this.select(this.filtered[this.active]);
@@ -1595,13 +1885,15 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
         default:
       }
     }
-    /* Sortie du champ : texte identique à une option → sélection ; sinon retour à la valeur précédente */
+    /* Sortie du champ : texte identique à une option → sélection ; sinon saisie libre conservée
+       (free) ou retour à la valeur précédente (liste fermée) */
     commit() {
       this.close();
       const text = norm(this.input.value);
       if (!text) { this.select(''); return; }
       const exact = this.items.find((it) => norm(it) === text);
       if (exact) this.select(exact);
+      else if (this.free) this.select(this.input.value.trim());
       else { this.input.value = this.value; this.syncClear(); }
     }
     select(value, { silent = false } = {}) {
@@ -1611,19 +1903,43 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       this.syncClear();
       if (changed && !silent) this.onChange(value);
     }
-    setValue(value) { this.select(this.items.includes(value) ? value : '', { silent: true }); }
+    setValue(value) {
+      const v = value || '';
+      this.select(this.free || this.items.includes(v) ? v : '', { silent: true });
+    }
     syncClear() { this.clearBtn.hidden = !this.input.value || isDisabled(this.input); }
   }
 
+  /* 4.4 Rangées adaptatives : équivalent JavaScript d'une « container query ». Une vraie
+     container query créerait un contexte d'empilement qui masquerait les listes déroulantes
+     sous la barre d'actions collante. */
+  function classifySection(sec) {
+    const cs = getComputedStyle(sec);
+    const width = sec.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    if (width <= 0) return; // section masquée : classée à son prochain affichage
+    sec.classList.toggle('is-tiny', width < 340);
+    $$('.cq-full', sec).forEach((col) => col.classList.toggle('is-full', width < Number(col.dataset.cq || 470)));
+  }
+  function initAdaptiveSections() {
+    const sections = $$('.form-section');
+    sections.forEach(classifySection); // avant le premier affichage
+    if (!('ResizeObserver' in window)) return;
+    let frame = 0;
+    // Reclassement à la frame suivante : évite l'alerte « ResizeObserver loop » quand la hauteur change
+    const ro = new ResizeObserver(() => { if (!frame) frame = requestAnimationFrame(() => { frame = 0; sections.forEach(classifySection); }); });
+    sections.forEach((sec) => ro.observe(sec));
+  }
+
   const combos = new Map();
-  function makeCombo(id, items, bindPath) {
+  function makeCombo(id, items, { free = false, bindPath = null } = {}) {
     const input = byId(id);
-    const combo = new Combo(input.closest('.combo'), items, (value) => {
+    const combo = new Combo(input, items, { free, bindPath, label: labelOf(input) });
+    combo.onChange = (value) => {
       if (bindPath) setPath(state, bindPath, value);
       if (value) input.dataset.touched = '1';
       liveValidate(input);
       scheduleRefresh();
-    });
+    };
     combos.set(id, combo);
   }
   const closeAllCombos = () => combos.forEach((c) => c.close());
@@ -1715,12 +2031,18 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     doc: 'Pièce obligatoire : veuillez joindre ce document.',
   };
 
-  /* Comparaison avec la DGI : casse, accents, espaces et points ignorés.
-     Pour le RCCM, le numéro seul (sans « DU jj-mm-aaaa ») est aussi accepté. */
-  const canon = (s) => stripAccents(s).toUpperCase().replace(/[\s.]/g, '');
-  const dgiTargets = (key) => (key === 'rccm' ? [canon(DGI.rccm), canon(DGI.rccm.split(/\s+DU\s+/i)[0])] : [canon(DGI[key])]);
-  const dgiEquals = (key, v) => dgiTargets(key).includes(canon(v));
-  const dgiPrefix = (key, v) => dgiTargets(key).some((t) => t.startsWith(canon(v)));
+  /* Comparaison avec la DGI sur les seuls lettres et chiffres (casse, accents, espaces,
+     tirets et ponctuation ignorés). RCCM : le numéro seul, sans « DU jj-mm-aaaa », est
+     accepté. Activité : le code, le libellé ou les deux. */
+  const canon = (s) => stripAccents(s).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const DGI_TARGETS = {
+    denomination: [DGI.denomination],
+    formeJuridique: [DGI.formeJuridique],
+    rccm: [DGI.rccm, DGI.rccm.split(/\s+DU\s+/i)[0]],
+    activite: [DGI.activiteCode, DGI.activiteLibelle, `${DGI.activiteCode} ${DGI.activiteLibelle}`],
+  };
+  const dgiEquals = (key, v) => DGI_TARGETS[key].some((t) => canon(t) === canon(v));
+  const dgiPrefix = (key, v) => DGI_TARGETS[key].some((t) => canon(t).startsWith(canon(v)));
 
   const RULES = {
     date: (v) => (parseDateFR(v) ? '' : 'Date invalide : utilisez le format JJ/MM/AAAA.'),
@@ -1749,6 +2071,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     dgi: (v, key) => (dgiEquals(key, v) ? '' : MSG.dgi),
     positive: (v) => (Number(digits(v)) > 0 ? '' : 'Le capital social doit être supérieur à 0.'),
     pieceNum: (v) => (/^[A-Z0-9][A-Z0-9 /-]{4,24}$/i.test(v) ? '' : 'Numéro invalide : 5 à 25 caractères (lettres, chiffres, espace, / ou -).'),
+    docNum: (v) => (/^[A-Z0-9][A-Z0-9 ./-]{2,39}$/i.test(v) ? '' : 'Numéro invalide : 3 à 40 caractères (lettres, chiffres, espace, point, / ou -).'),
     payRef: (v) => (/^[A-Z0-9][A-Z0-9./-]{5,29}$/i.test(v) ? '' : 'Référence invalide : 6 à 30 caractères (lettres, chiffres, point, / ou -).'),
     paid: () => (state.paiement.statut === 'CONFIRME' ? '' : MSG.unpaid),
   };
@@ -1761,7 +2084,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
   function fieldError(el) {
     if (isExcluded(el)) return '';
     const combo = combos.get(el.id);
-    if (combo) return el.required && !combo.value ? MSG.combo : '';
+    if (combo && !combo.free) return el.required && !combo.value ? MSG.combo : '';
     const v = String(el.value ?? '').trim();
     if (!v) return el.required ? (el.tagName === 'SELECT' ? MSG.select : MSG.required) : '';
     for (const token of (el.dataset.rule || '').split(/\s+/)) {
@@ -1775,13 +2098,17 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
   const groupError = (fs) => (!isExcluded(fs) && fs.hasAttribute('data-required') && !$('input:checked', fs) ? MSG.group : '');
 
   /* Affichage : classes Bootstrap is-valid / is-invalid, message sous le champ, aria-invalid */
+  function setFeedback(err, msg) {
+    if (!err) return;
+    err.innerHTML = msg ? `<i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>${esc(msg)}` : '';
+    err.classList.toggle('d-block', !!msg);
+  }
   function setFieldState(el, msg, { valid = false } = {}) {
-    const err = byId(`${el.id}-error`);
     const ok = byId(`${el.id}-ok`);
     el.classList.toggle('is-invalid', !!msg);
     el.classList.toggle('is-valid', !msg && valid);
     if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
-    if (err) { err.textContent = msg; err.classList.toggle('d-block', !!msg); }
+    setFeedback(byId(`${el.id}-error`), msg);
     if (ok) ok.classList.toggle('d-block', !msg && valid);
   }
   function setGroupState(fs, msg) {
@@ -1790,8 +2117,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       r.classList.toggle('is-invalid', !!msg);
       if (msg) r.setAttribute('aria-invalid', 'true'); else r.removeAttribute('aria-invalid');
     });
-    const err = byId(`${fs.id}-error`);
-    if (err) { err.textContent = msg; err.classList.toggle('d-block', !!msg); }
+    setFeedback(byId(`${fs.id}-error`), msg);
   }
 
   /* Coche verte : données DGI confirmées, ou deux numéros mobiles valides et identiques */
@@ -1812,7 +2138,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     }
     if (el.readOnly || el.type === 'file' || isExcluded(el)) return;
     const rule = el.dataset.rule || '';
-    if (rule.startsWith('dgi:')) { liveDgi(el, strict || showsErrors(el)); return; }
+    if (rule.startsWith('dgi:')) { liveDgi(el, strict); return; }
     if (el.id === 'repMobile' || el.id === 'repMobile2') { livePhones(); return; }
     let msg = fieldError(el);
     if (msg === MSG.unpaid && !showsErrors(el)) msg = ''; // rappelé seulement au clic sur « Suivant »
@@ -1842,21 +2168,20 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     setFieldState(b, visible(b, eb), { valid: both });
   }
 
-  /* Champs d'une étape (hors lecture seule, fichiers et blocs exclus) */
-  function stepControls(n) {
-    const panel = byId(`step-${n}`);
-    const fields = $$('input, select', panel).filter((el) => el.id && !['radio', 'file', 'hidden', 'checkbox'].includes(el.type) && !el.readOnly && !el.classList.contains('date-native') && !isExcluded(el));
-    const groups = $$('fieldset[data-group]', panel).filter((fs) => !isExcluded(fs));
+  /* Champs d'un conteneur (étape, section) hors lecture seule, fichiers et blocs exclus */
+  function controlsIn(root) {
+    const fields = $$('input, select', root).filter((el) => el.id && !['radio', 'file', 'hidden', 'checkbox'].includes(el.type) && !el.readOnly && !el.classList.contains('date-native') && !isExcluded(el));
+    const groups = $$('fieldset[data-group]', root).filter((fs) => !isExcluded(fs));
     return { fields, groups };
   }
   const domOrder = (a, b) => (a === b ? 0 : (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
 
   /* Valide une étape ; reveal = true affiche les erreurs. Renvoie les éléments invalides (ordre du DOM). */
   function validateStep(n, reveal = false) {
-    const { fields, groups } = stepControls(n);
+    const { fields, groups } = controlsIn(byId(`step-${n}`));
     const bad = [];
     fields.forEach((el) => {
-      let msg = fieldError(el);
+      const msg = fieldError(el);
       if (reveal) setFieldState(el, msg, { valid: validFlag(el, msg) });
       if (msg) bad.push(el);
     });
@@ -1876,7 +2201,14 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     return bad.sort(domOrder);
   }
 
-  /* Défilement doux jusqu'au premier élément en erreur, puis focus */
+  /* Affiche l'erreur d'un seul élément (utilisé par les raccourcis vers un champ) */
+  function revealOne(el) {
+    if (el.tagName === 'FIELDSET') setGroupState(el, groupError(el));
+    else if (el.type === 'file') setDocError(el.dataset.doc, state.documents[el.dataset.doc] ? '' : MSG.doc);
+    else if (el.id !== 'etabLive') { const msg = fieldError(el); setFieldState(el, msg, { valid: validFlag(el, msg) }); }
+  }
+
+  /* Défilement doux jusqu'à un élément en erreur, puis focus */
   function focusError(el) {
     if (!el) return;
     let focusEl = el;
@@ -1896,18 +2228,18 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     if (focusEl) focusEl.focus({ preventScroll: true });
   }
 
-  /* Libellé lisible d'un contrôle (liste « Actions à réaliser ») */
+  /* Libellé lisible d'un contrôle (« Actions à réaliser », listes) */
   function labelOf(el) {
     if (el.dataset.label) return el.dataset.label;
     const txt = el.tagName === 'FIELDSET' ? $('legend', el)?.textContent : $(`label[for="${el.id}"]`)?.textContent;
-    return (txt || el.id).replace(/\*/g, '').replace(/\s+/g, ' ').trim();
+    return (txt || el.id).replace(/\*/g, '').replace(/facultatif/g, '').replace(/\s+/g, ' ').trim();
   }
 
   /* Liste des éléments obligatoires du dossier (sert au calcul de progression) */
   function collectChecks() {
     const checks = [];
     [1, 2, 3].forEach((step) => {
-      const { fields, groups } = stepControls(step);
+      const { fields, groups } = controlsIn(byId(`step-${step}`));
       fields.filter((el) => el.required).forEach((el) => checks.push({ step, kind: 'field', ok: !fieldError(el), label: labelOf(el), target: el }));
       groups.filter((fs) => fs.hasAttribute('data-required')).forEach((fs) => checks.push({ step, kind: 'field', ok: !groupError(fs), label: labelOf(fs), target: fs }));
       if (step === 2) checks.push({ step, kind: 'etab', ok: etabConsistent(), label: 'Établissements secondaires conformes au nombre déclaré', target: byId('etabLive') });
@@ -1916,8 +2248,18 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     return checks.sort((a, b) => a.step - b.step || domOrder(a.target, b.target));
   }
 
+  /* Avancement d'une section (pastilles et navigation de sections) */
+  function sectionStats(sec) {
+    const { fields, groups } = controlsIn(sec);
+    const req = fields.filter((el) => el.required);
+    const reqGroups = groups.filter((fs) => fs.hasAttribute('data-required'));
+    const bad = [...req.filter((el) => fieldError(el)), ...reqGroups.filter((fs) => groupError(fs)), ...fields.filter((el) => !el.required && fieldError(el))].sort(domOrder);
+    return { total: req.length + reqGroups.length, ok: req.filter((el) => !fieldError(el)).length + reqGroups.filter((fs) => !groupError(fs)).length, bad };
+  }
+
   /* ==========================================================================
-   * 6. NAVIGATION : vues, onglets, sidebar (routage par ancre #/…)
+   * 6. NAVIGATION : vues, onglets, sidebar (routage par ancre #/…), sections,
+   *    barre d'actions, touche Entrée
    * ======================================================================== */
   const sidebarEl = byId('sidebar');
   let routeOpts = {};
@@ -1965,6 +2307,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     byId('crumbCurrent').textContent = name === 'dashboard' ? 'Tableau de bord' : 'Inscription FNCE';
     document.title = `${name === 'dashboard' ? 'Tableau de bord' : 'Inscription au FNCE'} – Espace Entreprise`;
     updateSidebarActive();
+    queueToastOffset();
     if (name === 'dashboard') refreshUI();
   }
 
@@ -1980,8 +2323,10 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     byId('btnNext').hidden = n === 3;
     byId('btnSubmit').hidden = n !== 3 || state.submitted;
     byId('btnSubmitted').hidden = n !== 3 || !state.submitted;
+    errCursor = -1;
     closeAllCombos();
     updateSidebarActive();
+    scheduleRefresh();
   }
 
   function updateSidebarActive() {
@@ -1999,7 +2344,9 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     const bad = validateStep(n, true);
     if (bad.length) {
       byId(`step-${n}`).dataset.submitted = '1';
+      errCursor = 0;
       focusError(bad[0]);
+      renderActionBar();
       toast('error', 'Étape incomplète', `${plural(bad.length, 'élément')} à corriger avant de continuer.`);
       return;
     }
@@ -2007,8 +2354,63 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     navigate(`#/inscription/${n + 1}`);
   }
 
+  /* Navigation clavier « façon saisie administrative » : Entrée passe au champ suivant ;
+     sur le dernier champ de l'étape, Entrée déclenche « Suivant ». */
+  function isEntryField(f) {
+    if (f.readOnly || isDisabled(f) || f.classList.contains('date-native') || ['hidden', 'checkbox', 'file'].includes(f.type)) return false;
+    if (!f.offsetParent) return false; // masqué
+    if (f.type === 'radio') return f === ($(`input[name="${f.name}"]:checked`) || $(`input[name="${f.name}"]`)); // un arrêt par groupe
+    return true;
+  }
+  function onEnterKey(e) {
+    if (e.key !== 'Enter' || e.defaultPrevented || e.isComposing || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+    const el = e.target;
+    if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement) || ['checkbox', 'file'].includes(el.type)) return;
+    const panel = el.closest('.step-panel');
+    if (!panel) return;
+    e.preventDefault();
+    const fields = $$('input, select', panel).filter(isEntryField);
+    const next = fields[fields.indexOf(el) + 1];
+    if (next) next.focus(); else goNext();
+  }
+
+  /* Pastilles de sections : clic → premier champ à compléter de la section */
+  function goToSection(key) {
+    const sec = $(`.form-section[data-section="${key}"]`);
+    if (!sec) return;
+    const { bad } = sectionStats(sec);
+    if (bad.length) { revealOne(bad[0]); focusError(bad[0]); return; }
+    sec.scrollIntoView({ behavior: scrollMode(), block: 'start' });
+    $('.section-title', sec).focus({ preventScroll: true });
+  }
+
+  /* Barre d'actions : « Étape x sur 3 », avancement, bouton de parcours des erreurs */
+  let errCursor = -1;
+  function renderActionBar(checks = collectChecks()) {
+    const n = state.step;
+    const cs = checks.filter((c) => c.step === n);
+    const ok = cs.filter((c) => c.ok).length;
+    byId('abStep').textContent = `Étape ${n} sur 3`;
+    byId('abCount').textContent = n === 3 ? `${ok}/${cs.length} pièces transmises` : `${ok}/${cs.length} éléments obligatoires`;
+    const panel = byId(`step-${n}`);
+    const bad = panel.dataset.submitted === '1' && !state.submitted ? validateStep(n) : [];
+    const btn = byId('abErrors');
+    btn.hidden = !bad.length;
+    if (bad.length) {
+      byId('abErrorsText').textContent = `${plural(bad.length, 'champ')} à corriger`;
+      btn.setAttribute('aria-label', `${plural(bad.length, 'champ')} à corriger : aller au suivant`);
+    }
+  }
+  function nextError() {
+    const bad = validateStep(state.step, true);
+    if (!bad.length) { renderActionBar(); return; }
+    errCursor = (errCursor + 1) % bad.length;
+    focusError(bad[errCursor]);
+  }
+
   /* ==========================================================================
-   * 7. ÉTAPE 1 : pièce d'identité, NNI, cohérence du nombre d'établissements
+   * 7. AIDES À LA SAISIE : pièce d'identité, âge, ancienneté, opérateur,
+   *    montant en lettres, suggestions, correction des adresses e-mail
    * ======================================================================== */
   let pieceTimer = 0;
   /* Bascule ONECI / Autre avec transition douce ; les champs masqués sont exclus de la validation */
@@ -2037,32 +2439,120 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     scheduleRefresh();
   }
 
-  function updateNniCount() {
-    const n = digits(byId('oneciNni').value).length;
-    byId('oneciNni-count').textContent = `${n}/11 chiffres`;
+  function setHint(id, html, tone = '') {
+    const el = byId(id);
+    if (!el || el.dataset.html === html) return;
+    el.innerHTML = html;
+    el.dataset.html = html;
+    el.classList.toggle('is-ok', tone === 'ok');
+    el.classList.toggle('is-warn', tone === 'warn');
+  }
+  const operatorHint = (value, table) => {
+    const d = digits(value);
+    const op = d.length >= 2 ? table[d.slice(0, 2)] : '';
+    return op ? `<i class="bi bi-broadcast" aria-hidden="true"></i><span>Réseau ${op}</span>` : '';
+  };
+  function emailSuggestion(value) {
+    const m = /^([^\s@]+)@([^\s@]+\.[^\s@]+)$/.exec(String(value).trim().toLowerCase());
+    if (!m || EMAIL_DOMAINS.includes(m[2]) || m[2].length < 5) return '';
+    let best = '';
+    let bestDist = 3;
+    EMAIL_DOMAINS.forEach((d) => { const dist = levenshtein(m[2], d); if (dist < bestDist) { bestDist = dist; best = d; } });
+    return best ? `${m[1]}@${best}` : '';
+  }
+
+  function updateHints() {
+    // NNI : compteur de chiffres
+    const nni = digits(byId('oneciNni').value).length;
+    setHint('oneciNni-count', `<span>${nni}/11 chiffres</span>`, nni === 11 ? 'ok' : '');
+    // Âge du représentant
+    const naissance = byId('repNaissance');
+    const birth = parseDateFR(naissance.value);
+    setHint('repNaissance-hint', birth && !fieldError(naissance) ? `<i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>${plural(ageOn(birth), 'an')}</span>` : '', 'ok');
+    // Ancienneté de l'entreprise + suggestion issue du RCCM
+    const creation = byId('etDateCreation');
+    const created = parseDateFR(creation.value);
+    let anciennete = '';
+    if (created && !fieldError(creation)) {
+      const years = ageOn(created);
+      anciennete = years < 1 ? "Créée il y a moins d'un an" : `Créée il y a ${plural(years, 'an')}`;
+    }
+    setHint('etDateCreation-hint', anciennete ? `<i class="bi bi-hourglass-split" aria-hidden="true"></i><span>${anciennete}</span>` : '');
+    byId('etDateCreation-suggest').hidden = !RCCM_DATE || !!creation.value.trim() || state.submitted;
+    byId('etDateCreation-suggest-val').textContent = RCCM_DATE;
+    // Opérateurs téléphoniques
+    setHint('repMobile-op', operatorHint(byId('repMobile').value, OPERATEURS_MOBILE));
+    setHint('etMobile-op', operatorHint(byId('etMobile').value, OPERATEURS_MOBILE));
+    setHint('etTelFixe-op', operatorHint(byId('etTelFixe').value, OPERATEURS_FIXE));
+    // Contact mobile : proposer le mobile du représentant
+    const repMobile = byId('repMobile');
+    byId('etMobile-suggest').hidden = !!byId('etMobile').value.trim() || !!fieldError(repMobile) || state.submitted;
+    byId('etMobile-suggest-val').textContent = fmtPhone(digits(repMobile.value));
+    // Capital social en toutes lettres
+    const cap = Number(digits(byId('capital').value));
+    const words = byId('capital-words');
+    const text = cap > 0 ? montantEnLettres(cap) : '';
+    if (words.textContent !== text) words.textContent = text;
+    // Adresses e-mail : suggestion de correction (gmial.com → gmail.com)
+    ['repEmail', 'etEmail'].forEach((id) => {
+      const box = byId(`${id}-suggest`);
+      const fix = emailSuggestion(byId(id).value);
+      box.hidden = !fix || state.submitted;
+      const html = fix ? `Vouliez-vous dire <button type="button" data-email-fix="${id}" data-value="${esc(fix)}">${esc(fix)}</button> ?` : '';
+      if (box.dataset.html !== html) { box.innerHTML = html; box.dataset.html = html; }
+    });
+  }
+
+  /* Remplit un champ par programme, comme une saisie (liaison, validation, progression) */
+  function fillField(el, value) {
+    el.value = value;
+    el.dataset.touched = '1';
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.focus();
   }
 
   /* ==========================================================================
    * 8. ÉTAPE 2 : établissements secondaires et paiement
    * ======================================================================== */
-  const etabConsistent = () => state.siege.nbEts != null && state.etablissements.length === state.siege.nbEts;
+  const etabConsistent = () => state.etablissement.nbEts != null && state.etablissements.length === state.etablissement.nbEts;
 
+  function rowActions(e) {
+    return `<button type="button" class="btn btn-row edit" data-edit="${e.id}" title="Modifier"><i class="bi bi-pencil-square" aria-hidden="true"></i><span class="visually-hidden">Modifier ${esc(e.denomination)}</span></button>
+      <button type="button" class="btn btn-row del" data-del="${e.id}" title="Supprimer"><i class="bi bi-trash3" aria-hidden="true"></i><span class="visually-hidden">Supprimer ${esc(e.denomination)}</span></button>`;
+  }
   function renderEtabs() {
     const rows = state.etablissements;
+    const empty = 'Aucun établissement secondaire. Cliquez sur « Ajouter » pour en déclarer un.';
     byId('etabBody').innerHTML = rows.length
       ? rows.map((e, i) => `
         <tr>
           <td class="text-center fw-bold">${i + 1}</td>
-          <td class="fw-bold">${esc(e.nom)}</td>
-          <td>${esc(e.ville)}</td>
-          <td>${esc(e.quartier)}</td>
+          <td class="fw-bold">${esc(e.denomination)}</td>
           <td>${esc(e.activite)}</td>
-          <td class="text-end text-nowrap">
-            <button type="button" class="btn btn-row edit" data-edit="${e.id}" title="Modifier"><i class="bi bi-pencil-square" aria-hidden="true"></i><span class="visually-hidden">Modifier ${esc(e.nom)}</span></button>
-            <button type="button" class="btn btn-row del" data-del="${e.id}" title="Supprimer"><i class="bi bi-trash3" aria-hidden="true"></i><span class="visually-hidden">Supprimer ${esc(e.nom)}</span></button>
-          </td>
+          <td>${esc(e.localite)}</td>
+          <td>${esc(e.quartier)}</td>
+          <td>${esc(e.rue || '—')}</td>
+          <td class="text-end text-nowrap">${rowActions(e)}</td>
         </tr>`).join('')
-      : '<tr class="etab-empty"><td colspan="6"><i class="bi bi-shop-window me-1" aria-hidden="true"></i>Aucun établissement secondaire. Cliquez sur « Ajouter » pour en déclarer un.</td></tr>';
+      : `<tr class="etab-empty"><td colspan="7"><i class="bi bi-shop-window me-1" aria-hidden="true"></i>${empty}</td></tr>`;
+    byId('etabCards').innerHTML = rows.length
+      ? rows.map((e, i) => `
+        <li class="etab-card">
+          <div class="etab-card-head">
+            <span class="etab-num" aria-hidden="true">${i + 1}</span>
+            <div class="min-w-0">
+              <h3 class="etab-card-title">${esc(e.denomination)}</h3>
+              <p class="etab-card-sub">${esc(e.activite)}</p>
+            </div>
+            <div class="doc-actions">${rowActions(e)}</div>
+          </div>
+          <dl>
+            <dt>Localité</dt><dd>${esc(e.localite)}</dd>
+            <dt>Quartier</dt><dd>${esc(e.quartier)}</dd>
+            <dt>Rue</dt><dd>${esc(e.rue || '—')}</dd>
+          </dl>
+        </li>`).join('')
+      : `<li class="etab-empty">${empty}</li>`;
     renderEtabSync();
   }
 
@@ -2070,7 +2560,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
   let lastEtabAlert = null;
   function renderEtabSync() {
     const n = state.etablissements.length;
-    const d = state.siege.nbEts;
+    const d = state.etablissement.nbEts;
     const ok = etabConsistent();
     const counter = byId('etabCounter');
     counter.className = `etab-counter${ok ? '' : ' is-mismatch'}`;
@@ -2087,11 +2577,13 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 
     const hint = byId('nbEts-sync');
     hint.className = `form-text sync-hint ${ok ? 'is-ok' : 'is-warn'}`;
-    hint.innerHTML = ok
+    const html = ok
       ? `<i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Cohérent avec l'étape 2 (${plural(n, 'établissement')}).</span>`
       : `<i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i><span>Écart : ${plural(n, 'établissement')} saisi${n > 1 ? 's' : ''} à l'étape 2.</span>`;
+    if (hint.innerHTML !== html) hint.innerHTML = html;
   }
 
+  const ETAB_FIELDS = ['etabDenom', 'etabActivite', 'etabLocalite', 'etabQuartier', 'etabRue'];
   let etabModal = null;
   let editingId = null;
   let etabTrigger = null;
@@ -2099,36 +2591,43 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     if (state.submitted) return;
     editingId = id;
     etabTrigger = document.activeElement;
-    const e = id ? state.etablissements.find((x) => x.id === id) : { nom: '', ville: '', quartier: '', activite: DGI.activiteLibelle };
+    const e = id ? state.etablissements.find((x) => x.id === id) : { denomination: '', activite: DGI.activiteLibelle, localite: '', quartier: '', rue: '' };
     byId('etabModalTitleText').textContent = id ? "Modifier l'établissement secondaire" : 'Ajouter un établissement secondaire';
-    byId('etabNom').value = e.nom;
-    combos.get('etabVille').setValue(e.ville);
+    byId('etabDenom').value = e.denomination;
+    combos.get('etabActivite').setValue(e.activite);
+    combos.get('etabLocalite').setValue(e.localite);
     byId('etabQuartier').value = e.quartier;
-    byId('etabActivite').value = e.activite;
+    byId('etabRue').value = e.rue || '';
     const form = byId('etabForm');
     delete form.dataset.submitted;
-    $$('input', form).forEach((el) => { delete el.dataset.touched; setFieldState(el, ''); });
+    ETAB_FIELDS.forEach((fid) => { const el = byId(fid); delete el.dataset.touched; setFieldState(el, ''); });
     etabModal.show();
   }
   function saveEtab(e) {
     e.preventDefault();
-    const form = byId('etabForm');
-    form.dataset.submitted = '1';
-    const bad = ['etabNom', 'etabVille', 'etabQuartier', 'etabActivite'].map((id) => byId(id)).filter((el) => {
+    closeAllCombos();
+    byId('etabForm').dataset.submitted = '1';
+    const bad = ETAB_FIELDS.map((id) => byId(id)).filter((el) => {
       const msg = fieldError(el);
       setFieldState(el, msg);
       return !!msg;
     });
     if (bad.length) { bad[0].focus(); return; }
-    const data = { nom: byId('etabNom').value.trim(), ville: combos.get('etabVille').value, quartier: byId('etabQuartier').value.trim(), activite: byId('etabActivite').value.trim() };
+    const data = {
+      denomination: byId('etabDenom').value.trim(),
+      activite: byId('etabActivite').value.trim(),
+      localite: combos.get('etabLocalite').value,
+      quartier: byId('etabQuartier').value.trim(),
+      rue: byId('etabRue').value.trim(),
+    };
     if (editingId) {
       Object.assign(state.etablissements.find((x) => x.id === editingId), data);
-      toast('success', 'Établissement modifié', data.nom);
+      toast('success', 'Établissement modifié', data.denomination);
     } else {
       editingId = uid('ets');
       state.etablissements.push({ id: editingId, ...data });
-      toast('success', 'Établissement ajouté', `${data.nom} (${data.ville})`);
-      notify(`Établissement secondaire ajouté : ${data.nom}.`, 'bi-shop', 'success');
+      toast('success', 'Établissement ajouté', `${data.denomination} (${data.localite})`);
+      notify(`Établissement secondaire ajouté : ${data.denomination}.`, 'bi-shop', 'success');
     }
     etabTrigger = null;
     etabModal.hide();
@@ -2142,7 +2641,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     renderEtabs();
     scheduleRefresh();
     byId('btnAddEtab').focus();
-    toast('info', 'Établissement supprimé', removed.nom, {
+    toast('info', 'Établissement supprimé', removed.denomination, {
       action: {
         label: 'Annuler',
         onClick: () => {
@@ -2150,7 +2649,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
           state.etablissements.splice(Math.min(idx, state.etablissements.length), 0, removed);
           renderEtabs();
           scheduleRefresh();
-          toast('success', 'Suppression annulée', removed.nom);
+          toast('success', 'Suppression annulée', removed.denomination);
         },
       },
     });
@@ -2167,7 +2666,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     const p = state.paiement;
     const mode = PAY_MODES[p.mode];
     byId('payRef').placeholder = mode ? mode.ph : "Choisissez d'abord un mode de paiement";
-    byId('payRef-hint').textContent = mode ? mode.hint : 'La référence figure sur le justificatif de paiement.';
+    setHint('payRef-hint', `<span>${esc(mode ? mode.hint : 'La référence figure sur le justificatif de paiement.')}</span>`);
     const st = PAY_STATUS[p.statut];
     const box = byId('payStatut');
     box.className = `pay-status ${st.cls}`;
@@ -2391,6 +2890,9 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     setMeter(byId('complMeter'), pct);
     byId('complPct').textContent = `${pct}${NBSP}%`;
     renderEtabSync();
+    renderSections();
+    updateHints();
+    renderActionBar(checks);
     renderSidebarBadges(pct);
     renderDashboard(checks, pct, stepOk);
   }
@@ -2402,6 +2904,35 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     el.classList.toggle('is-complete', pct >= 100);
   }
 
+  /* Pastilles d'avancement : titres de section et navigation de sections */
+  let sectionsReady = false;
+  function renderSections() {
+    $$('.form-section[data-section]').forEach((sec) => {
+      const key = sec.dataset.section;
+      if (key === 'ident' || key === 'ets') return;
+      const { ok, total, bad } = sectionStats(sec);
+      const complete = total > 0 && ok === total && !bad.length;
+      const badge = $(`[data-sec-badge="${key}"]`);
+      if (badge) {
+        badge.classList.toggle('is-complete', complete);
+        const html = complete
+          ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i>Complet'
+          : `<span class="visually-hidden">Champs obligatoires remplis : </span>${ok}/${total}${key === 'confirm' ? ' confirmées' : ''}`;
+        if (badge.innerHTML !== html) badge.innerHTML = html;
+      }
+      const chip = $(`.sn-chip[data-sec="${key}"]`);
+      if (chip) {
+        const was = chip.classList.contains('is-complete');
+        chip.classList.toggle('is-complete', complete);
+        const stateEl = $('.sn-state', chip);
+        const html = complete ? '<i class="bi bi-check-lg" aria-hidden="true"></i><span class="visually-hidden">complète</span>' : `<span class="visually-hidden">, </span>${ok}/${total}`;
+        if (stateEl.innerHTML !== html) stateEl.innerHTML = html;
+        if (sectionsReady && complete && !was && !reducedMotion()) { chip.classList.remove('pop'); void chip.offsetWidth; chip.classList.add('pop'); }
+      }
+    });
+    sectionsReady = true;
+  }
+
   /* Badge de statut global (topbar) */
   function renderStatus(pct, ready) {
     let cls; let icon; let long; let short;
@@ -2411,7 +2942,8 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     else { cls = 'st-draft'; icon = 'bi-pencil'; long = 'Brouillon'; short = 'Brouillon'; }
     const pill = byId('statusPill');
     pill.className = `status-pill ${cls}`;
-    pill.innerHTML = `<i class="bi ${icon}" aria-hidden="true"></i><span class="visually-hidden">Statut du dossier : </span><span class="st-long">${long}</span><span class="st-short" aria-hidden="true">${short}</span>`;
+    const html = `<i class="bi ${icon}" aria-hidden="true"></i><span class="visually-hidden">Statut du dossier : </span><span class="st-long">${long}</span><span class="st-short" aria-hidden="true">${short}</span>`;
+    if (pill.innerHTML !== html) pill.innerHTML = html;
   }
 
   function renderSidebarBadges(pct) {
@@ -2512,7 +3044,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     const fieldsOk = fields.filter((c) => c.ok).length;
     const docs = docsCount();
     const n = state.etablissements.length;
-    const d = state.siege.nbEts;
+    const d = state.etablissement.nbEts;
     const payOk = state.paiement.statut === 'CONFIRME';
     setHTML('kpiRow', [
       kpiTile({ icon: 'bi-ui-checks', tone: 'info', label: 'Champs obligatoires', value: `${fieldsOk}/${fields.length}`, ok: fieldsOk === fields.length, note: fieldsOk === fields.length ? 'Tous renseignés' : `${fields.length - fieldsOk} à compléter` }),
@@ -2523,10 +3055,11 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 
     renderTimeline(stepOk, checks);
     renderTodo(checks);
+    const et = state.etablissement;
     const company = [
-      ['Dénomination', DGI.denomination], ['N° NCC', DGI.ncc], ['N° RCCM', DGI.rccm], ['Forme juridique', DGI.formeJuridique],
-      ['Centre', `${DGI.centreCode} – ${DGI.centreLibelle}`], ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`],
-      ['Siège', [state.siege.ville, state.siege.quartier].filter(Boolean).join(' – ') || '—'],
+      ['Raison sociale', DGI.denomination], ['N° NCC', DGI.ncc], ['N° RCCM', DGI.rccm], ['Forme juridique', DGI.formeJuridique],
+      ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`], ['Date de création', et.dateCreation || '—'],
+      ['Siège', [et.localite, et.quartier, et.rue].filter(Boolean).join(' – ') || '—'], ['Contact', et.mobile ? fmtIntl(et.mobile) : '—'],
     ];
     setHTML('companyDl', company.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join(''));
     setHTML('btnResume', state.submitted
@@ -2560,7 +3093,21 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     renderNotifs();
   }
 
-  /* Toasts en bas à droite : succès (vert), erreur (rouge), information (bleu marine) */
+  /* Toasts en bas à droite : succès (vert), erreur (rouge), information (bleu marine) ; 4 au plus */
+  /* Décalage des toasts : hauteur visible de la barre d'actions (vue « Inscription » uniquement) */
+  let toastFrame = 0;
+  function syncToastOffset() {
+    toastFrame = 0;
+    const footer = $('.form-footer');
+    let offset = 0;
+    if (state.view === 'inscription' && footer) {
+      const top = footer.getBoundingClientRect().top;
+      if (top < window.innerHeight) offset = Math.min(window.innerHeight - top, window.innerHeight / 2);
+    }
+    byId('toastZone').style.setProperty('--toast-bottom', `${Math.round(offset)}px`);
+  }
+  const queueToastOffset = () => { if (!toastFrame) toastFrame = requestAnimationFrame(syncToastOffset); };
+
   const TOASTS = {
     success: { cls: 't-success', icon: 'bi-check-circle-fill' },
     error: { cls: 't-error', icon: 'bi-x-octagon-fill' },
@@ -2582,6 +3129,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
         </div>
         <button type="button" class="btn-close btn-close-white flex-shrink-0" data-bs-dismiss="toast" aria-label="Fermer"></button>
       </div>`;
+    syncToastOffset();
     byId('toastZone').appendChild(el);
     el.addEventListener('hidden.bs.toast', () => el.remove());
     if (!window.bootstrap) { setTimeout(() => el.remove(), 5000); el.classList.add('show'); return; }
@@ -2609,7 +3157,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     const idx = results.findIndex((r) => r.length);
     if (idx >= 0) {
       results.forEach((r, i) => { if (r.length) byId(`step-${i + 1}`).dataset.submitted = '1'; });
-      navigate(`#/inscription/${idx + 1}`, { then: () => focusError(results[idx][0]) });
+      navigate(`#/inscription/${idx + 1}`, { then: () => { errCursor = 0; focusError(results[idx][0]); } });
       toast('error', 'Dossier incomplet', `Étape ${idx + 1} : ${plural(results[idx].length, 'élément')} à corriger.`);
       return;
     }
@@ -2620,22 +3168,28 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
   }
 
   function recapHTML() {
+    const et = state.etablissement;
     const r = state.representant;
     const p = state.piece;
-    const s = state.siege;
-    const pr = state.principal;
     const pay = state.paiement;
-    const pieceRows = p.mode === 'ONECI'
-      ? [['Type', p.oneci.type], ['N°', p.oneci.numero], ['Délivré le', p.oneci.delivre || '—'], ['NNI', p.oneci.nni]]
-      : [['Type', p.autre.type], ['N°', p.autre.numero], ['Délivré le', p.autre.delivre || '—'], ['Nom du père', p.autre.pereNom], ['Date de naissance du père', p.autre.pereNaissance || '—'], ['Nom de la mère', p.autre.mereNom], ['Date de naissance de la mère', p.autre.mereNaissance || '—']];
+    const piece = p.mode === 'ONECI' ? p.oneci : p.autre;
+    const pieceRows = [['Type', piece.type], ['N°', piece.numero], ['Délivré le', piece.delivre || '—'], ['Lieu de délivrance', piece.lieuDelivrance || '—']];
+    if (p.mode === 'ONECI') pieceRows.push(['NNI', p.oneci.nni]);
+    else pieceRows.push(['Nom du père', p.autre.pereNom], ['Date de naissance du père', p.autre.pereNaissance || '—'], ['Nom de la mère', p.autre.mereNom], ['Date de naissance de la mère', p.autre.mereNaissance || '—']);
     const sections = [
-      ['bi-briefcase-fill', 'Entreprise', [['Dénomination', DGI.denomination], ['N° NCC', DGI.ncc], ['N° RCCM', DGI.rccm], ['Forme juridique', DGI.formeJuridique], ['Centre', `${DGI.centreCode} – ${DGI.centreLibelle}`], ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`]]],
-      ['bi-geo-alt-fill', 'Siège social', [['Ville', s.ville], ['Quartier', s.quartier], ['Rue', s.rue || '—'], ['Capital social', fmtFCFA(s.capital)], ['Établissements secondaires', String(s.nbEts)]]],
-      ['bi-person-fill', 'Représentant légal', [['Nom et prénoms', `${r.nom} ${r.prenoms}`], ['Sexe', r.sexe === 'M' ? 'Masculin' : 'Féminin'], ['Né(e) le', `${r.naissance} à ${r.lieu}`], ['Nationalité', r.nationalite], ['Fonction', r.fonction || '—'], ['Téléphone mobile', fmtPhone(r.mobile)]]],
+      ['bi-briefcase-fill', 'Entreprise (données DGI)', [['Raison sociale', DGI.denomination], ['N° NCC', DGI.ncc], ['N° RCCM', DGI.rccm], ['Forme juridique', DGI.formeJuridique], ['Centre', `${DGI.centreCode} – ${DGI.centreLibelle}`], ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`]]],
+      ['bi-building-fill', 'Établissement principal', [
+        ['Date de création', et.dateCreation], ['Nom abrégé / Sigle', et.sigle || '—'], ['N° Titre de commerce', et.titreCommerce || '—'], ["N° d'inscription FNCE", et.numFnce || 'À attribuer'],
+        ['Capital social', `${fmtFCFA(et.capital)} (${montantEnLettres(et.capital)})`], ['Établissements secondaires', String(et.nbEts)],
+        ['Localité', et.localite], ['Quartier', et.quartier], ['Rue', et.rue || '—'],
+        ['Contact mobile', fmtIntl(et.mobile)], ['Boîte postale', et.bp || '—'], ['Téléphone fixe', et.telFixe ? fmtIntl(et.telFixe) : '—'], ['Email officiel', et.email || '—'],
+      ]],
+      ['bi-person-fill', 'Représentant légal', [['Nom et prénoms', `${r.nom} ${r.prenoms}`], ['Sexe', r.sexe === 'M' ? 'Masculin' : 'Féminin'], ['Né(e) le', `${r.naissance} à ${r.lieu}`], ['Nationalité', r.nationalite], ['Fonction', r.fonction || '—'], ['Téléphone mobile', fmtIntl(r.mobile)], ['Email', r.email]]],
       ['bi-person-vcard-fill', `Pièce d'identité (${p.mode === 'ONECI' ? 'ONECI avec NNI' : 'autre pièce'})`, pieceRows],
-      ['bi-building-fill', 'Établissement principal', [['Nom abrégé / Sigle', pr.sigle || '—'], ['Adresse postale', pr.bp || '—'], ['Téléphone fixe', pr.telFixe ? fmtPhone(pr.telFixe) : '—'], ['Email officiel', pr.email]]],
       ['bi-wallet2', 'Paiement', [['Mode', PAY_MODES[pay.mode].label], ['Référence', pay.reference], ['Montant', fmtFCFA(pay.montant)], ['Statut', PAY_STATUS[pay.statut].label]]],
-      ['bi-shop', `Établissements secondaires (${state.etablissements.length})`, state.etablissements.length ? state.etablissements.map((e, i) => [`${i + 1}. ${e.nom}`, `${e.ville}, ${e.quartier} · ${e.activite}`]) : [['Aucun', '—']]],
+      ['bi-shop', `Établissements secondaires (${state.etablissements.length})`, state.etablissements.length
+        ? state.etablissements.map((e, i) => [`${i + 1}. ${e.denomination}`, `${e.activite} · ${[e.localite, e.quartier, e.rue].filter(Boolean).join(', ')}`])
+        : [['Aucun', '—']]],
       ['bi-paperclip', 'Pièces jointes', DOCS.map((d) => [d.title, `${state.documents[d.key].name} (${fmtSize(state.documents[d.key].size)})`])],
     ];
     return sections.map(([icon, title, rows]) => `
@@ -2685,8 +3239,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       else if (el.dataset.mask === 'thousands') el.value = fmtThousands(v);
       else el.value = String(v);
     });
-    combos.get('villeSiege').setValue(state.siege.ville);
-    combos.get('repNationalite').setValue(state.representant.nationalite);
+    combos.forEach((c) => { if (c.bindPath) c.setValue(getPath(state, c.bindPath)); });
   }
 
   /* Valeur saisie → valeur stockée dans l'état */
@@ -2696,26 +3249,27 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     return el.value.trim();
   }
 
-  /* Relie chaque champ à son message d'erreur (aria-describedby) */
+  /* Relie chaque champ à ses messages et aides (aria-describedby) */
   function linkDescriptions() {
-    $$('.invalid-feedback[id$="-error"]').forEach((err) => {
-      const el = byId(err.id.slice(0, -6));
-      if (!el) return;
+    const link = (el, id) => {
       const ids = (el.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
-      if (!ids.includes(err.id)) el.setAttribute('aria-describedby', [...ids, err.id].join(' '));
-    });
+      if (!ids.includes(id)) el.setAttribute('aria-describedby', [...ids, id].join(' '));
+    };
+    $$('.invalid-feedback[id$="-error"]').forEach((err) => { const el = byId(err.id.slice(0, -6)); if (el) link(el, err.id); });
+    $$('[data-for]').forEach((help) => { const el = byId(help.dataset.for); if (el) link(el, help.id); });
   }
 
   function onFieldEdit(e) {
     const el = e.target;
     if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement)) return;
-    if (el.classList.contains('combo-input') || el.classList.contains('date-native') || el.type === 'file') return;
+    if (el.classList.contains('combo-input')) { scheduleRefresh(); return; } // liaison assurée par le composant
+    if (el.classList.contains('date-native') || el.type === 'file') return;
     if (el.dataset.bind) {
       if (el.type === 'radio') { if (el.checked) setPath(state, el.dataset.bind, el.value); }
       else setPath(state, el.dataset.bind, readValue(el));
     }
-    if (el.id === 'oneciNni') updateNniCount();
     liveValidate(el);
+    if (el.id === 'repMobile' || el.id === 'repMobile2') livePhones();
     scheduleRefresh();
   }
 
@@ -2733,8 +3287,10 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     form.addEventListener('submit', (e) => { e.preventDefault(); if (state.step < 3) goNext(); });
     form.addEventListener('input', onFieldEdit);
     form.addEventListener('change', onFieldEdit);
+    form.addEventListener('keydown', onEnterKey);
     byId('btnPrev').addEventListener('click', () => navigate(`#/inscription/${Math.max(1, state.step - 1)}`));
     byId('btnSubmit').addEventListener('click', trySubmit);
+    byId('abErrors').addEventListener('click', nextError);
 
     // Champ touché : les erreurs s'affichent dès la sortie d'un champ rempli
     document.addEventListener('focusout', (e) => {
@@ -2743,6 +3299,21 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       if (['radio', 'file', 'checkbox'].includes(el.type) || el.readOnly || el.classList.contains('date-native')) return;
       if (String(el.value).trim()) el.dataset.touched = '1';
       liveValidate(el, true);
+    });
+
+    // Section active : la pastille correspondante est mise en évidence
+    form.addEventListener('focusin', (e) => {
+      const sec = e.target.closest('.form-section[data-section]');
+      $$('.sn-chip').forEach((c) => c.classList.toggle('is-active', !!sec && c.dataset.sec === sec.dataset.section));
+    });
+    $$('.sn-chip').forEach((chip) => chip.addEventListener('click', () => goToSection(chip.dataset.sec)));
+
+    // Aides : suggestions en un clic
+    byId('etDateCreation-suggest').addEventListener('click', () => fillField(byId('etDateCreation'), RCCM_DATE));
+    byId('etMobile-suggest').addEventListener('click', () => fillField(byId('etMobile'), fmtPhone(digits(byId('repMobile').value))));
+    form.addEventListener('click', (e) => {
+      const fix = e.target.closest('[data-email-fix]');
+      if (fix) fillField(byId(fix.dataset.emailFix), fix.dataset.value);
     });
 
     // Onglets : clic et flèches ← → / Début / Fin (activation par Entrée ou Espace)
@@ -2772,29 +3343,30 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       if (pendingFocus) { const fn = pendingFocus; pendingFocus = null; setTimeout(fn, 0); }
     });
     window.addEventListener('hashchange', onRoute);
+    window.addEventListener('scroll', queueToastOffset, { passive: true });
+    window.addEventListener('resize', queueToastOffset);
 
     // Étape 1
     $$('input[name="pieceMode"]').forEach((r) => r.addEventListener('change', () => { if (r.checked) setPieceMode(r.value); }));
 
     // Étape 2 : établissements
     byId('btnAddEtab').addEventListener('click', () => openEtabModal());
-    byId('etabBody').addEventListener('click', (e) => {
+    byId('etabSection').addEventListener('click', (e) => {
       const edit = e.target.closest('[data-edit]');
       const del = e.target.closest('[data-del]');
       if (edit) openEtabModal(edit.dataset.edit);
       if (del) deleteEtab(del.dataset.del);
-    });
-    byId('etabLive').addEventListener('click', (e) => {
       if (e.target.closest('[data-fix-nb]')) navigate('#/inscription/1', { then: () => focusError(byId('nbEts')) });
     });
     byId('etabForm').addEventListener('submit', saveEtab);
     byId('etabForm').addEventListener('input', (e) => { if (!e.target.classList.contains('combo-input')) liveValidate(e.target); });
     const etabModalEl = byId('etabModal');
-    etabModalEl.addEventListener('shown.bs.modal', () => byId('etabNom').focus());
+    etabModalEl.addEventListener('shown.bs.modal', () => byId('etabDenom').focus());
     etabModalEl.addEventListener('hide.bs.modal', closeAllCombos);
     etabModalEl.addEventListener('hidden.bs.modal', () => {
       const target = (etabTrigger && etabTrigger.isConnected) ? etabTrigger : ($(`[data-edit="${editingId}"]`) || byId('btnAddEtab'));
-      if (target && !target.disabled) target.focus();
+      if (target && target.offsetParent && !isDisabled(target)) target.focus();
+      else byId('btnAddEtab').focus();
     });
 
     // Étape 2 : paiement
@@ -2827,15 +3399,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       const btn = e.target.closest('[data-todo]');
       const item = btn && todoItems[Number(btn.dataset.todo)];
       if (!item) return;
-      navigate(`#/inscription/${item.step}`, {
-        then: () => {
-          const el = item.target;
-          if (el.tagName === 'FIELDSET') setGroupState(el, groupError(el));
-          else if (el.type === 'file') setDocError(el.dataset.doc, state.documents[el.dataset.doc] ? '' : MSG.doc);
-          else if (el.id !== 'etabLive') { const msg = fieldError(el); setFieldState(el, msg, { valid: validFlag(el, msg) }); }
-          focusError(el);
-        },
-      });
+      navigate(`#/inscription/${item.step}`, { then: () => { revealOne(item.target); focusError(item.target); } });
     });
 
     // Notifications et profil
@@ -2855,14 +3419,21 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     byId('payMontant').value = fmtFCFA(state.paiement.montant);
 
     // Composants (l'ordre compte : listes → valeurs → masques → compteurs → dates)
-    makeCombo('villeSiege', VILLES, 'siege.ville');
-    makeCombo('repNationalite', NATIONALITES, 'representant.nationalite');
-    makeCombo('etabVille', VILLES_COMMUNES, null);
+    makeCombo('etLocalite', VILLES, { bindPath: 'etablissement.localite' });
+    makeCombo('repLieu', VILLES, { free: true, bindPath: 'representant.lieu' });
+    makeCombo('repNationalite', NATIONALITES, { bindPath: 'representant.nationalite' });
+    makeCombo('repFonction', FONCTIONS, { free: true, bindPath: 'representant.fonction' });
+    makeCombo('oneciLieu', VILLES, { free: true, bindPath: 'piece.oneci.lieuDelivrance' });
+    makeCombo('autreLieu', VILLES, { free: true, bindPath: 'piece.autre.lieuDelivrance' });
+    makeCombo('etabActivite', ACTIVITES, { free: true });
+    makeCombo('etabLocalite', LOCALITES_ETS);
     initDocs();
+    initAdaptiveSections();
     hydrate();
     initMasks();
     $$('.spin').forEach(initSpinner);
     $$('.date-field').forEach(initDateField);
+    $$('.step-panel input:not([type="radio"]):not([type="checkbox"]):not([type="file"]):not(.date-native)').forEach((el) => el.setAttribute('enterkeyhint', 'next'));
     if (window.bootstrap) {
       etabModal = new bootstrap.Modal(byId('etabModal'));
       recapModal = new bootstrap.Modal(byId('recapModal'));
@@ -2870,7 +3441,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
 
     // Contenu initial
     setPieceMode(state.piece.mode, false);
-    updateNniCount();
     livePhones();
     renderEtabs();
     renderPay();
