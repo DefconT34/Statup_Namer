@@ -393,29 +393,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .date-native { position: absolute; right: .35rem; bottom: 0; width: 32px; height: 1px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
 
 /* ==========================================================================
-   7. ÉTAPE 2 : PAIEMENT ET ÉTABLISSEMENTS SECONDAIRES
+   7. ÉTAPE 2 : ÉTABLISSEMENTS SECONDAIRES
    ========================================================================== */
-.pay-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
-@media (max-width: 575.98px) { .pay-options { grid-template-columns: 1fr; } }
-.pay-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .3rem; min-height: 82px; margin: 0; padding: .6rem; border: 1px solid var(--fnce-border); border-radius: 10px; background: #fff; font-weight: 700; font-size: .84rem; text-align: center; cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
-.pay-tile .bi { font-size: 1.4rem; color: var(--fnce-muted); }
-.pay-tile:hover { border-color: var(--fnce-orange-line); }
-.btn-check:checked + .pay-tile { border-color: var(--fnce-orange); background: var(--fnce-orange-soft); color: var(--fnce-orange-text); box-shadow: inset 0 0 0 1px var(--fnce-orange); }
-.btn-check:checked + .pay-tile .bi { color: var(--fnce-orange); }
-.btn-check:focus-visible + .pay-tile { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
-.btn-check:disabled + .pay-tile { opacity: .65; cursor: not-allowed; }
-fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
-.btn-verify { border: 1px solid var(--fnce-navy); background: #fff; color: var(--fnce-navy); font-weight: 800; min-width: 104px; }
-.btn-verify:hover, .btn-verify:focus-visible { background: var(--fnce-navy); color: #fff; border-color: var(--fnce-navy); }
-.btn-verify:disabled { background: #fff; color: var(--fnce-navy); border-color: #A5B4FC; opacity: 1; }
-.pay-status { display: inline-flex; align-items: center; gap: .45rem; min-height: 42px; padding: .45rem .85rem; border: 1px solid; border-radius: 50rem; font-size: .84rem; font-weight: 800; }
-.ps-none { background: #F3F4F6; color: var(--fnce-ink-2); border-color: var(--fnce-border); }
-.ps-pending { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border-color: var(--fnce-orange-line); }
-.ps-checking { background: var(--fnce-navy-soft); color: var(--fnce-navy); border-color: #A5B4FC; }
-.ps-ok { background: var(--fnce-green-soft); color: var(--fnce-green-text); border-color: var(--fnce-green-line); }
-.spin-ic { display: inline-block; animation: fnce-rotate 1s linear infinite; }
-@keyframes fnce-rotate { to { transform: rotate(360deg); } }
-
 .etab-counter { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .75rem; border: 1px solid #A7F3D0; border-radius: 50rem; background: var(--fnce-green-soft); color: var(--fnce-green-text); font-size: .8rem; font-weight: 800; white-space: nowrap; }
 .etab-counter.is-mismatch { border-color: #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); }
 .etab-alert { border: 1px solid #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); border-radius: 10px; font-size: .86rem; }
@@ -742,7 +721,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                   <div class="meter" role="progressbar" aria-labelledby="smLabel-1" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
                 </li>
                 <li id="stepMeter-2">
-                  <div class="sm-head"><span id="smLabel-2">Étape 2 · Paiements / Établissements <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
+                  <div class="sm-head"><span id="smLabel-2">Étape 2 · Établissements secondaires <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
                   <div class="meter" role="progressbar" aria-labelledby="smLabel-2" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
                 </li>
                 <li id="stepMeter-3">
@@ -808,7 +787,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
             </button>
             <button type="button" class="wizard-tab" role="tab" id="tab-2" data-step="2" aria-controls="step-2" aria-selected="false" tabindex="-1">
               <span class="tab-num" aria-hidden="true"><span class="n">2</span><i class="bi bi-check-lg"></i></span>
-              <span><span class="visually-hidden">Étape 2 : </span>Paiements / Établissements secondaires<span class="visually-hidden tab-state"></span></span>
+              <span><span class="visually-hidden">Étape 2 : </span>Établissements secondaires<span class="visually-hidden tab-state"></span></span>
             </button>
             <button type="button" class="wizard-tab" role="tab" id="tab-3" data-step="3" aria-controls="step-3" aria-selected="false" tabindex="-1">
               <span class="tab-num" aria-hidden="true"><span class="n">3</span><i class="bi bi-check-lg"></i></span>
@@ -1244,50 +1223,10 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
               </div>
 
               <!-- ============================================================
-                   ÉTAPE 2 – PAIEMENTS / ÉTABLISSEMENTS SECONDAIRES
+                   ÉTAPE 2 – ÉTABLISSEMENTS SECONDAIRES
+                   (les frais d'inscription sont réglés avant l'accès à l'Espace Entreprise)
                    ============================================================ -->
               <div class="step-panel" role="tabpanel" id="step-2" aria-labelledby="tab-2" tabindex="-1" hidden>
-                <section class="form-section plain" id="secPaiement" data-section="pay" aria-labelledby="secPaiementTitle">
-                  <h2 class="section-title" id="secPaiementTitle" tabindex="-1"><i class="bi bi-wallet2" aria-hidden="true"></i>Paiement<span class="sec-badge" data-sec-badge="pay"></span></h2>
-                  <div class="row g-4">
-                    <div class="col-lg-6">
-                      <fieldset class="radio-group" id="payMode" data-group data-required data-label="Mode de paiement">
-                        <legend class="form-label">Mode de paiement<span class="req" aria-hidden="true">*</span></legend>
-                        <div class="pay-options">
-                          <input type="radio" class="btn-check" name="payMode" id="payMomo" value="MOBILE_MONEY" data-bind="paiement.mode">
-                          <label class="pay-tile" for="payMomo"><i class="bi bi-phone" aria-hidden="true"></i>Mobile Money</label>
-                          <input type="radio" class="btn-check" name="payMode" id="payVirement" value="VIREMENT" data-bind="paiement.mode">
-                          <label class="pay-tile" for="payVirement"><i class="bi bi-bank" aria-hidden="true"></i>Virement bancaire</label>
-                          <input type="radio" class="btn-check" name="payMode" id="payGuichet" value="GUICHET" data-bind="paiement.mode">
-                          <label class="pay-tile" for="payGuichet"><i class="bi bi-cash-coin" aria-hidden="true"></i>Espèces au guichet</label>
-                        </div>
-                        <div class="invalid-feedback" id="payMode-error"></div>
-                      </fieldset>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="row g-3">
-                        <div class="col-12">
-                          <label class="form-label" for="payRef">Référence de transaction<span class="req" aria-hidden="true">*</span></label>
-                          <div class="input-group">
-                            <input type="text" class="form-control" id="payRef" required autocomplete="off" data-rule="payRef paid" data-bind="paiement.reference" data-label="Référence de transaction">
-                            <button type="button" class="btn btn-verify" id="btnVerify">Vérifier</button>
-                          </div>
-                          <div class="field-hint" id="payRef-hint" data-for="payRef"></div>
-                          <div class="invalid-feedback" id="payRef-error"></div>
-                        </div>
-                        <div class="col-sm-5">
-                          <label class="form-label" for="payMontant">Montant</label>
-                          <input type="text" class="form-control" id="payMontant" readonly>
-                        </div>
-                        <div class="col-sm-7">
-                          <span class="form-label d-block" id="payStatutLabel">Statut</span>
-                          <div id="payStatut" role="status" aria-labelledby="payStatutLabel"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
                 <section class="form-section plain" id="etabSection" data-section="ets" aria-labelledby="secEtsTitle">
                   <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
                     <h2 class="section-title m-0" id="secEtsTitle" tabindex="-1"><i class="bi bi-shop" aria-hidden="true"></i>Établissements secondaires</h2>
@@ -1296,6 +1235,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
                       <button type="button" class="btn btn-add" id="btnAddEtab"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Ajouter</button>
                     </div>
                   </div>
+                  <p class="box-note">Déclarez chaque établissement secondaire (agence, succursale, point de vente) : leur nombre doit correspondre au « Nbre ets secondaire » indiqué à l'étape 1.</p>
                   <!-- Zone d'avertissement (annoncée aux lecteurs d'écran) -->
                   <div id="etabLive" aria-live="polite"></div>
                   <!-- Tableau (≥ 768 px) -->
@@ -1622,20 +1562,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
   const MIME = { 'application/pdf': 'PDF', 'image/jpeg': 'JPG', 'image/png': 'PNG' };
   const EXT = { pdf: 'PDF', jpg: 'JPG', jpeg: 'JPG', png: 'PNG' };
 
-  /* Paiement */
-  const PAY_MODES = {
-    MOBILE_MONEY: { label: 'Mobile Money', ph: 'Ex. : MP260925.1432.A1B2C3', hint: 'Référence reçue par SMS après le paiement Mobile Money.' },
-    VIREMENT: { label: 'Virement bancaire', ph: 'Ex. : VIR-2026-000123', hint: "Référence indiquée sur l'avis de virement." },
-    GUICHET: { label: 'Espèces au guichet', ph: 'Ex. : QUIT-2026-000123', hint: 'Numéro de la quittance remise au guichet.' },
-  };
-  const PAY_STATUS = {
-    NON_PAYE: { label: 'Non payé', icon: 'bi-dash-circle', cls: 'ps-none' },
-    A_VERIFIER: { label: 'En attente de vérification', icon: 'bi-hourglass-split', cls: 'ps-pending' },
-    EN_COURS: { label: 'Vérification en cours…', icon: 'bi-arrow-repeat', cls: 'ps-checking' },
-    CONFIRME: { label: 'Paiement confirmé', icon: 'bi-check-circle-fill', cls: 'ps-ok' },
-  };
-  const MONTANT_FNCE = 25000; // valeur de démonstration (FCFA)
-
   /* ==========================================================================
    * 2. ÉTAT DE L'APPLICATION : un objet unique, en mémoire, sans backend
    * ======================================================================== */
@@ -1658,7 +1584,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       oneci: { type: 'Nouvelle CNI', numero: 'CI001346702', delivre: '', lieuDelivrance: '', nni: '11693044220' },
       autre: { type: '', numero: '', delivre: '', lieuDelivrance: '', pereNom: '', pereNaissance: '', mereNom: '', mereNaissance: '' },
     },
-    paiement: { mode: '', reference: '', montant: MONTANT_FNCE, statut: 'NON_PAYE' },
     etablissements: [
       { id: uid('ets'), denomination: 'AGENCE PLATEAU', activite: 'BANQUES', localite: 'ABIDJAN - PLATEAU', quartier: 'PLATEAU', rue: '' },
       { id: uid('ets'), denomination: 'AGENCE SAN-PEDRO', activite: 'BANQUES', localite: 'SAN-PEDRO', quartier: 'CENTRE-VILLE', rue: '' },
@@ -2027,7 +1952,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     combo: 'Sélectionnez une valeur dans la liste.',
     group: 'Veuillez faire un choix.',
     dgi: 'Ne correspond pas à la donnée enregistrée à la DGI.',
-    unpaid: 'Paiement non vérifié : cliquez sur « Vérifier ».',
     doc: 'Pièce obligatoire : veuillez joindre ce document.',
   };
 
@@ -2072,8 +1996,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     positive: (v) => (Number(digits(v)) > 0 ? '' : 'Le capital social doit être supérieur à 0.'),
     pieceNum: (v) => (/^[A-Z0-9][A-Z0-9 /-]{4,24}$/i.test(v) ? '' : 'Numéro invalide : 5 à 25 caractères (lettres, chiffres, espace, / ou -).'),
     docNum: (v) => (/^[A-Z0-9][A-Z0-9 ./-]{2,39}$/i.test(v) ? '' : 'Numéro invalide : 3 à 40 caractères (lettres, chiffres, espace, point, / ou -).'),
-    payRef: (v) => (/^[A-Z0-9][A-Z0-9./-]{5,29}$/i.test(v) ? '' : 'Référence invalide : 6 à 30 caractères (lettres, chiffres, point, / ou -).'),
-    paid: () => (state.paiement.statut === 'CONFIRME' ? '' : MSG.unpaid),
   };
 
   /* Champ appartenant au bloc de pièce non sélectionné (ONECI / Autre) : exclu */
@@ -2140,8 +2062,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     const rule = el.dataset.rule || '';
     if (rule.startsWith('dgi:')) { liveDgi(el, strict); return; }
     if (el.id === 'repMobile' || el.id === 'repMobile2') { livePhones(); return; }
-    let msg = fieldError(el);
-    if (msg === MSG.unpaid && !showsErrors(el)) msg = ''; // rappelé seulement au clic sur « Suivant »
+    const msg = fieldError(el);
     if (!msg) setFieldState(el, '');
     else if (el.dataset.touched || showsErrors(el)) setFieldState(el, msg);
   }
@@ -2350,7 +2271,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       toast('error', 'Étape incomplète', `${plural(bad.length, 'élément')} à corriger avant de continuer.`);
       return;
     }
-    toast('success', `Étape ${n} enregistrée`, n === 1 ? 'Identification du commerce validée.' : 'Paiement et établissements enregistrés.');
+    toast('success', `Étape ${n} enregistrée`, n === 1 ? 'Identification du commerce validée.' : 'Établissements secondaires enregistrés.');
     navigate(`#/inscription/${n + 1}`);
   }
 
@@ -2391,14 +2312,20 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     const cs = checks.filter((c) => c.step === n);
     const ok = cs.filter((c) => c.ok).length;
     byId('abStep').textContent = `Étape ${n} sur 3`;
-    byId('abCount').textContent = n === 3 ? `${ok}/${cs.length} pièces transmises` : `${ok}/${cs.length} éléments obligatoires`;
+    const nEts = state.etablissements.length;
+    byId('abCount').textContent = {
+      1: `${ok}/${cs.length} éléments obligatoires`,
+      2: `${plural(nEts, 'établissement')} · ${etabConsistent() ? 'liste conforme' : 'écart avec le nombre déclaré'}`,
+      3: `${ok}/${cs.length} pièces transmises`,
+    }[n];
     const panel = byId(`step-${n}`);
     const bad = panel.dataset.submitted === '1' && !state.submitted ? validateStep(n) : [];
     const btn = byId('abErrors');
     btn.hidden = !bad.length;
     if (bad.length) {
-      byId('abErrorsText').textContent = `${plural(bad.length, 'champ')} à corriger`;
-      btn.setAttribute('aria-label', `${plural(bad.length, 'champ')} à corriger : aller au suivant`);
+      const [what, todo] = { 1: ['champ', 'à corriger'], 2: ['écart', 'à corriger'], 3: ['pièce', 'à joindre'] }[n];
+      byId('abErrorsText').textContent = `${plural(bad.length, what)} ${todo}`;
+      btn.setAttribute('aria-label', `${plural(bad.length, what)} ${todo} : aller au suivant`);
     }
   }
   function nextError() {
@@ -2512,7 +2439,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
   }
 
   /* ==========================================================================
-   * 8. ÉTAPE 2 : établissements secondaires et paiement
+   * 8. ÉTAPE 2 : établissements secondaires
    * ======================================================================== */
   const etabConsistent = () => state.etablissement.nbEts != null && state.etablissements.length === state.etablissement.nbEts;
 
@@ -2653,51 +2580,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
         },
       },
     });
-  }
-
-  /* Paiement : la vérification de la référence est simulée (aucun backend) */
-  let payToken = 0;
-  function invalidatePayment() {
-    payToken += 1;
-    const ref = byId('payRef').value.trim();
-    state.paiement.statut = ref ? 'A_VERIFIER' : 'NON_PAYE';
-  }
-  function renderPay() {
-    const p = state.paiement;
-    const mode = PAY_MODES[p.mode];
-    byId('payRef').placeholder = mode ? mode.ph : "Choisissez d'abord un mode de paiement";
-    setHint('payRef-hint', `<span>${esc(mode ? mode.hint : 'La référence figure sur le justificatif de paiement.')}</span>`);
-    const st = PAY_STATUS[p.statut];
-    const box = byId('payStatut');
-    box.className = `pay-status ${st.cls}`;
-    box.innerHTML = `<i class="bi ${st.icon}${p.statut === 'EN_COURS' ? ' spin-ic' : ''}" aria-hidden="true"></i>${esc(st.label)}`;
-    const btn = byId('btnVerify');
-    btn.disabled = p.statut === 'EN_COURS' || p.statut === 'CONFIRME';
-    btn.innerHTML = p.statut === 'CONFIRME' ? '<i class="bi bi-check2 me-1" aria-hidden="true"></i>Vérifié'
-      : p.statut === 'EN_COURS' ? '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span class="visually-hidden">Vérification en cours</span>'
-        : 'Vérifier';
-  }
-  function verifyPayment() {
-    const fs = byId('payMode');
-    const modeErr = groupError(fs);
-    if (modeErr) { setGroupState(fs, modeErr); focusError(fs); return; }
-    const ref = byId('payRef');
-    const v = ref.value.trim();
-    const err = v ? RULES.payRef(v) : 'Saisissez la référence de transaction.';
-    if (err) { ref.dataset.touched = '1'; setFieldState(ref, err); ref.focus(); return; }
-    state.paiement.reference = v;
-    state.paiement.statut = 'EN_COURS';
-    renderPay();
-    const token = ++payToken;
-    setTimeout(() => {
-      if (token !== payToken) return; // la référence a changé entre-temps
-      state.paiement.statut = 'CONFIRME';
-      renderPay();
-      setFieldState(ref, '');
-      toast('success', 'Paiement confirmé', `Référence ${v} · ${fmtFCFA(state.paiement.montant)}`);
-      notify(`Paiement confirmé (réf. ${v}).`, 'bi-wallet2', 'success');
-      scheduleRefresh();
-    }, reducedMotion() ? 300 : 1200);
   }
 
   /* ==========================================================================
@@ -2973,29 +2855,37 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       </div>`;
   }
 
-  /* Timeline : Pré-inscription → Paiement → Vérification des pièces → Validation finale */
+  /* Timeline : Pré-inscription → Soumission → Vérification des pièces → Validation finale.
+     Les frais d'inscription sont réglés avant l'accès à l'Espace Entreprise : aucun paiement ici. */
   const TL_STATES = {
     done: { label: 'Fait', icon: 'bi-check-circle-fill' },
     current: { label: 'En cours', icon: 'bi-hourglass-split' },
     upcoming: { label: 'À venir', icon: 'bi-clock' },
   };
   function timelineItems(stepOk, checks) {
-    const left1 = checks.filter((c) => c.step === 1 && !c.ok).length;
-    const payOk = state.paiement.statut === 'CONFIRME';
+    const sub = state.submitted;
+    const ready = stepOk.every(Boolean);
+    const first = [1, 2, 3].find((n) => !stepOk[n - 1]) || 3;
+    const left = checks.filter((c) => !c.ok).length;
     const docs = docsCount();
     return [
-      { key: 'pre', step: 1, title: 'Pré-inscription', status: stepOk[0] ? 'done' : 'current',
-        detail: stepOk[0] ? 'Identification du commerce complète.' : `Identification du commerce : ${plural(left1, 'élément')} à compléter.` },
-      { key: 'pay', step: 2, title: 'Paiement', status: payOk ? 'done' : (stepOk[0] ? 'current' : 'upcoming'),
-        detail: payOk ? `Paiement confirmé, réf. ${state.paiement.reference}.` : (state.paiement.statut === 'A_VERIFIER' ? 'Référence saisie : vérification à lancer.' : `Frais d'inscription : ${fmtFCFA(state.paiement.montant)}.`) },
-      { key: 'verif', step: 3, title: 'Vérification des pièces', status: state.submitted ? 'current' : 'upcoming',
-        detail: state.submitted ? "Pièces en cours d'examen par l'administration." : `${docs}/${DOCS.length} pièce${docs > 1 ? 's' : ''} transmise${docs > 1 ? 's' : ''}.` },
-      { key: 'final', step: null, title: 'Validation finale', status: 'upcoming',
+      { key: 'pre', title: 'Pré-inscription', status: ready || sub ? 'done' : 'current', step: sub ? 1 : first, link: sub ? 'Consulter le dossier' : `Voir l'étape ${first}`,
+        detail: ready || sub ? 'Identification, établissements et pièces jointes complets.' : `${plural(left, 'élément')} à compléter, à commencer par l'étape ${first}.` },
+      { key: 'submit', title: 'Soumission du dossier', status: sub ? 'done' : (ready ? 'current' : 'upcoming'), step: sub ? null : 3, link: sub ? '' : "Voir l'étape 3",
+        info: sub ? `Dossier ${state.dossierRef} soumis le ${fmtDateTime(state.submittedAt)}.` : '',
+        detail: sub ? `Référence ${state.dossierRef}, le ${fmtDateTime(state.submittedAt)}.` : (ready ? "Dossier prêt : vérifiez le récapitulatif puis confirmez l'envoi." : 'Possible dès que le dossier est complet.') },
+      { key: 'verif', title: 'Vérification des pièces', status: sub ? 'current' : 'upcoming', step: null, link: '',
+        info: sub ? "Vos pièces sont en cours d'examen : vous serez notifié à chaque étape." : 'La vérification débutera après la soumission du dossier.',
+        detail: sub ? "Pièces en cours d'examen par l'administration." : `${docs}/${DOCS.length} pièce${docs > 1 ? 's' : ''} transmise${docs > 1 ? 's' : ''}.` },
+      { key: 'final', title: 'Validation finale', status: 'upcoming', step: null, link: '',
+        info: "Cette étape débutera après la vérification des pièces par l'administration.",
         detail: "Délivrance de l'attestation d'inscription au FNCE." },
     ];
   }
+  let timelineData = [];
   function renderTimeline(stepOk, checks) {
-    setHTML('timeline', timelineItems(stepOk, checks).map((it, i) => {
+    timelineData = timelineItems(stepOk, checks);
+    setHTML('timeline', timelineData.map((it, i) => {
       const st = TL_STATES[it.status];
       const marker = it.status === 'done' ? '<i class="bi bi-check-lg"></i>' : String(i + 1);
       return `
@@ -3004,7 +2894,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
           <button type="button" class="tl-card" data-tl="${it.key}">
             <span class="tl-top"><span class="tl-title">${esc(it.title)}</span><span class="tl-state"><i class="bi ${st.icon}" aria-hidden="true"></i>${st.label}</span></span>
             <span class="tl-detail">${esc(it.detail)}</span>
-            ${it.step ? `<span class="tl-link">Voir l'étape ${it.step} <i class="bi bi-arrow-right" aria-hidden="true"></i></span>` : ''}
+            ${it.link ? `<span class="tl-link">${esc(it.link)} <i class="bi bi-arrow-right" aria-hidden="true"></i></span>` : ''}
           </button>
         </li>`;
     }).join(''));
@@ -3035,7 +2925,7 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       const cs = checks.filter((c) => c.step === n);
       const ok = cs.filter((c) => c.ok).length;
       const row = byId(`stepMeter-${n}`);
-      $('.sm-val', row).textContent = `${ok}/${cs.length}`;
+      $('.sm-val', row).textContent = n === 2 ? (stepOk[1] ? 'Conforme' : 'Écart') : `${ok}/${cs.length}`;
       $('.sm-state', row).innerHTML = stepOk[n - 1] ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i><span class="visually-hidden"> (étape complète)</span>' : '';
       setMeter($('.meter', row), cs.length ? Math.round((ok / cs.length) * 100) : 0);
     });
@@ -3045,12 +2935,13 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     const docs = docsCount();
     const n = state.etablissements.length;
     const d = state.etablissement.nbEts;
-    const payOk = state.paiement.statut === 'CONFIRME';
+    const confirm = $$('#secConfirm [data-rule^="dgi:"]');
+    const confirmOk = confirm.filter((el) => !fieldError(el)).length;
     setHTML('kpiRow', [
       kpiTile({ icon: 'bi-ui-checks', tone: 'info', label: 'Champs obligatoires', value: `${fieldsOk}/${fields.length}`, ok: fieldsOk === fields.length, note: fieldsOk === fields.length ? 'Tous renseignés' : `${fields.length - fieldsOk} à compléter` }),
-      kpiTile({ icon: 'bi-paperclip', tone: 'warning', label: 'Pièces jointes', value: `${docs}/${DOCS.length}`, ok: docs === DOCS.length, note: docs === DOCS.length ? 'Toutes transmises' : `${DOCS.length - docs} en attente` }),
+      kpiTile({ icon: 'bi-patch-check', tone: 'neutral', label: 'Données DGI confirmées', value: `${confirmOk}/${confirm.length}`, ok: confirmOk === confirm.length, note: confirmOk === confirm.length ? 'Conformes à la DGI' : `${confirm.length - confirmOk} à confirmer` }),
       kpiTile({ icon: 'bi-shop', tone: 'success', label: 'Établissements secondaires', value: String(n), ok: etabConsistent(), note: etabConsistent() ? 'Conforme au nombre déclaré' : `Écart : ${d ?? '–'} déclaré${d > 1 ? 's' : ''}` }),
-      kpiTile({ icon: 'bi-wallet2', tone: 'neutral', label: "Frais d'inscription", value: fmtFCFA(state.paiement.montant), ok: payOk, note: PAY_STATUS[state.paiement.statut].label }),
+      kpiTile({ icon: 'bi-paperclip', tone: 'warning', label: 'Pièces jointes', value: `${docs}/${DOCS.length}`, ok: docs === DOCS.length, note: docs === DOCS.length ? 'Toutes transmises' : `${DOCS.length - docs} en attente` }),
     ].join(''));
 
     renderTimeline(stepOk, checks);
@@ -3094,17 +2985,20 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
   }
 
   /* Toasts en bas à droite : succès (vert), erreur (rouge), information (bleu marine) ; 4 au plus */
-  /* Décalage des toasts : hauteur visible de la barre d'actions (vue « Inscription » uniquement) */
+  /* Décalage des toasts : seulement si la barre d'actions occupe le bas de l'écran, là où
+     les toasts s'empilent (vue « Inscription ») ; sur une page courte, ils restent en bas. */
   let toastFrame = 0;
   function syncToastOffset() {
     toastFrame = 0;
+    const zone = byId('toastZone');
     const footer = $('.form-footer');
     let offset = 0;
     if (state.view === 'inscription' && footer) {
-      const top = footer.getBoundingClientRect().top;
-      if (top < window.innerHeight) offset = Math.min(window.innerHeight - top, window.innerHeight / 2);
+      const r = footer.getBoundingClientRect();
+      const band = Math.max(zone.offsetHeight, 120); // hauteur occupée par les toasts (au moins un)
+      if (r.top < window.innerHeight && r.bottom > window.innerHeight - band) offset = Math.min(window.innerHeight - r.top, window.innerHeight / 2);
     }
-    byId('toastZone').style.setProperty('--toast-bottom', `${Math.round(offset)}px`);
+    zone.style.setProperty('--toast-bottom', `${Math.round(offset)}px`);
   }
   const queueToastOffset = () => { if (!toastFrame) toastFrame = requestAnimationFrame(syncToastOffset); };
 
@@ -3171,7 +3065,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     const et = state.etablissement;
     const r = state.representant;
     const p = state.piece;
-    const pay = state.paiement;
     const piece = p.mode === 'ONECI' ? p.oneci : p.autre;
     const pieceRows = [['Type', piece.type], ['N°', piece.numero], ['Délivré le', piece.delivre || '—'], ['Lieu de délivrance', piece.lieuDelivrance || '—']];
     if (p.mode === 'ONECI') pieceRows.push(['NNI', p.oneci.nni]);
@@ -3186,7 +3079,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       ]],
       ['bi-person-fill', 'Représentant légal', [['Nom et prénoms', `${r.nom} ${r.prenoms}`], ['Sexe', r.sexe === 'M' ? 'Masculin' : 'Féminin'], ['Né(e) le', `${r.naissance} à ${r.lieu}`], ['Nationalité', r.nationalite], ['Fonction', r.fonction || '—'], ['Téléphone mobile', fmtIntl(r.mobile)], ['Email', r.email]]],
       ['bi-person-vcard-fill', `Pièce d'identité (${p.mode === 'ONECI' ? 'ONECI avec NNI' : 'autre pièce'})`, pieceRows],
-      ['bi-wallet2', 'Paiement', [['Mode', PAY_MODES[pay.mode].label], ['Référence', pay.reference], ['Montant', fmtFCFA(pay.montant)], ['Statut', PAY_STATUS[pay.statut].label]]],
       ['bi-shop', `Établissements secondaires (${state.etablissements.length})`, state.etablissements.length
         ? state.etablissements.map((e, i) => [`${i + 1}. ${e.denomination}`, `${e.activite} · ${[e.localite, e.quartier, e.rue].filter(Boolean).join(', ')}`])
         : [['Aucun', '—']]],
@@ -3369,12 +3261,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
       else byId('btnAddEtab').focus();
     });
 
-    // Étape 2 : paiement
-    $$('input[name="payMode"]').forEach((r) => r.addEventListener('change', () => { invalidatePayment(); renderPay(); }));
-    byId('payRef').addEventListener('input', () => { invalidatePayment(); renderPay(); });
-    byId('payRef').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); verifyPayment(); } });
-    byId('btnVerify').addEventListener('click', verifyPayment);
-
     // Soumission
     byId('recapCertify').addEventListener('change', (e) => { byId('btnConfirmSubmit').disabled = !e.target.checked; });
     byId('btnConfirmSubmit').addEventListener('click', confirmSubmit);
@@ -3390,10 +3276,10 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     });
     byId('timeline').addEventListener('click', (e) => {
       const card = e.target.closest('[data-tl]');
-      if (!card) return;
-      const step = { pre: 1, pay: 2, verif: 3 }[card.dataset.tl];
-      if (step) navigate(`#/inscription/${step}`, step === 2 ? { target: 'secPaiement' } : {});
-      else toast('info', 'Validation finale', "Cette étape débutera après la vérification des pièces par l'administration.");
+      const it = card && timelineData.find((x) => x.key === card.dataset.tl);
+      if (!it) return;
+      if (it.step) navigate(`#/inscription/${it.step}`);
+      else toast('info', it.title, it.info);
     });
     byId('todoList').addEventListener('click', (e) => {
       const btn = e.target.closest('[data-todo]');
@@ -3416,7 +3302,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     // Données DGI (lecture seule) et textes d'en-tête
     $$('[data-dgi]').forEach((el) => { el.value = DGI[el.dataset.dgi]; });
     $$('[data-dgi-text]').forEach((el) => { el.textContent = DGI[el.dataset.dgiText]; });
-    byId('payMontant').value = fmtFCFA(state.paiement.montant);
 
     // Composants (l'ordre compte : listes → valeurs → masques → compteurs → dates)
     makeCombo('etLocalite', VILLES, { bindPath: 'etablissement.localite' });
@@ -3443,7 +3328,6 @@ fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
     setPieceMode(state.piece.mode, false);
     livePhones();
     renderEtabs();
-    renderPay();
     seedNotifications();
     linkDescriptions();
     bindEvents();
