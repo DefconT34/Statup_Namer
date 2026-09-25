@@ -6,6 +6,7 @@
 <title>Inscription au FNCE – Espace Entreprise</title>
 <meta name="description" content="Espace Entreprise – Portail administratif : inscription au FNCE et mise en conformité réglementaire.">
 <meta name="theme-color" content="#F26522">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23064E3B'/%3E%3Crect x='6' y='6' width='20' height='4' rx='2' fill='%23F26522'/%3E%3Cpath d='M9 14h14v12H9z' fill='%23fff'/%3E%3Cpath d='M12 17h3v3h-3zm5 0h3v3h-3zm-5 5h3v4h-3zm5 0h3v4h-3z' fill='%23064E3B'/%3E%3C/svg%3E">
 <!--
   ============================================================================
   ESPACE ENTREPRISE – PORTAIL ADMINISTRATIF (FNCE / DGI)
@@ -143,11 +144,12 @@ body { font-size: .875rem; line-height: 1.5; -webkit-font-smoothing: antialiased
 .side-badge { margin-left: auto; font-size: .72rem; font-weight: 800; padding: .15rem .5rem; border-radius: 50rem; background: rgba(255, 255, 255, .18); color: #fff; white-space: nowrap; }
 .side-link.active .side-badge { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
 .side-badge.warn { background: #FEF3C7; color: var(--fnce-warn-text); }
-.sidebar-footer { margin-top: auto; background: rgba(0, 0, 0, .24); border-radius: 12px; padding: .85rem; font-size: .78rem; line-height: 1.4; }
-.sidebar-footer strong { display: block; font-size: .82rem; }
+.dropdown-menu { --bs-dropdown-font-size: .86rem; --bs-dropdown-item-padding-y: .4rem; }
+.sidebar-footer { margin-top: auto; background: rgba(0, 0, 0, .24); border-radius: 12px; padding: .7rem .8rem; font-size: .74rem; line-height: 1.4; }
+.sidebar-footer strong { display: block; font-size: .76rem; }
 
 /* Topbar */
-.topbar { position: sticky; top: 0; z-index: 1020; display: flex; align-items: center; gap: .75rem; min-height: var(--topbar-h); padding: .5rem 1rem; background: rgba(255, 255, 255, .97); border-bottom: 1px solid var(--fnce-line); }
+.topbar { position: sticky; top: 0; z-index: 1020; display: flex; align-items: center; gap: .75rem; min-height: var(--topbar-h); padding: .5rem 1rem; background: #fff; border-bottom: 1px solid var(--fnce-line); }
 @media (min-width: 992px) { .topbar { padding: .5rem 2rem; } }
 .topbar .breadcrumb { font-size: .85rem; font-weight: 700; --bs-breadcrumb-item-active-color: var(--fnce-ink); }
 .topbar .breadcrumb-item:not(.active) { color: var(--fnce-muted); }
@@ -212,7 +214,7 @@ main { padding: 1.5rem 1rem 3rem; outline: none; }
 .section-title:focus { outline: none; }
 .subsection-title { display: flex; align-items: center; gap: .4rem; width: 100%; margin: 1.2rem 0 .7rem; padding-bottom: .35rem; border-bottom: 1px solid var(--fnce-line); font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
 .subsection-title:first-of-type { margin-top: 0; }
-.subsection-title .bi { color: var(--fnce-orange); font-size: .85rem; }
+.subsection-title .bi { color: var(--fnce-muted); font-size: .85rem; }
 
 /* Champs */
 .form-label { margin-bottom: .25rem; font-size: 12px; font-weight: 700; color: var(--fnce-ink-2); }
@@ -256,8 +258,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 /* Boutons */
 .btn-next { --bs-btn-color: #fff; --bs-btn-bg: var(--fnce-navy); --bs-btn-border-color: var(--fnce-navy); --bs-btn-hover-color: #fff; --bs-btn-hover-bg: var(--fnce-navy-hover); --bs-btn-hover-border-color: var(--fnce-navy-hover); --bs-btn-active-color: #fff; --bs-btn-active-bg: #1C2459; --bs-btn-active-border-color: #1C2459; --bs-btn-disabled-color: #fff; --bs-btn-disabled-bg: var(--fnce-navy); --bs-btn-disabled-border-color: var(--fnce-navy); --bs-btn-focus-shadow-rgb: 46, 58, 135; border-radius: 50rem; padding: .5rem 2rem; font-size: .9rem; font-weight: 800; }
 .btn-prev { --bs-btn-color: var(--fnce-ink-2); --bs-btn-bg: #fff; --bs-btn-border-color: #CBD5E1; --bs-btn-hover-color: var(--fnce-ink); --bs-btn-hover-bg: #F8FAFC; --bs-btn-hover-border-color: #94A3B8; --bs-btn-active-bg: #F1F5F9; --bs-btn-active-border-color: #94A3B8; --bs-btn-focus-shadow-rgb: 100, 116, 139; border-radius: 50rem; padding: .5rem 1.5rem; font-size: .9rem; font-weight: 800; }
-.btn-submit { --bs-btn-color: #fff; --bs-btn-hover-color: #fff; --bs-btn-active-color: #fff; --bs-btn-disabled-color: #fff; --bs-btn-border-color: transparent; --bs-btn-hover-border-color: transparent; --bs-btn-focus-shadow-rgb: 5, 150, 105; border-radius: 50rem; padding: .5rem 1.75rem; font-size: .9rem; font-weight: 800; background-image: linear-gradient(135deg, var(--fnce-green-900), var(--fnce-green-text)); }
-.btn-submit:hover { filter: brightness(1.08); }
+.btn-submit { --bs-btn-color: #fff; --bs-btn-hover-color: #fff; --bs-btn-active-color: #fff; --bs-btn-disabled-color: #fff; --bs-btn-border-color: transparent; --bs-btn-hover-border-color: transparent; --bs-btn-focus-shadow-rgb: 5, 150, 105; border-radius: 50rem; padding: .5rem 1.75rem; font-size: .9rem; font-weight: 800; background: var(--fnce-green-800); }
+.btn-submit:hover { background: var(--fnce-green-900); }
 .submitted-alert { display: flex; align-items: flex-start; gap: 1rem; background: var(--fnce-green-soft); border: 1px solid var(--fnce-green-line); color: var(--fnce-ink); border-radius: 12px; }
 .submitted-alert > .bi { color: var(--fnce-green-600); }
 
@@ -284,6 +286,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
 /* Pastille d'avancement d'une section (« 3/5 » puis « Complet ») */
 .sec-badge { margin-left: auto; display: inline-flex; align-items: center; gap: .3rem; padding: .18rem .6rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .7rem; font-weight: 800; white-space: nowrap; }
+.sec-badge:empty { display: none; }
 .sec-badge.is-complete { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
 .sec-badge.is-dgi { background: #FEF3C7; color: var(--fnce-warn-text); }
 .box-confirm .sec-badge { background: #fff; }
@@ -293,7 +296,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .section-nav { position: relative; display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; margin: -.25rem 0 1.25rem; padding: .25rem .1rem .5rem; }
 .section-nav::-webkit-scrollbar { display: none; }
 @media (min-width: 992px) {
-  .section-nav { position: sticky; top: var(--topbar-h); z-index: 10; flex-wrap: wrap; margin: -1.75rem -1.75rem 1.25rem; padding: .7rem 1.75rem; background: rgba(255, 255, 255, .97); border-bottom: 1px solid var(--fnce-line); }
+  .section-nav { position: sticky; top: var(--topbar-h); z-index: 10; flex-wrap: wrap; margin: -1.75rem -1.75rem 1.25rem; padding: .7rem 1.75rem; background: #fff; border-bottom: 1px solid var(--fnce-line); }
 }
 .sn-chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .4rem .3rem .7rem; border: 1px solid var(--fnce-line); border-radius: 50rem; background: #fff; color: var(--fnce-ink-2); font-size: .76rem; font-weight: 700; white-space: nowrap; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
 .sn-chip > .bi { color: var(--fnce-orange); }
@@ -303,13 +306,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .sn-chip.is-active { border-color: var(--fnce-orange); background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
 .sn-chip:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
 .sn-state { display: inline-flex; align-items: center; gap: .2rem; min-width: 2.2rem; justify-content: center; padding: .08rem .45rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .7rem; font-weight: 800; }
-.sn-state.is-dgi { background: #FEF3C7; color: var(--fnce-warn-text); }
 .sn-chip.is-complete .sn-state { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
 .sn-chip.pop { animation: fnce-pop .45s ease; }
 @keyframes fnce-pop { 40% { transform: scale(1.08); } }
 
 /* Barre d'actions collante : séparateur, statut de l'étape, boutons centrés, navigation dans les erreurs */
-.form-footer { position: sticky; bottom: 0; z-index: 12; padding: .75rem .75rem; background: rgba(255, 255, 255, .97); border-top: 1px solid var(--fnce-line); border-radius: 0 0 12px 12px; box-shadow: 0 -10px 24px rgba(15, 23, 42, .06); }
+.form-footer { position: sticky; bottom: 0; z-index: 12; padding: .75rem .75rem; background: #fff; border-top: 1px solid var(--fnce-line); border-radius: 0 0 12px 12px; box-shadow: 0 -10px 24px rgba(15, 23, 42, .06); }
 @media (min-width: 768px) { .form-footer { padding: .85rem 1.75rem; } }
 .ab-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .6rem 1rem; }
 .ab-left { justify-self: start; display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
@@ -398,7 +400,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .etab-alert { border: 1px solid #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); border-radius: 10px; font-size: .82rem; }
 .etab-alert > .bi { font-size: 1.1rem; }
 .etab-alert .btn-link { color: var(--fnce-navy); font-size: inherit; text-decoration: underline; }
-.btn-add { --bs-btn-color: #1A1A1A; --bs-btn-bg: var(--fnce-orange); --bs-btn-border-color: var(--fnce-orange); --bs-btn-hover-color: #1A1A1A; --bs-btn-hover-bg: #E0561A; --bs-btn-hover-border-color: #E0561A; --bs-btn-active-bg: #C94C15; --bs-btn-active-color: #1A1A1A; --bs-btn-focus-shadow-rgb: 242, 101, 34; border-radius: 50rem; padding: .4rem 1rem; font-size: .88rem; font-weight: 800; }
+.btn-add { --bs-btn-color: var(--fnce-orange-text); --bs-btn-bg: #fff; --bs-btn-border-color: var(--fnce-orange); --bs-btn-hover-color: var(--fnce-orange-text); --bs-btn-hover-bg: var(--fnce-orange-soft); --bs-btn-hover-border-color: var(--fnce-orange); --bs-btn-active-color: var(--fnce-orange-text); --bs-btn-active-bg: #FDE3D0; --bs-btn-active-border-color: var(--fnce-orange); --bs-btn-disabled-color: var(--fnce-orange-text); --bs-btn-disabled-bg: #fff; --bs-btn-focus-shadow-rgb: 242, 101, 34; border-radius: 50rem; padding: .4rem 1rem; font-size: .88rem; font-weight: 800; }
 /* position: relative contient les libellés masqués (sinon la page défile horizontalement) */
 .etab-table-wrap { position: relative; border: 1px solid var(--fnce-line); border-radius: 10px; }
 .etab-table { --bs-table-bg: #fff; margin: 0; font-size: .84rem; }
@@ -426,7 +428,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
    ========================================================================== */
 .compl-box { min-width: min(100%, 280px); }
 .doc-card { height: 100%; display: flex; flex-direction: column; gap: .85rem; padding: 1rem; border: 1px solid var(--fnce-line); border-radius: 12px; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
-.doc-card.is-done { border-color: #A7F3D0; }
 .doc-card.is-invalid { border-color: var(--fnce-red); }
 .doc-card.dragover { border-color: var(--fnce-orange); box-shadow: 0 0 0 3px rgba(242, 101, 34, .2); }
 .doc-head { display: flex; align-items: flex-start; gap: .75rem; }
@@ -469,13 +470,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .step-meters .sm-head { display: flex; justify-content: space-between; gap: .5rem; margin-bottom: .35rem; font-size: .84rem; font-weight: 700; color: var(--fnce-ink-2); }
 .step-meters .sm-val { font-variant-numeric: tabular-nums; color: var(--fnce-ink); }
 .sm-state { margin-left: .2rem; color: var(--fnce-green-600); }
-.stat-tile { height: 100%; padding: 1rem 1.1rem; border: 1px solid var(--fnce-line); border-radius: 12px; background: #fff; box-shadow: var(--shadow-card); }
-.stat-label { display: flex; align-items: center; gap: .5rem; margin: 0; font-size: .76rem; font-weight: 700; color: var(--fnce-muted); }
-.stat-ic { flex: 0 0 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-size: .95rem; }
-.stat-value { margin: .45rem 0 .15rem; font-size: 1.4rem; font-weight: 800; color: var(--fnce-ink); }
-.stat-note { display: flex; align-items: center; gap: .35rem; margin: 0; font-size: .78rem; font-weight: 700; color: var(--fnce-muted); }
-.stat-note .is-ok { color: var(--fnce-green-600); }
-.stat-note .is-warn { color: var(--fnce-orange); }
 .tone-info { background: var(--fnce-navy-soft); color: var(--fnce-navy); }
 .tone-success { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
 .tone-warning { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
@@ -483,17 +477,17 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
 /* Timeline du dossier */
 .timeline { list-style: none; margin: 0; padding: 0; }
-.tl-item { position: relative; display: flex; gap: .9rem; padding-bottom: 1rem; }
+.tl-item { position: relative; display: flex; gap: .85rem; padding-bottom: .35rem; }
 .tl-item:last-child { padding-bottom: 0; }
-.tl-item::before { content: ""; position: absolute; top: 38px; bottom: 0; left: 17px; width: 2px; background: var(--fnce-line); }
+.tl-item::before { content: ""; position: absolute; top: 34px; bottom: 0; left: 15px; width: 2px; background: var(--fnce-line); }
 .tl-item:last-child::before { display: none; }
 .tl-item.is-done::before { background: var(--fnce-green-600); }
-.tl-marker { position: relative; z-index: 1; flex: 0 0 36px; height: 36px; display: grid; place-items: center; border: 2px solid; border-radius: 50%; background: #fff; font-size: .9rem; font-weight: 800; }
+.tl-marker { position: relative; z-index: 1; flex: 0 0 32px; height: 32px; display: grid; place-items: center; border: 2px solid; border-radius: 50%; background: #fff; font-size: .82rem; font-weight: 800; }
 .is-done .tl-marker { border-color: var(--fnce-green-600); background: var(--fnce-green-600); color: #fff; }
 .is-current .tl-marker { border-color: var(--fnce-orange); color: var(--fnce-orange-text); box-shadow: 0 0 0 4px var(--fnce-orange-soft); }
 .is-upcoming .tl-marker { border-color: #CBD5E1; color: #64748B; }
-.tl-card { flex: 1 1 auto; min-width: 0; display: grid; gap: .2rem; padding: .7rem .9rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #fff; color: inherit; text-align: left; transition: border-color .15s ease, box-shadow .15s ease; }
-.tl-card:hover { border-color: var(--fnce-orange-line); box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
+.tl-card { flex: 1 1 auto; min-width: 0; display: grid; gap: .15rem; padding: .3rem .6rem .85rem; border: 0; border-radius: 8px; background: transparent; color: inherit; text-align: left; transition: background-color .15s ease; }
+.tl-card:hover { background: #F8FAFC; }
 .tl-card:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
 .tl-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .35rem .5rem; }
 .tl-title { font-weight: 800; }
@@ -504,19 +498,23 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .tl-detail { font-size: .78rem; color: var(--fnce-muted); }
 .tl-link { font-size: .78rem; font-weight: 800; color: var(--fnce-navy); }
 
-.todo-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
-.todo-btn { width: 100%; display: flex; align-items: center; gap: .6rem; padding: .55rem .75rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #fff; color: var(--fnce-ink); font-size: .86rem; font-weight: 700; text-align: left; }
-.todo-btn:hover { border-color: var(--fnce-orange-line); background: var(--fnce-orange-wash); }
+.todo-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.todo-btn { width: 100%; display: flex; align-items: center; gap: .6rem; padding: .5rem .8rem; border: 0; background: #fff; color: var(--fnce-ink); font-size: .84rem; font-weight: 700; text-align: left; }
+.todo-btn:hover { background: var(--fnce-orange-wash); }
 .todo-btn:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
 .todo-btn .bi { margin-left: auto; color: var(--fnce-muted); }
-.todo-step { flex: 0 0 auto; padding: .1rem .5rem; border-radius: 50rem; background: var(--fnce-orange-soft); color: var(--fnce-orange-text); font-size: .72rem; font-weight: 800; }
+.todo-head { display: flex; justify-content: space-between; gap: .5rem; margin: 0 0 .4rem; font-size: .76rem; font-weight: 800; color: var(--fnce-ink-2); }
+.todo-count { color: var(--fnce-orange-text); white-space: nowrap; }
+.todo-items { list-style: none; margin: 0; padding: 0; overflow: hidden; border: 1px solid var(--fnce-line); border-radius: 10px; }
+.todo-items li + li { border-top: 1px solid var(--fnce-line); }
+.todo-btn-more { color: var(--fnce-navy); font-weight: 800; }
 .todo-empty { display: flex; gap: .5rem; align-items: flex-start; padding: .75rem; border-radius: 10px; background: var(--fnce-green-soft); color: var(--fnce-green-text); font-weight: 700; font-size: .86rem; }
-.todo-more { padding: .25rem .75rem; color: var(--fnce-muted); font-size: .8rem; }
 
 /* Listes de définitions (entreprise, récapitulatif) */
 .recap-dl { display: grid; grid-template-columns: minmax(120px, 38%) 1fr; gap: .35rem 1rem; margin: 0; font-size: .82rem; }
 .recap-dl dt { font-weight: 700; color: var(--fnce-muted); }
 .recap-dl dd { margin: 0; font-weight: 800; color: var(--fnce-ink); overflow-wrap: anywhere; }
+#companyDl { grid-template-columns: max-content 1fr; }
 @media (max-width: 575.98px) { .recap-dl { grid-template-columns: 1fr; gap: .1rem; } .recap-dl dd { margin-bottom: .45rem; } }
 
 /* ==========================================================================
@@ -529,13 +527,13 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .recap-section h3 .bi { color: var(--fnce-orange); font-size: 1rem; }
 .recap-certify { padding: .75rem 1rem .75rem 2.6rem; border-radius: 10px; background: var(--fnce-page); }
 
-.toast-container { z-index: 1090; }
+.toast-container { z-index: 1090; --bs-toast-spacing: .5rem; }
 /* Les toasts se posent au-dessus de la barre d'actions collante, sans masquer « Suivant » ni le bouton des erreurs */
 #toastZone { bottom: var(--toast-bottom, 0px); transition: bottom .2s ease; }
-.fnce-toast { width: min(360px, calc(100vw - 2rem)); overflow: hidden; border: 0; border-radius: 12px; box-shadow: 0 12px 32px rgba(15, 23, 42, .28); color: #fff; }
-.fnce-toast .toast-body { padding: .85rem .9rem; font-size: .84rem; }
-.fnce-toast .toast-ic { font-size: 1.2rem; line-height: 1.2; }
-.t-success { background-color: var(--fnce-green-800); background-image: linear-gradient(135deg, var(--fnce-green-900) 0%, var(--fnce-green-800) 60%, var(--fnce-green-600) 100%); }
+.fnce-toast { width: min(340px, calc(100vw - 2rem)); overflow: hidden; border: 0; border-radius: 10px; box-shadow: 0 10px 26px rgba(15, 23, 42, .22); color: #fff; }
+.fnce-toast .toast-body { padding: .65rem .75rem; font-size: .8rem; }
+.fnce-toast .toast-ic { font-size: 1.05rem; line-height: 1.2; }
+.t-success { background: var(--fnce-green-800); }
 .t-error { background: var(--fnce-red); }
 .t-info { background: var(--fnce-navy); }
 .btn-toast-action { padding: .2rem .85rem; border: 0; border-radius: 50rem; background: #fff; color: var(--fnce-ink); font-size: .8rem; font-weight: 800; }
@@ -609,7 +607,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
           <li>
             <a class="side-link" href="#/inscription/1" data-route="step1">
               <i class="bi bi-ui-checks" aria-hidden="true"></i>
-              <span>Inscription FNCE<small>Assistant en 3 étapes · <span id="navBadgeInscription">0 %</span></small></span>
+              <span>Inscription FNCE<small>Assistant en 3 étapes</small></span>
             </a>
           </li>
           <li>
@@ -738,12 +736,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
             </article>
           </div>
 
-          <!-- Indicateurs -->
-          <div class="col-12">
-            <h2 class="visually-hidden">Indicateurs du dossier</h2>
-            <div class="row g-3" id="kpiRow"></div>
-          </div>
-
           <div class="col-lg-7">
             <article class="dash-card h-100" aria-labelledby="todoTitle">
               <h2 class="card-title-sm" id="todoTitle">Actions à réaliser</h2>
@@ -803,7 +795,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
                 <!-- Navigation de sections : avancement de chaque bloc, clic = premier champ à compléter -->
                 <nav class="section-nav" aria-label="Sections de l'étape 1">
-                  <button type="button" class="sn-chip" data-sec="ident"><i class="bi bi-briefcase" aria-hidden="true"></i>Identification<span class="sn-state is-dgi"><i class="bi bi-lock-fill" aria-hidden="true"></i>DGI</span></button>
                   <button type="button" class="sn-chip" data-sec="confirm"><i class="bi bi-patch-check" aria-hidden="true"></i>Confirmation<span class="sn-state"></span></button>
                   <button type="button" class="sn-chip" data-sec="etab"><i class="bi bi-building" aria-hidden="true"></i>Établissement<span class="visually-hidden"> principal</span><span class="sn-state"></span></button>
                   <button type="button" class="sn-chip" data-sec="rep"><i class="bi bi-person" aria-hidden="true"></i>Représentant<span class="visually-hidden"> légal</span><span class="sn-state"></span></button>
@@ -1935,10 +1926,10 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
    * aussi bien à l'affichage des erreurs qu'au calcul de la progression.
    * ======================================================================== */
   const MSG = {
-    required: 'Ce champ est obligatoire.',
-    select: 'Veuillez sélectionner une option.',
-    combo: 'Sélectionnez une valeur dans la liste.',
-    group: 'Veuillez faire un choix.',
+    required: 'Champ obligatoire.',
+    select: 'Sélection obligatoire.',
+    combo: 'Choisissez une valeur dans la liste.',
+    group: 'Choix obligatoire.',
     dgi: 'Ne correspond pas à la donnée enregistrée à la DGI.',
     doc: 'Pièce obligatoire : veuillez joindre ce document.',
   };
@@ -2196,6 +2187,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     const m = /^#\/inscription\/([1-3])$/.exec(location.hash);
     if (!m) history.replaceState(null, '', '#/inscription/1');
     const step = m ? Number(m[1]) : 1;
+    const entering = state.view !== 'inscription'; // arrivée depuis le tableau de bord
     showView('inscription');
     setStep(step);
     if (opts.then) { afterNav(opts.then); return; }
@@ -2205,7 +2197,11 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       afterNav(() => ($('[tabindex="-1"]', t) || t).focus({ preventScroll: true }));
       return;
     }
-    if (opts.scroll) byId('wizardCard').scrollIntoView({ behavior: scrollMode(), block: 'start' });
+    // Changement d'étape : les onglets en haut de l'écran ; arrivée sur la vue : le titre de la page
+    if (opts.scroll) {
+      if (entering) window.scrollTo({ top: 0, behavior: 'auto' });
+      else byId('wizardCard').scrollIntoView({ behavior: scrollMode(), block: 'start' });
+    }
     if (opts.focus === 'panel') afterNav(() => byId(`step-${step}`).focus({ preventScroll: true }));
   }
 
@@ -2674,7 +2670,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       if (prev?.url) URL.revokeObjectURL(prev.url);
       state.documents[key] = { name: file.name, size: file.size, kind, url: kind === 'PDF' ? null : URL.createObjectURL(file), at: new Date() };
       renderDoc(key);
-      toast('success', 'Document transmis', `${d.title} : ${file.name}`);
+      toast('success', (n) => (n > 1 ? `${n} documents transmis` : 'Document transmis'), `${d.title} : ${file.name}`, { group: 'upload', groupItem: d.title });
       notify(`Pièce transmise : ${d.title}.`, 'bi-paperclip', 'success');
       scheduleRefresh();
     };
@@ -2785,9 +2781,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       const badge = $(`[data-sec-badge="${key}"]`);
       if (badge) {
         badge.classList.toggle('is-complete', complete);
-        const html = complete
-          ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i>Complet'
-          : `<span class="visually-hidden">Champs obligatoires remplis : </span>${ok}/${total}${key === 'confirm' ? ' confirmées' : ''}`;
+        // Pastille discrète : n'apparaît qu'une fois la section complète (l'avancement est dans la navigation)
+        const html = complete ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i>Complet' : '';
         if (badge.innerHTML !== html) badge.innerHTML = html;
       }
       const chip = $(`.sn-chip[data-sec="${key}"]`);
@@ -2817,7 +2812,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   }
 
   function renderSidebarBadges(pct) {
-    byId('navBadgeInscription').textContent = `${pct}${NBSP}%`;
     const etab = byId('navBadgeEtab');
     etab.textContent = String(state.etablissements.length);
     etab.classList.toggle('warn', !etabConsistent());
@@ -2830,17 +2824,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     if (htmlCache[id] === html) return;
     byId(id).innerHTML = html;
     htmlCache[id] = html;
-  }
-
-  function kpiTile({ icon, tone, label, value, note, ok }) {
-    return `
-      <div class="col-sm-6 col-xl-3">
-        <div class="stat-tile">
-          <p class="stat-label"><span class="stat-ic tone-${tone}"><i class="bi ${icon}" aria-hidden="true"></i></span>${esc(label)}</p>
-          <p class="stat-value">${esc(value)}</p>
-          <p class="stat-note"><i class="bi ${ok ? 'bi-check-circle-fill is-ok' : 'bi-exclamation-circle-fill is-warn'}" aria-hidden="true"></i>${esc(note)}</p>
-        </div>
-      </div>`;
   }
 
   /* Timeline : Pré-inscription → Soumission → Vérification des pièces → Validation finale.
@@ -2888,6 +2871,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     }).join(''));
   }
 
+  const STEP_NAMES = { 1: 'Identification du commerce', 2: 'Établissements secondaires', 3: 'Pièces jointes' };
   let todoItems = [];
   function renderTodo(checks) {
     todoItems = checks.filter((c) => !c.ok);
@@ -2897,9 +2881,21 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     } else if (!todoItems.length) {
       html = '<li class="todo-empty"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Toutes les informations sont complètes : vous pouvez soumettre le dossier depuis l\'étape 3.</span></li>';
     } else {
-      const extra = todoItems.length - 6;
-      html = todoItems.slice(0, 6).map((c, i) => `<li><button type="button" class="todo-btn" data-todo="${i}"><span class="todo-step">Étape ${c.step}</span><span>${esc(c.label)}</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button></li>`).join('')
-        + (extra > 0 ? `<li class="todo-more">et ${plural(extra, 'autre élément', 'autres éléments')} à compléter</li>` : '');
+      // Regroupées par étape : jusqu'à quatre actions, sinon trois puis un raccourci vers la suite
+      html = [1, 2, 3].map((step) => {
+        const items = todoItems.map((c, i) => ({ c, i })).filter(({ c }) => c.step === step);
+        if (!items.length) return '';
+        const shown = items.length <= 4 ? items : items.slice(0, 3); // « Et 1 autre » prendrait autant de place que l'élément
+        const rest = items.length - shown.length;
+        return `
+          <li class="todo-group">
+            <p class="todo-head"><span>Étape ${step} · ${STEP_NAMES[step]}</span><span class="todo-count">${plural(items.length, 'élément')}</span></p>
+            <ul class="todo-items">
+              ${shown.map(({ c, i }) => `<li><button type="button" class="todo-btn" data-todo="${i}"><span>${esc(c.label)}</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button></li>`).join('')}
+              ${rest > 0 ? `<li><button type="button" class="todo-btn todo-btn-more" data-todo="${items[shown.length].i}"><span>Et ${plural(rest, 'autre élément', 'autres éléments')}</span><i class="bi bi-arrow-right" aria-hidden="true"></i></button></li>` : ''}
+            </ul>
+          </li>`;
+      }).join('');
     }
     setHTML('todoList', html);
   }
@@ -2917,20 +2913,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       $('.sm-state', row).innerHTML = stepOk[n - 1] ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i><span class="visually-hidden"> (étape complète)</span>' : '';
       setMeter($('.meter', row), cs.length ? Math.round((ok / cs.length) * 100) : 0);
     });
-
-    const fields = checks.filter((c) => c.kind === 'field');
-    const fieldsOk = fields.filter((c) => c.ok).length;
-    const docs = docsCount();
-    const n = state.etablissements.length;
-    const d = state.etablissement.nbEts;
-    const confirm = $$('#secConfirm [data-rule^="dgi:"]');
-    const confirmOk = confirm.filter((el) => !fieldError(el)).length;
-    setHTML('kpiRow', [
-      kpiTile({ icon: 'bi-ui-checks', tone: 'info', label: 'Champs obligatoires', value: `${fieldsOk}/${fields.length}`, ok: fieldsOk === fields.length, note: fieldsOk === fields.length ? 'Tous renseignés' : `${fields.length - fieldsOk} à compléter` }),
-      kpiTile({ icon: 'bi-patch-check', tone: 'neutral', label: 'Données DGI confirmées', value: `${confirmOk}/${confirm.length}`, ok: confirmOk === confirm.length, note: confirmOk === confirm.length ? 'Conformes à la DGI' : `${confirm.length - confirmOk} à confirmer` }),
-      kpiTile({ icon: 'bi-shop', tone: 'success', label: 'Établissements secondaires', value: String(n), ok: etabConsistent(), note: etabConsistent() ? 'Conforme au nombre déclaré' : `Écart : ${d ?? '–'} déclaré${d > 1 ? 's' : ''}` }),
-      kpiTile({ icon: 'bi-paperclip', tone: 'warning', label: 'Pièces jointes', value: `${docs}/${DOCS.length}`, ok: docs === DOCS.length, note: docs === DOCS.length ? 'Toutes transmises' : `${DOCS.length - docs} en attente` }),
-    ].join(''));
 
     renderTimeline(stepOk, checks);
     renderTodo(checks);
@@ -2995,8 +2977,18 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     error: { cls: 't-error', icon: 'bi-x-octagon-fill' },
     info: { cls: 't-info', icon: 'bi-info-circle-fill' },
   };
-  function toast(tone, title, body = '', { action = null } = {}) {
+  /* Un groupe (ex. envois de pièces) met à jour un seul toast au lieu d'en empiler plusieurs */
+  const toastGroups = {};
+  function toast(tone, title, body = '', { action = null, group = null, groupItem = '' } = {}) {
     const t = TOASTS[tone];
+    if (group) {
+      const g = toastGroups[group] || (toastGroups[group] = { items: [], el: null });
+      g.items.push(groupItem || body);
+      // Retiré du DOM sans dispose() : une animation en cours peut encore s'achever sur l'élément détaché
+      if (g.el && g.el.isConnected) g.el.remove();
+      if (typeof title === 'function') title = title(g.items.length);
+      if (g.items.length > 1) body = g.items.join(' · ');
+    }
     const el = document.createElement('div');
     el.className = `toast fnce-toast ${t.cls}`;
     el.setAttribute('role', tone === 'error' ? 'alert' : 'status');
@@ -3014,8 +3006,13 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     syncToastOffset();
     byId('toastZone').appendChild(el);
     el.addEventListener('hidden.bs.toast', () => el.remove());
+    if (group) {
+      toastGroups[group].el = el;
+      el.addEventListener('hidden.bs.toast', () => { if (toastGroups[group]?.el === el) delete toastGroups[group]; });
+    }
     if (!window.bootstrap) { setTimeout(() => el.remove(), 5000); el.classList.add('show'); return; }
-    const instance = new bootstrap.Toast(el, { delay: action ? 7000 : 4500 });
+    // Succès bref, erreur plus longue (le temps de lire), action : le temps d'agir
+    const instance = new bootstrap.Toast(el, { delay: action ? 7000 : { success: 3500, error: 6000 }[tone] || 4500 });
     if (action) {
       $('.btn-toast-action', el).addEventListener('click', () => { action.onClick(); instance.hide(); });
     }
