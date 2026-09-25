@@ -228,16 +228,6 @@ main { padding: 1.5rem 1rem 3rem; outline: none; }
 input.form-control:-webkit-autofill { -webkit-text-fill-color: var(--fnce-ink); box-shadow: inset 0 0 0 1000px #fff; }
 .form-text { font-size: .74rem; color: var(--fnce-muted); }
 .w-code-lg { flex: 0 0 104px; width: 104px; }
-/* Largeur de chaque zone de saisie proportionnée à la donnée attendue (la colonne ne change
-   pas) : une date, un téléphone ou un NNI n'occupent que la place utile. */
-.fld-2xs { --fld: 6.5rem; }  /* Nbre d'établissements */
-.fld-xs { --fld: 8rem; }     /* Forme juridique */
-.fld-date { --fld: 9.5rem; } /* JJ/MM/AAAA */
-.fld-sm { --fld: 11rem; }    /* NNI */
-.fld-tel { --fld: 13.5rem; } /* +225 et 10 chiffres */
-.fld-md { --fld: 15rem; }    /* localités, numéros, capital, listes */
-.fld-lg { --fld: 20rem; }    /* raison sociale, noms, quartier, rue, e-mail */
-:is(.fld-2xs, .fld-xs, .fld-date, .fld-sm, .fld-tel, .fld-md, .fld-lg) > :is(.form-control, .form-select, .combo, .date-field, .spin, .input-group, .d-flex) { max-width: var(--fld); }
 
 /* États de validation : couleurs de la charte (coche verte, erreur rouge) */
 .form-control.is-valid { border-color: var(--fnce-green-600); background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23059669' d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z'/%3e%3c/svg%3e"); }
@@ -833,19 +823,19 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                       <h2 class="section-title" id="secIdentTitle" tabindex="-1"><i class="bi bi-briefcase-fill" aria-hidden="true"></i>Identification de l'Entreprise<span class="sec-badge is-dgi"><i class="bi bi-lock-fill" aria-hidden="true"></i>DGI</span></h2>
                       <p class="box-note"><i class="bi bi-cloud-check me-1" aria-hidden="true"></i>Données enregistrées à la DGI (lecture seule).</p>
                       <div class="row g-3">
-                        <div class="col-12 fld-lg">
+                        <div class="col-12">
                           <label class="form-label" for="dgiDenomination">Raison sociale</label>
                           <input type="text" class="form-control" id="dgiDenomination" data-dgi="denomination" readonly>
                         </div>
-                        <div class="col-sm-4 cq-full fld-xs" data-cq="380">
+                        <div class="col-sm-4 cq-full" data-cq="380">
                           <label class="form-label" for="dgiForme">Forme juridique</label>
                           <input type="text" class="form-control" id="dgiForme" data-dgi="formeJuridique" readonly>
                         </div>
-                        <div class="col-sm-8 cq-full fld-lg" data-cq="380">
+                        <div class="col-sm-8 cq-full" data-cq="380">
                           <label class="form-label" for="dgiRccm">N° RCCM</label>
                           <input type="text" class="form-control" id="dgiRccm" data-dgi="rccm" readonly>
                         </div>
-                        <div class="col-12 fld-lg">
+                        <div class="col-12">
                           <label class="form-label" for="dgiActCode">Activité<span class="visually-hidden"> (code)</span></label>
                           <div class="d-flex gap-2 cq-wrap">
                             <input type="text" class="form-control w-code-lg text-center" id="dgiActCode" data-dgi="activiteCode" readonly>
@@ -866,25 +856,25 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                       <h2 class="section-title" id="secConfirmTitle" tabindex="-1"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>Confirmation données<span class="sec-badge" data-sec-badge="confirm"></span></h2>
                       <p class="box-note"><i class="bi bi-keyboard me-1" aria-hidden="true"></i>Ressaisissez-les : chaque donnée est vérifiée en direct.</p>
                       <div class="row g-3">
-                        <div class="col-12 fld-lg">
+                        <div class="col-12">
                           <label class="form-label" for="confRaison">Raison sociale<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="confRaison" placeholder="Nom officiel de l'entreprise" required data-rule="dgi:denomination" data-bind="confirmation.raisonSociale" data-label="Confirmation de la raison sociale" aria-describedby="confRaison-ok">
                           <div class="valid-feedback visually-hidden" id="confRaison-ok">Donnée confirmée</div>
                           <div class="invalid-feedback" id="confRaison-error"></div>
                         </div>
-                        <div class="col-sm-4 cq-full fld-xs" data-cq="380">
+                        <div class="col-sm-4 cq-full" data-cq="380">
                           <label class="form-label" for="confForme">Forme juridique<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="confForme" placeholder="Ex. : SA, SARL" required data-rule="dgi:formeJuridique" data-bind="confirmation.formeJuridique" data-label="Confirmation de la forme juridique" aria-describedby="confForme-ok">
                           <div class="valid-feedback visually-hidden" id="confForme-ok">Donnée confirmée</div>
                           <div class="invalid-feedback" id="confForme-error"></div>
                         </div>
-                        <div class="col-sm-8 cq-full fld-lg" data-cq="380">
+                        <div class="col-sm-8 cq-full" data-cq="380">
                           <label class="form-label" for="confRccm">N° RCCM<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="confRccm" placeholder="Ex. : CI-ABJ-AAAA-B-NNNNN" required data-rule="dgi:rccm" data-bind="confirmation.rccm" data-label="Confirmation du N° RCCM" aria-describedby="confRccm-ok">
                           <div class="valid-feedback visually-hidden" id="confRccm-ok">Donnée confirmée</div>
                           <div class="invalid-feedback" id="confRccm-error"></div>
                         </div>
-                        <div class="col-12 fld-lg">
+                        <div class="col-12">
                           <label class="form-label" for="confActivite">Activité<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="confActivite" placeholder="Code ou libellé de l'activité" required data-rule="dgi:activite" data-bind="confirmation.activite" data-label="Confirmation de l'activité" aria-describedby="confActivite-ok">
                           <div class="valid-feedback visually-hidden" id="confActivite-ok">Donnée confirmée</div>
@@ -903,7 +893,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
                       <h3 class="subsection-title"><i class="bi bi-journal-bookmark" aria-hidden="true"></i>Immatriculation</h3>
                       <div class="row g-3">
-                        <div class="col-sm-6 fld-date">
+                        <div class="col-sm-6">
                           <label class="form-label" for="etDateCreation">Date de création<span class="req" aria-hidden="true">*</span></label>
                           <div class="date-field">
                             <input type="text" class="form-control" id="etDateCreation" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" required data-mask="date" data-rule="date past" data-bind="etablissement.dateCreation" data-label="Date de création de l'entreprise">
@@ -914,16 +904,16 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <button type="button" class="suggest-chip" id="etDateCreation-suggest" title="Reprendre la date d'immatriculation du RCCM" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre la </span>Date du RCCM : <strong id="etDateCreation-suggest-val"></strong></span></button>
                           <div class="invalid-feedback" id="etDateCreation-error"></div>
                         </div>
-                        <div class="col-sm-6 fld-md">
+                        <div class="col-sm-6">
                           <label class="form-label" for="etSigle">Nom abrégé / Sigle<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="etSigle" placeholder="Ex. : MB" data-bind="etablissement.sigle">
                         </div>
-                        <div class="col-sm-6 fld-md">
+                        <div class="col-sm-6">
                           <label class="form-label" for="etTitre">N° Titre de commerce<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="etTitre" placeholder="N° du titre de commerce" data-rule="docNum" data-bind="etablissement.titreCommerce" data-label="N° du titre de commerce">
                           <div class="invalid-feedback" id="etTitre-error"></div>
                         </div>
-                        <div class="col-sm-6 fld-md">
+                        <div class="col-sm-6">
                           <label class="form-label" for="etFnce">N° d'inscription FNCE<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="etFnce" placeholder="Si déjà inscrit au FNCE" data-rule="docNum" data-bind="etablissement.numFnce" data-label="N° d'inscription FNCE">
                           <div class="field-hint" id="etFnce-hint" data-for="etFnce">Première inscription : laissez vide, le numéro sera attribué à la validation.</div>
@@ -933,7 +923,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
                       <h3 class="subsection-title"><i class="bi bi-cash-stack" aria-hidden="true"></i>Capital et structure</h3>
                       <div class="row g-3">
-                        <div class="col-sm-7 fld-md">
+                        <div class="col-sm-7">
                           <label class="form-label" for="capital">Capital social<span class="req" aria-hidden="true">*</span></label>
                           <div class="spin has-unit">
                             <input type="text" class="form-control" id="capital" inputmode="numeric" role="spinbutton" aria-valuemin="0" autocomplete="off" required data-mask="thousands" data-kind="number" data-rule="positive" data-bind="etablissement.capital" data-min="0" data-step="1000000" data-unit="FCFA" data-label="Capital social">
@@ -946,7 +936,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <div class="amount-words" id="capital-words" data-for="capital"></div>
                           <div class="invalid-feedback" id="capital-error"></div>
                         </div>
-                        <div class="col-sm-5 fld-2xs">
+                        <div class="col-sm-5">
                           <label class="form-label" for="nbEts">Nbre ets secondaire<span class="req" aria-hidden="true">*</span></label>
                           <div class="spin">
                             <input type="text" class="form-control" id="nbEts" inputmode="numeric" role="spinbutton" aria-valuemin="0" aria-valuemax="999" autocomplete="off" required data-mask="digits" data-max-digits="3" data-kind="number" data-bind="etablissement.nbEts" data-min="0" data-max-value="999" data-step="1" data-label="Nombre d'établissements secondaires">
@@ -962,17 +952,17 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
                       <h3 class="subsection-title"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Localisation du siège</h3>
                       <div class="row g-3">
-                        <div class="col-sm-5 cq-full fld-md" data-cq="480">
+                        <div class="col-sm-5 cq-full" data-cq="480">
                           <label class="form-label" for="etLocalite">Localité<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="etLocalite" placeholder="Rechercher…" required data-label="Localité du siège">
                           <div class="invalid-feedback" id="etLocalite-error"></div>
                         </div>
-                        <div class="col-sm-7 cq-full fld-lg" data-cq="480">
+                        <div class="col-sm-7 cq-full" data-cq="480">
                           <label class="form-label" for="etQuartier">Quartier<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="etQuartier" required data-bind="etablissement.quartier" data-label="Quartier du siège">
                           <div class="invalid-feedback" id="etQuartier-error"></div>
                         </div>
-                        <div class="col-12 fld-lg">
+                        <div class="col-12">
                           <label class="form-label" for="etRue">Rue<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="etRue" placeholder="Ex. : BOULEVARD LATRILLE, LOT 12" data-bind="etablissement.rue">
                         </div>
@@ -980,7 +970,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
                       <h3 class="subsection-title"><i class="bi bi-telephone-fill" aria-hidden="true"></i>Coordonnées</h3>
                       <div class="row g-3">
-                        <div class="col-sm-6 cq-full fld-tel" data-cq="362">
+                        <div class="col-sm-6 cq-full" data-cq="362">
                           <label class="form-label" for="etMobile">Contact mobile<span class="req" aria-hidden="true">*</span></label>
                           <div class="input-group phone-group">
                             <span class="input-group-text" id="etMobile-cc">+225</span>
@@ -990,7 +980,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <button type="button" class="suggest-chip" id="etMobile-suggest" title="Reprendre le numéro du représentant légal" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre le </span>Mobile du représentant : <strong id="etMobile-suggest-val"></strong></span></button>
                           <div class="invalid-feedback" id="etMobile-error"></div>
                         </div>
-                        <div class="col-sm-6 cq-full fld-tel" data-cq="362">
+                        <div class="col-sm-6 cq-full" data-cq="362">
                           <label class="form-label" for="etTelFixe">Téléphone fixe<span class="opt">facultatif</span></label>
                           <div class="input-group phone-group">
                             <span class="input-group-text" id="etTelFixe-cc">+225</span>
@@ -999,11 +989,11 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <div class="field-hint" id="etTelFixe-op" data-for="etTelFixe"></div>
                           <div class="invalid-feedback" id="etTelFixe-error"></div>
                         </div>
-                        <div class="col-sm-6 cq-full fld-md" data-cq="372">
+                        <div class="col-sm-6 cq-full" data-cq="372">
                           <label class="form-label" for="etBp">Boîte postale<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="etBp" placeholder="Ex. : 01 BP 1234 ABIDJAN 01" data-bind="etablissement.bp">
                         </div>
-                        <div class="col-sm-6 cq-full fld-lg" data-cq="372">
+                        <div class="col-sm-6 cq-full" data-cq="372">
                           <label class="form-label" for="etEmail">Email officiel<span class="opt">facultatif</span></label>
                           <input type="email" class="form-control" id="etEmail" inputmode="email" placeholder="contact@entreprise.ci" autocomplete="off" data-rule="email" data-bind="etablissement.email" data-label="Email officiel">
                           <div class="email-suggest" id="etEmail-suggest" data-for="etEmail" hidden></div>
@@ -1020,7 +1010,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                     <section class="form-section plain" id="secRep" data-section="rep" aria-labelledby="secRepTitle">
                       <h2 class="section-title" id="secRepTitle" tabindex="-1"><i class="bi bi-person-fill" aria-hidden="true"></i>Représentant légal<span class="sec-badge" data-sec-badge="rep"></span></h2>
                       <div class="row g-3">
-                        <div class="col-sm-7 fld-lg">
+                        <div class="col-sm-7">
                           <label class="form-label" for="repNom">Nom<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="repNom" required data-bind="representant.nom" data-label="Nom du représentant">
                           <div class="invalid-feedback" id="repNom-error"></div>
@@ -1041,12 +1031,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             <div class="invalid-feedback" id="repSexe-error"></div>
                           </fieldset>
                         </div>
-                        <div class="col-12 fld-lg">
+                        <div class="col-12">
                           <label class="form-label" for="repPrenoms">Prénoms<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="repPrenoms" required data-bind="representant.prenoms" data-label="Prénoms du représentant">
                           <div class="invalid-feedback" id="repPrenoms-error"></div>
                         </div>
-                        <div class="col-sm-5 fld-date">
+                        <div class="col-sm-5">
                           <label class="form-label" for="repNaissance">Né(e) le<span class="req" aria-hidden="true">*</span></label>
                           <div class="date-field">
                             <input type="text" class="form-control" id="repNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" required data-mask="date" data-rule="date age18" data-bind="representant.naissance" data-label="Date de naissance du représentant">
@@ -1056,21 +1046,21 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <div class="field-hint" id="repNaissance-hint" data-for="repNaissance"></div>
                           <div class="invalid-feedback" id="repNaissance-error"></div>
                         </div>
-                        <div class="col-sm-7 fld-md">
+                        <div class="col-sm-7">
                           <label class="form-label" for="repLieu">Lieu<span class="visually-hidden"> de naissance</span><span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="repLieu" placeholder="Saisir ou choisir…" required data-label="Lieu de naissance">
                           <div class="invalid-feedback" id="repLieu-error"></div>
                         </div>
-                        <div class="col-sm-5 cq-full fld-md" data-cq="388">
+                        <div class="col-sm-5 cq-full" data-cq="388">
                           <label class="form-label" for="repNationalite">Nationalité<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="repNationalite" placeholder="Rechercher…" required data-label="Nationalité">
                           <div class="invalid-feedback" id="repNationalite-error"></div>
                         </div>
-                        <div class="col-sm-7 cq-full fld-lg" data-cq="388">
+                        <div class="col-sm-7 cq-full" data-cq="388">
                           <label class="form-label" for="repFonction">Fonction<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="repFonction" placeholder="Saisir ou choisir…" data-label="Fonction">
                         </div>
-                        <div class="col-sm-6 cq-full fld-tel" data-cq="402">
+                        <div class="col-sm-6 cq-full" data-cq="402">
                           <label class="form-label" for="repMobile">Téléphone mobile<span class="req" aria-hidden="true">*</span></label>
                           <div class="input-group phone-group">
                             <span class="input-group-text" id="repMobile-cc">+225</span>
@@ -1079,7 +1069,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <div class="field-hint" id="repMobile-op" data-for="repMobile"></div>
                           <div class="invalid-feedback" id="repMobile-error"></div>
                         </div>
-                        <div class="col-sm-6 cq-full fld-tel" data-cq="402">
+                        <div class="col-sm-6 cq-full" data-cq="402">
                           <label class="form-label" for="repMobile2">Confirmation<span class="visually-hidden"> du téléphone mobile</span><span class="req" aria-hidden="true">*</span></label>
                           <div class="input-group phone-group">
                             <span class="input-group-text" id="repMobile2-cc">+225</span>
@@ -1087,7 +1077,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           </div>
                           <div class="invalid-feedback" id="repMobile2-error"></div>
                         </div>
-                        <div class="col-12 fld-lg">
+                        <div class="col-12">
                           <label class="form-label" for="repEmail">Email<span class="req" aria-hidden="true">*</span></label>
                           <input type="email" class="form-control" id="repEmail" inputmode="email" placeholder="prenom.nom@exemple.ci" autocomplete="off" required data-rule="email" data-bind="representant.email" data-label="Email du représentant">
                           <div class="email-suggest" id="repEmail-suggest" data-for="repEmail" hidden></div>
@@ -1116,7 +1106,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                       <!-- Option ONECI -->
                       <div class="piece-panel" id="pieceOneci" data-cond="ONECI">
                         <div class="row g-3">
-                          <div class="col-sm-6 fld-md">
+                          <div class="col-sm-6">
                             <label class="form-label" for="oneciType">Type<span class="req" aria-hidden="true">*</span></label>
                             <select class="form-select" id="oneciType" required data-bind="piece.oneci.type" data-label="Type de pièce ONECI">
                               <option value="">Sélectionner…</option>
@@ -1125,12 +1115,18 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </select>
                             <div class="invalid-feedback" id="oneciType-error"></div>
                           </div>
-                          <div class="col-sm-6 fld-md">
+                          <div class="col-sm-6">
                             <label class="form-label" for="oneciNumero">N°<span class="req" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control" id="oneciNumero" placeholder="Ex. : CI000000000" required data-rule="pieceNum" data-bind="piece.oneci.numero" data-label="N° de la pièce ONECI">
                             <div class="invalid-feedback" id="oneciNumero-error"></div>
                           </div>
-                          <div class="col-sm-6 fld-date">
+                          <div class="col-sm-6">
+                            <label class="form-label" for="oneciNni">NNI<span class="req" aria-hidden="true">*</span></label>
+                            <input type="text" class="form-control tabular" id="oneciNni" inputmode="numeric" placeholder="11 chiffres" autocomplete="off" required data-mask="digits" data-max-digits="11" data-kind="digits" data-rule="nni" data-bind="piece.oneci.nni" data-label="NNI">
+                            <div class="field-hint" id="oneciNni-count" data-for="oneciNni"></div>
+                            <div class="invalid-feedback" id="oneciNni-error"></div>
+                          </div>
+                          <div class="col-sm-6">
                             <label class="form-label" for="oneciDelivre">Délivré le<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="oneciDelivre" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.oneci.delivre" data-label="Date de délivrance de la pièce">
@@ -1139,13 +1135,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </div>
                             <div class="invalid-feedback" id="oneciDelivre-error"></div>
                           </div>
-                          <div class="col-sm-6 fld-sm">
-                            <label class="form-label" for="oneciNni">NNI<span class="req" aria-hidden="true">*</span></label>
-                            <input type="text" class="form-control tabular" id="oneciNni" inputmode="numeric" placeholder="11 chiffres" autocomplete="off" required data-mask="digits" data-max-digits="11" data-kind="digits" data-rule="nni" data-bind="piece.oneci.nni" data-label="NNI">
-                            <div class="field-hint" id="oneciNni-count" data-for="oneciNni"></div>
-                            <div class="invalid-feedback" id="oneciNni-error"></div>
-                          </div>
-                          <div class="col-sm-6 cq-full fld-md" data-cq="398">
+                          <div class="col-12">
                             <label class="form-label" for="oneciLieu">Lieu de délivrance<span class="opt">facultatif</span></label>
                             <input type="text" class="form-control" id="oneciLieu" placeholder="Saisir ou choisir…" data-label="Lieu de délivrance de la pièce">
                           </div>
@@ -1155,7 +1145,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                       <!-- Option Autre (le NNI est masqué) -->
                       <div class="piece-panel" id="pieceAutre" data-cond="AUTRE" hidden>
                         <div class="row g-3">
-                          <div class="col-sm-6 cq-full fld-md" data-cq="376">
+                          <div class="col-sm-6 cq-full" data-cq="376">
                             <label class="form-label" for="autreType">Type<span class="req" aria-hidden="true">*</span></label>
                             <select class="form-select" id="autreType" required data-bind="piece.autre.type" data-label="Type de pièce">
                               <option value="">Sélectionner…</option>
@@ -1166,12 +1156,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </select>
                             <div class="invalid-feedback" id="autreType-error"></div>
                           </div>
-                          <div class="col-sm-6 cq-full fld-md" data-cq="376">
+                          <div class="col-sm-6 cq-full" data-cq="376">
                             <label class="form-label" for="autreNumero">N°<span class="req" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control" id="autreNumero" required data-rule="pieceNum" data-bind="piece.autre.numero" data-label="N° de la pièce">
                             <div class="invalid-feedback" id="autreNumero-error"></div>
                           </div>
-                          <div class="col-sm-6 fld-date">
+                          <div class="col-sm-6">
                             <label class="form-label" for="autreDelivre">Délivré le<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="autreDelivre" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.delivre" data-label="Date de délivrance de la pièce">
@@ -1180,19 +1170,19 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </div>
                             <div class="invalid-feedback" id="autreDelivre-error"></div>
                           </div>
-                          <div class="col-sm-6 cq-full fld-md" data-cq="398">
+                          <div class="col-sm-6 cq-full" data-cq="398">
                             <label class="form-label" for="autreLieu">Lieu de délivrance<span class="opt">facultatif</span></label>
                             <input type="text" class="form-control" id="autreLieu" placeholder="Saisir ou choisir…" data-label="Lieu de délivrance de la pièce">
                           </div>
                           <div class="col-12">
                             <h3 class="subsection-title mt-2 mb-0"><i class="bi bi-people-fill" aria-hidden="true"></i>Filiation</h3>
                           </div>
-                          <div class="col-sm-6 fld-lg">
+                          <div class="col-sm-6">
                             <label class="form-label" for="pereNom">Nom du père<span class="req" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control" id="pereNom" required data-bind="piece.autre.pereNom">
                             <div class="invalid-feedback" id="pereNom-error"></div>
                           </div>
-                          <div class="col-sm-6 fld-date">
+                          <div class="col-sm-6">
                             <label class="form-label" for="pereNaissance">Date de naissance du père<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="pereNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.pereNaissance">
@@ -1201,12 +1191,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </div>
                             <div class="invalid-feedback" id="pereNaissance-error"></div>
                           </div>
-                          <div class="col-sm-6 fld-lg">
+                          <div class="col-sm-6">
                             <label class="form-label" for="mereNom">Nom de la mère<span class="req" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control" id="mereNom" required data-bind="piece.autre.mereNom">
                             <div class="invalid-feedback" id="mereNom-error"></div>
                           </div>
-                          <div class="col-sm-6 fld-date">
+                          <div class="col-sm-6">
                             <label class="form-label" for="mereNaissance">Date de naissance de la mère<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="mereNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.mereNaissance">
@@ -1321,28 +1311,28 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       <div class="modal-body">
         <p class="small text-muted-2">Les champs marqués d'un astérisque (<span class="req" aria-hidden="true">*</span>) sont obligatoires.</p>
         <div class="row g-3">
-          <div class="col-12 fld-lg">
+          <div class="col-12">
             <label class="form-label" for="etabDenom">Dénomination sociale<span class="req" aria-hidden="true">*</span></label>
             <input type="text" class="form-control" id="etabDenom" required placeholder="Ex. : AGENCE PLATEAU" data-label="Dénomination sociale">
             <div class="invalid-feedback" id="etabDenom-error"></div>
           </div>
-          <div class="col-12 fld-lg">
+          <div class="col-12">
             <label class="form-label" for="etabActivite">Activité constatée<span class="req" aria-hidden="true">*</span></label>
             <input type="text" class="form-control" id="etabActivite" required placeholder="Saisir ou choisir…" data-label="Activité constatée">
             <div class="field-hint" id="etabActivite-hint" data-for="etabActivite">Activité réellement exercée dans cet établissement.</div>
             <div class="invalid-feedback" id="etabActivite-error"></div>
           </div>
-          <div class="col-12 fld-md">
+          <div class="col-12">
             <label class="form-label" for="etabLocalite">Localité<span class="req" aria-hidden="true">*</span></label>
             <input type="text" class="form-control" id="etabLocalite" placeholder="Rechercher…" required data-label="Localité">
             <div class="invalid-feedback" id="etabLocalite-error"></div>
           </div>
-          <div class="col-sm-6 fld-lg">
+          <div class="col-sm-6">
             <label class="form-label" for="etabQuartier">Quartier<span class="req" aria-hidden="true">*</span></label>
             <input type="text" class="form-control" id="etabQuartier" required data-label="Quartier">
             <div class="invalid-feedback" id="etabQuartier-error"></div>
           </div>
-          <div class="col-sm-6 fld-lg">
+          <div class="col-sm-6">
             <label class="form-label" for="etabRue">Rue<span class="opt">facultatif</span></label>
             <input type="text" class="form-control" id="etabRue" placeholder="Ex. : AVENUE CHARDY" data-label="Rue">
           </div>
