@@ -97,7 +97,7 @@
 /* ==========================================================================
    2. BASE
    ========================================================================== */
-body { font-size: .9375rem; line-height: 1.5; -webkit-font-smoothing: antialiased; background: var(--fnce-page); }
+body { font-size: .875rem; line-height: 1.5; -webkit-font-smoothing: antialiased; background: var(--fnce-page); }
 .text-ink { color: var(--fnce-ink) !important; }
 .text-muted-2 { color: var(--fnce-muted) !important; }
 .min-w-0 { min-width: 0; }
@@ -177,19 +177,19 @@ main { padding: 1.5rem 1rem 3rem; outline: none; }
    4. FORMULAIRE
    ========================================================================== */
 .page-head { margin-bottom: 1.25rem; }
-.page-title { font-size: clamp(1.3rem, 1.1rem + .8vw, 1.65rem); font-weight: 800; margin: 0; color: var(--fnce-ink); }
+.page-title { font-size: clamp(1.2rem, 1rem + .7vw, 1.45rem); font-weight: 800; margin: 0; color: var(--fnce-ink); }
 .page-title:focus { outline: none; }
-.page-sub { margin: .3rem 0 0; color: var(--fnce-muted); font-size: .92rem; }
+.page-sub { margin: .3rem 0 0; color: var(--fnce-muted); font-size: .85rem; }
 
 .form-card { background: var(--fnce-card); border: 1px solid var(--fnce-line); border-radius: 12px; box-shadow: var(--shadow-card); scroll-margin-top: calc(var(--topbar-h) + 1rem); }
 
 /* Stepper à onglets */
 .wizard-tabs { display: flex; gap: .5rem; padding: .85rem .85rem 0; border-bottom: 1px solid var(--fnce-line); }
-.wizard-tab { position: relative; flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: .65rem; margin-bottom: -1px; padding: .75rem .9rem; border: 0; border-bottom: 3px solid transparent; border-radius: 8px 8px 0 0; background: var(--fnce-tab-bg); color: var(--fnce-muted); font-weight: 700; font-size: .9rem; line-height: 1.25; text-align: left; transition: background-color .15s ease, color .15s ease; }
+.wizard-tab { position: relative; flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: .65rem; margin-bottom: -1px; padding: .6rem .8rem; border: 0; border-bottom: 3px solid transparent; border-radius: 8px 8px 0 0; background: var(--fnce-tab-bg); color: var(--fnce-muted); font-weight: 700; font-size: .84rem; line-height: 1.25; text-align: left; transition: background-color .15s ease, color .15s ease; }
 .wizard-tab:hover { background: #E9EBEF; color: var(--fnce-ink); }
 .wizard-tab[aria-selected="true"] { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border-bottom-color: var(--fnce-orange); }
 .wizard-tab:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; z-index: 1; }
-.tab-num { flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; border: 2px solid currentColor; background: #fff; font-weight: 800; font-size: .85rem; }
+.tab-num { flex: 0 0 24px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; border: 2px solid currentColor; background: #fff; font-weight: 800; font-size: .76rem; }
 .tab-num .bi { display: none; font-size: .95rem; }
 .wizard-tab.done .tab-num { background: var(--fnce-green-600); border-color: var(--fnce-green-600); color: #fff; }
 .wizard-tab.done .tab-num .n { display: none; }
@@ -204,61 +204,57 @@ main { padding: 1.5rem 1rem 3rem; outline: none; }
 @media (min-width: 768px) { .step-panel { padding: 1.75rem 1.75rem 1rem; } }
 
 /* Titres de section : barre orange 4 px + icône orange + titre gras */
-.section-title { display: flex; align-items: center; gap: .55rem; margin: 0 0 1rem; font-size: 1.02rem; font-weight: 800; line-height: 1.3; color: var(--fnce-ink); }
+.section-title { display: flex; align-items: center; gap: .55rem; margin: 0 0 .8rem; font-size: .94rem; font-weight: 800; line-height: 1.3; color: var(--fnce-ink); }
 .section-title::before { content: ""; flex: 0 0 4px; align-self: stretch; min-height: 1.3em; border-radius: 2px; background: var(--fnce-orange); }
 .section-title > .bi { color: var(--fnce-orange); font-size: 1.1em; }
 .section-title:focus { outline: none; }
-.subsection-title { display: flex; align-items: center; gap: .4rem; width: 100%; margin: 1.5rem 0 .85rem; padding-bottom: .35rem; border-bottom: 1px solid var(--fnce-line); font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
+.subsection-title { display: flex; align-items: center; gap: .4rem; width: 100%; margin: 1.2rem 0 .7rem; padding-bottom: .35rem; border-bottom: 1px solid var(--fnce-line); font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
 .subsection-title:first-of-type { margin-top: 0; }
-.subsection-title .bi { color: var(--fnce-orange); font-size: .95rem; }
+.subsection-title .bi { color: var(--fnce-orange); font-size: .85rem; }
 
 /* Champs */
-.form-label { margin-bottom: .3rem; font-size: 13px; font-weight: 700; color: var(--fnce-ink-2); }
+.form-label { margin-bottom: .25rem; font-size: 12px; font-weight: 700; color: var(--fnce-ink-2); }
 .req { color: var(--fnce-red); font-weight: 800; margin-left: .15rem; }
-.opt { margin-left: .35rem; font-size: .72rem; font-weight: 600; color: #6B7280; }
-.form-control, .form-select { height: 42px; border: 1px solid var(--fnce-border); border-radius: 4px; font-size: .9rem; color: var(--fnce-ink); transition: border-color .15s ease, box-shadow .15s ease; }
+.opt { margin-left: .35rem; font-size: .7rem; font-weight: 600; color: #6B7280; }
+.form-control, .form-select { height: 36px; border: 1px solid var(--fnce-border); border-radius: 4px; font-size: .84rem; color: var(--fnce-ink); transition: border-color .15s ease, box-shadow .15s ease; }
 .form-control::placeholder { color: #6B7280; opacity: 1; }
 .form-control:not([readonly]):not(:disabled):not(:focus):not(.is-invalid):not(.is-valid):hover,
 .form-select:not(:disabled):not(:focus):not(.is-invalid):hover { border-color: #9CA3AF; }
 .form-control:focus, .form-select:focus { border-color: var(--fnce-orange); box-shadow: 0 0 0 .2rem rgba(242, 101, 34, .18); }
-.form-control[readonly] { background-color: var(--fnce-ro-bg); color: var(--fnce-ro-text); font-size: .84rem; font-weight: 800; text-transform: uppercase; text-overflow: ellipsis; }
+.form-control[readonly] { background-color: var(--fnce-ro-bg); color: var(--fnce-ro-text); font-size: .78rem; font-weight: 800; text-transform: uppercase; text-overflow: ellipsis; }
 .form-control:disabled, .form-select:disabled { background-color: #F3F4F6; }
 input.form-control:-webkit-autofill { -webkit-text-fill-color: var(--fnce-ink); box-shadow: inset 0 0 0 1000px #fff; }
-.form-text { font-size: .78rem; color: var(--fnce-muted); }
-.w-code { flex: 0 0 84px; width: 84px; }
-.w-code-lg { flex: 0 0 116px; width: 116px; }
-/* Ligne « N° RCCM · Forme juridique » : côte à côte dès que la largeur le permet */
-.row > .col-rccm { flex: 1 1 320px; width: auto; }
-.row > .col-fj { flex: 0 0 140px; width: auto; }
+.form-text { font-size: .74rem; color: var(--fnce-muted); }
+.w-code-lg { flex: 0 0 104px; width: 104px; }
 
 /* États de validation : couleurs de la charte (coche verte, erreur rouge) */
 .form-control.is-valid { border-color: var(--fnce-green-600); background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23059669' d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z'/%3e%3c/svg%3e"); }
 .form-control.is-invalid { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23B91C1C' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23B91C1C' stroke='none'/%3e%3c/svg%3e"); }
 .form-select.is-invalid:not([multiple]):not([size]) { --bs-form-select-bg-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23B91C1C' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23B91C1C' stroke='none'/%3e%3c/svg%3e"); }
-.valid-feedback, .invalid-feedback { font-size: .8rem; font-weight: 700; }
+.valid-feedback, .invalid-feedback { font-size: .75rem; font-weight: 700; }
 .valid-feedback .bi, .invalid-feedback .bi { margin-right: .25rem; }
 
 /* Boutons radio */
 .form-check-input { border-color: #9CA3AF; }
 .form-check-input:checked { background-color: var(--fnce-orange); border-color: var(--fnce-orange); }
 .form-check-input:focus { border-color: var(--fnce-orange); box-shadow: 0 0 0 .2rem rgba(242, 101, 34, .22); }
-.form-check-label { font-size: .88rem; font-weight: 600; }
-.radio-inline-wrap { min-height: 42px; display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.25rem; }
+.form-check-label { font-size: .82rem; font-weight: 600; }
+.radio-inline-wrap { min-height: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.25rem; }
 .radio-inline-wrap .form-check { margin: 0; }
 fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
 /* Pièce d'identité : bascule ONECI / Autre (transition douce) */
 .piece-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; margin-bottom: 1rem; }
 .piece-head .section-title { flex: 1 1 auto; }
-.piece-mode { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0; padding: .35rem .9rem; border-radius: 50rem; background: var(--fnce-page); }
+.piece-mode { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0; padding: .3rem .8rem; border-radius: 50rem; background: var(--fnce-page); }
 .piece-mode .form-check { margin: 0; }
 .piece-panel { transition: opacity .22s ease, transform .22s ease; }
 .piece-panel.is-leaving, .piece-panel.is-entering { opacity: 0; transform: translateY(8px); }
 
 /* Boutons */
-.btn-next { --bs-btn-color: #fff; --bs-btn-bg: var(--fnce-navy); --bs-btn-border-color: var(--fnce-navy); --bs-btn-hover-color: #fff; --bs-btn-hover-bg: var(--fnce-navy-hover); --bs-btn-hover-border-color: var(--fnce-navy-hover); --bs-btn-active-color: #fff; --bs-btn-active-bg: #1C2459; --bs-btn-active-border-color: #1C2459; --bs-btn-disabled-color: #fff; --bs-btn-disabled-bg: var(--fnce-navy); --bs-btn-disabled-border-color: var(--fnce-navy); --bs-btn-focus-shadow-rgb: 46, 58, 135; border-radius: 50rem; padding: .62rem 2.4rem; font-weight: 800; }
-.btn-prev { --bs-btn-color: var(--fnce-ink-2); --bs-btn-bg: #fff; --bs-btn-border-color: #CBD5E1; --bs-btn-hover-color: var(--fnce-ink); --bs-btn-hover-bg: #F8FAFC; --bs-btn-hover-border-color: #94A3B8; --bs-btn-active-bg: #F1F5F9; --bs-btn-active-border-color: #94A3B8; --bs-btn-focus-shadow-rgb: 100, 116, 139; border-radius: 50rem; padding: .62rem 1.8rem; font-weight: 800; }
-.btn-submit { --bs-btn-color: #fff; --bs-btn-hover-color: #fff; --bs-btn-active-color: #fff; --bs-btn-disabled-color: #fff; --bs-btn-border-color: transparent; --bs-btn-hover-border-color: transparent; --bs-btn-focus-shadow-rgb: 5, 150, 105; border-radius: 50rem; padding: .62rem 2rem; font-weight: 800; background-image: linear-gradient(135deg, var(--fnce-green-900), var(--fnce-green-text)); }
+.btn-next { --bs-btn-color: #fff; --bs-btn-bg: var(--fnce-navy); --bs-btn-border-color: var(--fnce-navy); --bs-btn-hover-color: #fff; --bs-btn-hover-bg: var(--fnce-navy-hover); --bs-btn-hover-border-color: var(--fnce-navy-hover); --bs-btn-active-color: #fff; --bs-btn-active-bg: #1C2459; --bs-btn-active-border-color: #1C2459; --bs-btn-disabled-color: #fff; --bs-btn-disabled-bg: var(--fnce-navy); --bs-btn-disabled-border-color: var(--fnce-navy); --bs-btn-focus-shadow-rgb: 46, 58, 135; border-radius: 50rem; padding: .5rem 2rem; font-size: .9rem; font-weight: 800; }
+.btn-prev { --bs-btn-color: var(--fnce-ink-2); --bs-btn-bg: #fff; --bs-btn-border-color: #CBD5E1; --bs-btn-hover-color: var(--fnce-ink); --bs-btn-hover-bg: #F8FAFC; --bs-btn-hover-border-color: #94A3B8; --bs-btn-active-bg: #F1F5F9; --bs-btn-active-border-color: #94A3B8; --bs-btn-focus-shadow-rgb: 100, 116, 139; border-radius: 50rem; padding: .5rem 1.5rem; font-size: .9rem; font-weight: 800; }
+.btn-submit { --bs-btn-color: #fff; --bs-btn-hover-color: #fff; --bs-btn-active-color: #fff; --bs-btn-disabled-color: #fff; --bs-btn-border-color: transparent; --bs-btn-hover-border-color: transparent; --bs-btn-focus-shadow-rgb: 5, 150, 105; border-radius: 50rem; padding: .5rem 1.75rem; font-size: .9rem; font-weight: 800; background-image: linear-gradient(135deg, var(--fnce-green-900), var(--fnce-green-text)); }
 .btn-submit:hover { filter: brightness(1.08); }
 .submitted-alert { display: flex; align-items: flex-start; gap: 1rem; background: var(--fnce-green-soft); border: 1px solid var(--fnce-green-line); color: var(--fnce-ink); border-radius: 12px; }
 .submitted-alert > .bi { color: var(--fnce-green-600); }
@@ -267,7 +263,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
    5. ERGONOMIE : SECTIONS, NAVIGATION DE SECTIONS, BARRE D'ACTIONS, AIDES
    ========================================================================== */
 /* Chaque section est un panneau ; celle qui contient le champ actif est mise en valeur */
-.form-section { position: relative; padding: 1.1rem 1.1rem 1.25rem; border: 2px solid transparent; border-radius: 12px; transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease; scroll-margin-top: calc(var(--topbar-h) + 1rem); }
+.form-section { position: relative; padding: 1rem 1rem 1.1rem; border: 2px solid transparent; border-radius: 12px; transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease; scroll-margin-top: calc(var(--topbar-h) + 1rem); }
 .form-section + .form-section { margin-top: 1rem; }
 @media (max-width: 575.98px) { .form-section { padding: .9rem .75rem 1rem; } } /* petit écran : plus de place pour les champs */
 .form-section.plain:focus-within { background: #FFFCF8; border-color: #FBE2D1; }
@@ -275,7 +271,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .box-dashed:focus-within { box-shadow: 0 0 0 4px rgba(242, 101, 34, .1); }
 .box-ident { border-color: var(--fnce-yellow); background: var(--fnce-cream); }
 .box-confirm { border-color: var(--fnce-lavender); background: var(--fnce-lavender-bg); }
-.box-note { margin: -.45rem 0 .9rem; font-size: .8rem; color: var(--fnce-muted); }
+.box-note { margin: -.4rem 0 .8rem; font-size: .76rem; color: var(--fnce-muted); }
 @media (min-width: 992px) { .form-section { scroll-margin-top: calc(var(--topbar-h) + 4.75rem); } }
 /* Rangées adaptatives : selon la largeur réelle de la section (classes posées en JavaScript),
    un champ « cq-full » passe en pleine largeur sous son seuil (data-cq, 470 px par défaut) et
@@ -285,7 +281,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .form-section.is-tiny .cq-wrap > .flex-grow-1 { flex: 1 1 100%; }
 
 /* Pastille d'avancement d'une section (« 3/5 » puis « Complet ») */
-.sec-badge { margin-left: auto; display: inline-flex; align-items: center; gap: .3rem; padding: .18rem .6rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .72rem; font-weight: 800; white-space: nowrap; }
+.sec-badge { margin-left: auto; display: inline-flex; align-items: center; gap: .3rem; padding: .18rem .6rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .7rem; font-weight: 800; white-space: nowrap; }
 .sec-badge.is-complete { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
 .sec-badge.is-dgi { background: #FEF3C7; color: var(--fnce-warn-text); }
 .box-confirm .sec-badge { background: #fff; }
@@ -297,14 +293,14 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 @media (min-width: 992px) {
   .section-nav { position: sticky; top: var(--topbar-h); z-index: 10; flex-wrap: wrap; margin: -1.75rem -1.75rem 1.25rem; padding: .7rem 1.75rem; background: rgba(255, 255, 255, .97); border-bottom: 1px solid var(--fnce-line); }
 }
-.sn-chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .45rem .38rem .75rem; border: 1px solid var(--fnce-line); border-radius: 50rem; background: #fff; color: var(--fnce-ink-2); font-size: .8rem; font-weight: 700; white-space: nowrap; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
+.sn-chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .4rem .3rem .7rem; border: 1px solid var(--fnce-line); border-radius: 50rem; background: #fff; color: var(--fnce-ink-2); font-size: .76rem; font-weight: 700; white-space: nowrap; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
 .sn-chip > .bi { color: var(--fnce-orange); }
 /* Écrans moyens : sans icônes, les pastilles tiennent sur une seule ligne (barre collante moins haute) */
 @media (min-width: 992px) and (max-width: 1399.98px) { .sn-chip > .bi { display: none; } }
 .sn-chip:hover { border-color: var(--fnce-orange-line); }
 .sn-chip.is-active { border-color: var(--fnce-orange); background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
 .sn-chip:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
-.sn-state { display: inline-flex; align-items: center; gap: .2rem; min-width: 2.2rem; justify-content: center; padding: .08rem .45rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .72rem; font-weight: 800; }
+.sn-state { display: inline-flex; align-items: center; gap: .2rem; min-width: 2.2rem; justify-content: center; padding: .08rem .45rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .7rem; font-weight: 800; }
 .sn-state.is-dgi { background: #FEF3C7; color: var(--fnce-warn-text); }
 .sn-chip.is-complete .sn-state { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
 .sn-chip.pop { animation: fnce-pop .45s ease; }
@@ -317,9 +313,9 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .ab-left { justify-self: start; display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
 .ab-right { justify-self: end; }
 .ab-step { font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
-.ab-count { font-size: .84rem; font-weight: 800; color: var(--fnce-ink); }
+.ab-count { font-size: .8rem; font-weight: 800; color: var(--fnce-ink); }
 .ab-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
-.ab-errors { display: inline-flex; align-items: center; gap: .4rem; padding: .42rem .85rem; border: 1px solid #FCA5A5; border-radius: 50rem; background: var(--fnce-red-soft); color: var(--fnce-red); font-size: .8rem; font-weight: 800; white-space: nowrap; }
+.ab-errors { display: inline-flex; align-items: center; gap: .4rem; padding: .42rem .85rem; border: 1px solid #FCA5A5; border-radius: 50rem; background: var(--fnce-red-soft); color: var(--fnce-red); font-size: .76rem; font-weight: 800; white-space: nowrap; }
 .ab-errors:hover { background: #FEE2E2; }
 .ab-errors:focus-visible { outline: 3px solid rgba(185, 28, 28, .4); outline-offset: 2px; }
 @media (max-width: 767.98px) {
@@ -331,20 +327,20 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 }
 
 /* Aides contextuelles sous les champs */
-.field-hint { display: flex; align-items: flex-start; gap: .35rem; margin-top: .3rem; font-size: .78rem; font-weight: 700; color: var(--fnce-muted); }
+.field-hint { display: flex; align-items: flex-start; gap: .35rem; margin-top: .3rem; font-size: .74rem; font-weight: 700; color: var(--fnce-muted); }
 .field-hint:empty { display: none; }
 .field-hint.is-ok { color: var(--fnce-green-text); }
 .field-hint.is-warn { color: var(--fnce-warn-text); }
 .field-hint .bi { flex: 0 0 auto; line-height: 1.5; }
-.amount-words { margin-top: .4rem; padding: .35rem .65rem; border-left: 3px solid var(--fnce-orange-line); border-radius: 0 6px 6px 0; background: var(--fnce-orange-wash); color: var(--fnce-ink-2); font-size: .78rem; font-style: italic; line-height: 1.4; }
+.amount-words { margin-top: .4rem; padding: .35rem .65rem; border-left: 3px solid var(--fnce-orange-line); border-radius: 0 6px 6px 0; background: var(--fnce-orange-wash); color: var(--fnce-ink-2); font-size: .74rem; font-style: italic; line-height: 1.4; }
 .amount-words:empty { display: none; }
-.suggest-chip { display: inline-flex; align-items: center; gap: .35rem; margin-top: .45rem; padding: .25rem .75rem; border: 1px dashed var(--fnce-orange-line); border-radius: 50rem; background: var(--fnce-orange-wash); color: var(--fnce-orange-text); font-size: .76rem; font-weight: 800; text-align: left; }
+.suggest-chip { display: inline-flex; align-items: center; gap: .35rem; margin-top: .45rem; padding: .25rem .75rem; border: 1px dashed var(--fnce-orange-line); border-radius: 50rem; background: var(--fnce-orange-wash); color: var(--fnce-orange-text); font-size: .72rem; font-weight: 800; text-align: left; }
 .suggest-chip strong { white-space: nowrap; }
 .suggest-chip:hover { border-style: solid; background: var(--fnce-orange-soft); }
 .suggest-chip:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
-.email-suggest { margin-top: .35rem; font-size: .78rem; font-weight: 700; color: var(--fnce-warn-text); }
+.email-suggest { margin-top: .35rem; font-size: .74rem; font-weight: 700; color: var(--fnce-warn-text); }
 .email-suggest button { padding: 0; border: 0; background: none; color: var(--fnce-navy); font-weight: 800; text-decoration: underline; }
-.phone-group .input-group-text { min-width: 58px; justify-content: center; background: var(--fnce-ro-bg); border-color: var(--fnce-border); color: var(--fnce-muted); font-size: .82rem; font-weight: 800; }
+.phone-group .input-group-text { min-width: 52px; justify-content: center; background: var(--fnce-ro-bg); border-color: var(--fnce-border); color: var(--fnce-muted); font-size: .78rem; font-weight: 800; }
 .sync-hint { display: flex; gap: .3rem; align-items: flex-start; font-weight: 700; }
 .sync-hint.is-ok { color: var(--fnce-green-text); }
 .sync-hint.is-warn { color: var(--fnce-warn-text); }
@@ -354,16 +350,16 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
    ========================================================================== */
 /* Liste avec recherche et bouton d'effacement « × » */
 .combo { position: relative; }
-.combo-input.form-control { padding-right: 4.3rem; }
-.combo-input.form-control.is-invalid { background-image: none; padding-right: 4.3rem; }
-.combo-clear { position: absolute; top: 50%; right: 2.35rem; transform: translateY(-50%); width: 26px; height: 26px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--fnce-muted); display: grid; place-items: center; font-size: .78rem; }
+.combo-input.form-control { padding-right: 4rem; }
+.combo-input.form-control.is-invalid { background-image: none; padding-right: 4rem; }
+.combo-clear { position: absolute; top: 50%; right: 2.1rem; transform: translateY(-50%); width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--fnce-muted); display: grid; place-items: center; font-size: .72rem; }
 .combo-clear:hover { background: #F3F4F6; color: var(--fnce-ink); }
 .combo-clear:focus-visible { outline: 2px solid var(--fnce-orange); outline-offset: 1px; }
-.combo-toggle { position: absolute; top: 1px; right: 1px; bottom: 1px; width: 2.2rem; display: grid; place-items: center; border-left: 1px solid var(--fnce-line); color: var(--fnce-muted); cursor: pointer; }
+.combo-toggle { position: absolute; top: 1px; right: 1px; bottom: 1px; width: 2rem; display: grid; place-items: center; border-left: 1px solid var(--fnce-line); color: var(--fnce-muted); cursor: pointer; }
 .combo-toggle .bi { transition: transform .2s ease; }
 .combo.open .combo-toggle .bi { transform: rotate(180deg); }
 .combo-list { position: absolute; z-index: 1060; top: calc(100% + 4px); left: 0; right: 0; max-height: 244px; overflow-y: auto; margin: 0; padding: .3rem; list-style: none; background: #fff; border: 1px solid var(--fnce-border); border-radius: 8px; box-shadow: 0 14px 30px rgba(15, 23, 42, .16); }
-.combo-list [role="option"] { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .45rem .65rem; border-radius: 6px; font-size: .88rem; cursor: pointer; }
+.combo-list [role="option"] { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .4rem .6rem; border-radius: 6px; font-size: .84rem; cursor: pointer; }
 .combo-list [role="option"].active { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
 .combo-list [role="option"][aria-selected="true"] { font-weight: 800; }
 .combo-list [role="option"] .bi { color: var(--fnce-orange-text); }
@@ -372,11 +368,11 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
 /* Champ numérique avec compteur (spinner), unité affichée dans le champ */
 .spin { position: relative; }
-.spin .form-control { padding-right: 2.7rem; font-variant-numeric: tabular-nums; }
-.spin.has-unit .form-control { padding-right: 5.4rem; }
+.spin .form-control { padding-right: 2.5rem; font-variant-numeric: tabular-nums; }
+.spin.has-unit .form-control { padding-right: 5rem; }
 .spin .form-control.is-invalid { background-image: none; }
-.spin-unit { position: absolute; top: 50%; right: 2.8rem; transform: translateY(-50%); color: var(--fnce-muted); font-size: .76rem; font-weight: 800; letter-spacing: .03em; pointer-events: none; }
-.spin-btns { position: absolute; top: 1px; right: 1px; bottom: 1px; width: 2.2rem; display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--fnce-line); border-radius: 0 3px 3px 0; }
+.spin-unit { position: absolute; top: 50%; right: 2.6rem; transform: translateY(-50%); color: var(--fnce-muted); font-size: .72rem; font-weight: 800; letter-spacing: .03em; pointer-events: none; }
+.spin-btns { position: absolute; top: 1px; right: 1px; bottom: 1px; width: 2rem; display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--fnce-line); border-radius: 0 3px 3px 0; }
 .spin-btns button { flex: 1 1 0; display: grid; place-items: center; padding: 0; border: 0; background: #F9FAFB; color: var(--fnce-muted); font-size: .62rem; line-height: 1; }
 .spin-btns button + button { border-top: 1px solid var(--fnce-line); }
 .spin-btns button:hover { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
@@ -385,29 +381,29 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
 /* Date JJ/MM/AAAA avec calendrier natif en complément */
 .date-field { position: relative; }
-.date-field .form-control { padding-right: 2.8rem; font-variant-numeric: tabular-nums; }
+.date-field .form-control { padding-right: 2.5rem; font-variant-numeric: tabular-nums; }
 .date-field .form-control.is-invalid { background-image: none; }
-.date-btn { position: absolute; top: 50%; right: .35rem; transform: translateY(-50%); width: 32px; height: 32px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: var(--fnce-muted); display: grid; place-items: center; }
+.date-btn { position: absolute; top: 50%; right: .35rem; transform: translateY(-50%); width: 28px; height: 28px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: var(--fnce-muted); display: grid; place-items: center; }
 .date-btn:hover { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
 .date-btn:focus-visible { outline: 2px solid var(--fnce-orange); outline-offset: 1px; }
-.date-native { position: absolute; right: .35rem; bottom: 0; width: 32px; height: 1px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
+.date-native { position: absolute; right: .35rem; bottom: 0; width: 28px; height: 1px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
 
 /* ==========================================================================
    7. ÉTAPE 2 : ÉTABLISSEMENTS SECONDAIRES
    ========================================================================== */
-.etab-counter { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .75rem; border: 1px solid #A7F3D0; border-radius: 50rem; background: var(--fnce-green-soft); color: var(--fnce-green-text); font-size: .8rem; font-weight: 800; white-space: nowrap; }
+.etab-counter { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .75rem; border: 1px solid #A7F3D0; border-radius: 50rem; background: var(--fnce-green-soft); color: var(--fnce-green-text); font-size: .76rem; font-weight: 800; white-space: nowrap; }
 .etab-counter.is-mismatch { border-color: #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); }
-.etab-alert { border: 1px solid #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); border-radius: 10px; font-size: .86rem; }
+.etab-alert { border: 1px solid #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); border-radius: 10px; font-size: .82rem; }
 .etab-alert > .bi { font-size: 1.1rem; }
 .etab-alert .btn-link { color: var(--fnce-navy); font-size: inherit; text-decoration: underline; }
-.btn-add { --bs-btn-color: #1A1A1A; --bs-btn-bg: var(--fnce-orange); --bs-btn-border-color: var(--fnce-orange); --bs-btn-hover-color: #1A1A1A; --bs-btn-hover-bg: #E0561A; --bs-btn-hover-border-color: #E0561A; --bs-btn-active-bg: #C94C15; --bs-btn-active-color: #1A1A1A; --bs-btn-focus-shadow-rgb: 242, 101, 34; border-radius: 50rem; padding: .45rem 1.1rem; font-weight: 800; }
+.btn-add { --bs-btn-color: #1A1A1A; --bs-btn-bg: var(--fnce-orange); --bs-btn-border-color: var(--fnce-orange); --bs-btn-hover-color: #1A1A1A; --bs-btn-hover-bg: #E0561A; --bs-btn-hover-border-color: #E0561A; --bs-btn-active-bg: #C94C15; --bs-btn-active-color: #1A1A1A; --bs-btn-focus-shadow-rgb: 242, 101, 34; border-radius: 50rem; padding: .4rem 1rem; font-size: .88rem; font-weight: 800; }
 /* position: relative contient les libellés masqués (sinon la page défile horizontalement) */
 .etab-table-wrap { position: relative; border: 1px solid var(--fnce-line); border-radius: 10px; }
-.etab-table { --bs-table-bg: #fff; margin: 0; font-size: .88rem; }
-.etab-table thead th { background: #F8FAFC; color: var(--fnce-ink-2); font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; border-bottom: 1px solid var(--fnce-line); }
+.etab-table { --bs-table-bg: #fff; margin: 0; font-size: .84rem; }
+.etab-table thead th { background: #F8FAFC; color: var(--fnce-ink-2); font-size: .7rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; border-bottom: 1px solid var(--fnce-line); }
 .etab-table tbody tr:last-child td { border-bottom: 0; }
 .etab-table .etab-empty td { padding: 1.5rem; text-align: center; color: var(--fnce-muted); }
-.btn-row { position: relative; width: 34px; height: 34px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--fnce-line); border-radius: 8px; background: #fff; color: var(--fnce-ink-2); }
+.btn-row { position: relative; width: 30px; height: 30px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--fnce-line); border-radius: 8px; background: #fff; color: var(--fnce-ink-2); }
 .btn-row.edit:hover { color: var(--fnce-navy); border-color: #A5B4FC; background: var(--fnce-navy-soft); }
 .btn-row.del:hover { color: var(--fnce-red); border-color: #FCA5A5; background: var(--fnce-red-soft); }
 /* Sur mobile, le tableau devient une liste de fiches */
@@ -433,8 +429,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .doc-card.dragover { border-color: var(--fnce-orange); box-shadow: 0 0 0 3px rgba(242, 101, 34, .2); }
 .doc-head { display: flex; align-items: flex-start; gap: .75rem; }
 .doc-icon { flex: 0 0 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; background: var(--fnce-orange-soft); color: var(--fnce-orange); font-size: 1.25rem; }
-.doc-title { margin: 0; font-size: .95rem; font-weight: 800; }
-.doc-desc { margin: .15rem 0 0; font-size: .8rem; color: var(--fnce-muted); }
+.doc-title { margin: 0; font-size: .9rem; font-weight: 800; }
+.doc-desc { margin: .15rem 0 0; font-size: .76rem; color: var(--fnce-muted); }
 .doc-badge { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .6rem; border-radius: 50rem; font-size: .72rem; font-weight: 800; white-space: nowrap; }
 .badge-pending { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border: 1px solid var(--fnce-orange-line); }
 .badge-done { background: var(--fnce-green-soft); color: var(--fnce-green-text); border: 1px solid var(--fnce-green-line); }
@@ -447,7 +443,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .doc-file { display: flex; align-items: center; gap: .75rem; padding: .6rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #F8FAFC; }
 .doc-thumb { flex: 0 0 48px; width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--fnce-line); border-radius: 8px; background: #fff; object-fit: cover; font-size: 1.4rem; color: var(--fnce-muted); }
 .doc-thumb.is-pdf { color: var(--fnce-red); }
-.doc-name { margin: 0; overflow: hidden; font-size: .86rem; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.doc-name { margin: 0; overflow: hidden; font-size: .82rem; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
 .doc-meta { margin: 0; font-size: .76rem; color: var(--fnce-muted); }
 .doc-actions { margin-left: auto; display: flex; gap: .35rem; }
 .upload-bar { height: 6px; margin-top: .4rem; overflow: hidden; border-radius: 3px; background: var(--fnce-orange-track); }
@@ -464,7 +460,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
    9. TABLEAU DE BORD
    ========================================================================== */
 .dash-card { background: #fff; border: 1px solid var(--fnce-line); border-radius: 12px; box-shadow: var(--shadow-card); padding: 1.25rem; }
-.card-title-sm { margin: 0 0 1rem; font-size: .95rem; font-weight: 800; color: var(--fnce-ink); }
+.card-title-sm { margin: 0 0 1rem; font-size: .9rem; font-weight: 800; color: var(--fnce-ink); }
 .hero-figure { margin: 0; font-size: 3.5rem; font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--fnce-ink); }
 .hero-unit { margin-left: .15rem; font-size: 1.6rem; color: var(--fnce-muted); }
 .step-meters { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: .9rem; }
@@ -472,9 +468,9 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .step-meters .sm-val { font-variant-numeric: tabular-nums; color: var(--fnce-ink); }
 .sm-state { margin-left: .2rem; color: var(--fnce-green-600); }
 .stat-tile { height: 100%; padding: 1rem 1.1rem; border: 1px solid var(--fnce-line); border-radius: 12px; background: #fff; box-shadow: var(--shadow-card); }
-.stat-label { display: flex; align-items: center; gap: .5rem; margin: 0; font-size: .8rem; font-weight: 700; color: var(--fnce-muted); }
+.stat-label { display: flex; align-items: center; gap: .5rem; margin: 0; font-size: .76rem; font-weight: 700; color: var(--fnce-muted); }
 .stat-ic { flex: 0 0 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-size: .95rem; }
-.stat-value { margin: .45rem 0 .15rem; font-size: 1.55rem; font-weight: 800; color: var(--fnce-ink); }
+.stat-value { margin: .45rem 0 .15rem; font-size: 1.4rem; font-weight: 800; color: var(--fnce-ink); }
 .stat-note { display: flex; align-items: center; gap: .35rem; margin: 0; font-size: .78rem; font-weight: 700; color: var(--fnce-muted); }
 .stat-note .is-ok { color: var(--fnce-green-600); }
 .stat-note .is-warn { color: var(--fnce-orange); }
@@ -503,7 +499,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .is-done .tl-state { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
 .is-current .tl-state { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
 .is-upcoming .tl-state { background: #F3F4F6; color: var(--fnce-muted); }
-.tl-detail { font-size: .82rem; color: var(--fnce-muted); }
+.tl-detail { font-size: .78rem; color: var(--fnce-muted); }
 .tl-link { font-size: .78rem; font-weight: 800; color: var(--fnce-navy); }
 
 .todo-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
@@ -516,7 +512,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .todo-more { padding: .25rem .75rem; color: var(--fnce-muted); font-size: .8rem; }
 
 /* Listes de définitions (entreprise, récapitulatif) */
-.recap-dl { display: grid; grid-template-columns: minmax(120px, 38%) 1fr; gap: .35rem 1rem; margin: 0; font-size: .86rem; }
+.recap-dl { display: grid; grid-template-columns: minmax(120px, 38%) 1fr; gap: .35rem 1rem; margin: 0; font-size: .82rem; }
 .recap-dl dt { font-weight: 700; color: var(--fnce-muted); }
 .recap-dl dd { margin: 0; font-weight: 800; color: var(--fnce-ink); overflow-wrap: anywhere; }
 @media (max-width: 575.98px) { .recap-dl { grid-template-columns: 1fr; gap: .1rem; } .recap-dl dd { margin-bottom: .45rem; } }
@@ -535,7 +531,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 /* Les toasts se posent au-dessus de la barre d'actions collante, sans masquer « Suivant » ni le bouton des erreurs */
 #toastZone { bottom: var(--toast-bottom, 0px); transition: bottom .2s ease; }
 .fnce-toast { width: min(360px, calc(100vw - 2rem)); overflow: hidden; border: 0; border-radius: 12px; box-shadow: 0 12px 32px rgba(15, 23, 42, .28); color: #fff; }
-.fnce-toast .toast-body { padding: .85rem .9rem; font-size: .88rem; }
+.fnce-toast .toast-body { padding: .85rem .9rem; font-size: .84rem; }
 .fnce-toast .toast-ic { font-size: 1.2rem; line-height: 1.2; }
 .t-success { background-color: var(--fnce-green-800); background-image: linear-gradient(135deg, var(--fnce-green-900) 0%, var(--fnce-green-800) 60%, var(--fnce-green-600) 100%); }
 .t-error { background: var(--fnce-red); }
@@ -819,33 +815,23 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                   <!-- ---------------- Rangée 1, gauche ---------------- -->
                   <div class="col-lg-6 d-flex">
 
-                    <!-- A. Identification de l'Entreprise (lecture seule, données DGI) -->
+                    <!-- A. Identification de l'Entreprise : les quatre données DGI à confirmer (lecture seule).
+                         Même grille que le bloc B : chaque donnée se compare ligne à ligne. -->
                     <section class="form-section box-dashed box-ident flex-fill min-w-0" id="secIdent" data-section="ident" aria-labelledby="secIdentTitle">
                       <h2 class="section-title" id="secIdentTitle" tabindex="-1"><i class="bi bi-briefcase-fill" aria-hidden="true"></i>Identification de l'Entreprise<span class="sec-badge is-dgi"><i class="bi bi-lock-fill" aria-hidden="true"></i>DGI</span></h2>
-                      <p class="box-note"><i class="bi bi-cloud-check me-1" aria-hidden="true"></i>Données pré-remplies depuis la DGI (lecture seule).</p>
+                      <p class="box-note"><i class="bi bi-cloud-check me-1" aria-hidden="true"></i>Données enregistrées à la DGI (lecture seule).</p>
                       <div class="row g-3">
-                        <div class="col-sm-5">
-                          <label class="form-label" for="dgiNcc">N° NCC</label>
-                          <input type="text" class="form-control" id="dgiNcc" data-dgi="ncc" readonly>
-                        </div>
-                        <div class="col-sm-7">
+                        <div class="col-12">
                           <label class="form-label" for="dgiDenomination">Raison sociale</label>
                           <input type="text" class="form-control" id="dgiDenomination" data-dgi="denomination" readonly>
                         </div>
-                        <div class="col-12">
-                          <label class="form-label" for="dgiCentreCode">Centre<span class="visually-hidden"> (code)</span></label>
-                          <div class="d-flex gap-2 cq-wrap">
-                            <input type="text" class="form-control w-code text-center" id="dgiCentreCode" data-dgi="centreCode" readonly>
-                            <input type="text" class="form-control flex-grow-1 min-w-0" id="dgiCentreLib" data-dgi="centreLibelle" aria-label="Libellé du centre" readonly>
-                          </div>
-                        </div>
-                        <div class="col-rccm">
-                          <label class="form-label" for="dgiRccm">N° RCCM</label>
-                          <input type="text" class="form-control" id="dgiRccm" data-dgi="rccm" readonly>
-                        </div>
-                        <div class="col-fj">
+                        <div class="col-sm-4 cq-full" data-cq="380">
                           <label class="form-label" for="dgiForme">Forme juridique</label>
                           <input type="text" class="form-control" id="dgiForme" data-dgi="formeJuridique" readonly>
+                        </div>
+                        <div class="col-sm-8 cq-full" data-cq="380">
+                          <label class="form-label" for="dgiRccm">N° RCCM</label>
+                          <input type="text" class="form-control" id="dgiRccm" data-dgi="rccm" readonly>
                         </div>
                         <div class="col-12">
                           <label class="form-label" for="dgiActCode">Activité<span class="visually-hidden"> (code)</span></label>
@@ -861,33 +847,35 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                   <!-- ---------------- Rangée 1, droite ---------------- -->
                   <div class="col-lg-6 d-flex">
 
-                    <!-- B. Confirmation données (ressaisie comparée en temps réel au bloc A) -->
+                    <!-- B. Confirmation données : ressaisie comparée en temps réel au bloc A. Une donnée
+                         confirmée prend une bordure et une coche vertes ; « Donnée confirmée » n'est lu que
+                         par les lecteurs d'écran, pour que les deux blocs restent alignés ligne à ligne. -->
                     <section class="form-section box-dashed box-confirm flex-fill min-w-0" id="secConfirm" data-section="confirm" aria-labelledby="secConfirmTitle">
                       <h2 class="section-title" id="secConfirmTitle" tabindex="-1"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>Confirmation données<span class="sec-badge" data-sec-badge="confirm"></span></h2>
-                      <p class="box-note">Ressaisissez ces informations telles qu'enregistrées à la DGI : chacune est vérifiée pendant la saisie.</p>
+                      <p class="box-note"><i class="bi bi-keyboard me-1" aria-hidden="true"></i>Ressaisissez-les : chaque donnée est vérifiée en direct.</p>
                       <div class="row g-3">
                         <div class="col-12">
                           <label class="form-label" for="confRaison">Raison sociale<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="confRaison" placeholder="Nom officiel de l'entreprise" required data-rule="dgi:denomination" data-bind="confirmation.raisonSociale" data-label="Confirmation de la raison sociale" aria-describedby="confRaison-ok">
-                          <div class="valid-feedback" id="confRaison-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
+                          <div class="valid-feedback visually-hidden" id="confRaison-ok">Donnée confirmée</div>
                           <div class="invalid-feedback" id="confRaison-error"></div>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-4 cq-full" data-cq="380">
                           <label class="form-label" for="confForme">Forme juridique<span class="req" aria-hidden="true">*</span></label>
-                          <input type="text" class="form-control" id="confForme" placeholder="Ex. : SA, SARL, SAS" required data-rule="dgi:formeJuridique" data-bind="confirmation.formeJuridique" data-label="Confirmation de la forme juridique" aria-describedby="confForme-ok">
-                          <div class="valid-feedback" id="confForme-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
+                          <input type="text" class="form-control" id="confForme" placeholder="Ex. : SA, SARL" required data-rule="dgi:formeJuridique" data-bind="confirmation.formeJuridique" data-label="Confirmation de la forme juridique" aria-describedby="confForme-ok">
+                          <div class="valid-feedback visually-hidden" id="confForme-ok">Donnée confirmée</div>
                           <div class="invalid-feedback" id="confForme-error"></div>
                         </div>
-                        <div class="col-sm-7">
+                        <div class="col-sm-8 cq-full" data-cq="380">
                           <label class="form-label" for="confRccm">N° RCCM<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="confRccm" placeholder="Ex. : CI-ABJ-AAAA-B-NNNNN" required data-rule="dgi:rccm" data-bind="confirmation.rccm" data-label="Confirmation du N° RCCM" aria-describedby="confRccm-ok">
-                          <div class="valid-feedback" id="confRccm-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
+                          <div class="valid-feedback visually-hidden" id="confRccm-ok">Donnée confirmée</div>
                           <div class="invalid-feedback" id="confRccm-error"></div>
                         </div>
                         <div class="col-12">
                           <label class="form-label" for="confActivite">Activité<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="confActivite" placeholder="Code ou libellé de l'activité" required data-rule="dgi:activite" data-bind="confirmation.activite" data-label="Confirmation de l'activité" aria-describedby="confActivite-ok">
-                          <div class="valid-feedback" id="confActivite-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
+                          <div class="valid-feedback visually-hidden" id="confActivite-ok">Donnée confirmée</div>
                           <div class="invalid-feedback" id="confActivite-error"></div>
                         </div>
                       </div>
@@ -962,12 +950,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
                       <h3 class="subsection-title"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Localisation du siège</h3>
                       <div class="row g-3">
-                        <div class="col-sm-5 cq-full" data-cq="505">
+                        <div class="col-sm-5 cq-full" data-cq="480">
                           <label class="form-label" for="etLocalite">Localité<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="etLocalite" placeholder="Rechercher…" required data-label="Localité du siège">
                           <div class="invalid-feedback" id="etLocalite-error"></div>
                         </div>
-                        <div class="col-sm-7 cq-full" data-cq="505">
+                        <div class="col-sm-7 cq-full" data-cq="480">
                           <label class="form-label" for="etQuartier">Quartier<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="etQuartier" required data-bind="etablissement.quartier" data-label="Quartier du siège">
                           <div class="invalid-feedback" id="etQuartier-error"></div>
@@ -980,7 +968,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
                       <h3 class="subsection-title"><i class="bi bi-telephone-fill" aria-hidden="true"></i>Coordonnées</h3>
                       <div class="row g-3">
-                        <div class="col-sm-6 cq-full" data-cq="425">
+                        <div class="col-sm-6 cq-full" data-cq="362">
                           <label class="form-label" for="etMobile">Contact mobile<span class="req" aria-hidden="true">*</span></label>
                           <div class="input-group phone-group">
                             <span class="input-group-text" id="etMobile-cc">+225</span>
@@ -990,7 +978,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <button type="button" class="suggest-chip" id="etMobile-suggest" title="Reprendre le numéro du représentant légal" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre le </span>Mobile du représentant : <strong id="etMobile-suggest-val"></strong></span></button>
                           <div class="invalid-feedback" id="etMobile-error"></div>
                         </div>
-                        <div class="col-sm-6 cq-full" data-cq="425">
+                        <div class="col-sm-6 cq-full" data-cq="362">
                           <label class="form-label" for="etTelFixe">Téléphone fixe<span class="opt">facultatif</span></label>
                           <div class="input-group phone-group">
                             <span class="input-group-text" id="etTelFixe-cc">+225</span>
@@ -999,11 +987,11 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <div class="field-hint" id="etTelFixe-op" data-for="etTelFixe"></div>
                           <div class="invalid-feedback" id="etTelFixe-error"></div>
                         </div>
-                        <div class="col-sm-6 cq-full" data-cq="400">
+                        <div class="col-sm-6 cq-full" data-cq="372">
                           <label class="form-label" for="etBp">Boîte postale<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="etBp" placeholder="Ex. : 01 BP 1234 ABIDJAN 01" data-bind="etablissement.bp">
                         </div>
-                        <div class="col-sm-6 cq-full" data-cq="400">
+                        <div class="col-sm-6 cq-full" data-cq="372">
                           <label class="form-label" for="etEmail">Email officiel<span class="opt">facultatif</span></label>
                           <input type="email" class="form-control" id="etEmail" inputmode="email" placeholder="contact@entreprise.ci" autocomplete="off" data-rule="email" data-bind="etablissement.email" data-label="Email officiel">
                           <div class="email-suggest" id="etEmail-suggest" data-for="etEmail" hidden></div>
@@ -1061,16 +1049,16 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <input type="text" class="form-control" id="repLieu" placeholder="Saisir ou choisir…" required data-label="Lieu de naissance">
                           <div class="invalid-feedback" id="repLieu-error"></div>
                         </div>
-                        <div class="col-sm-5 cq-full" data-cq="440">
+                        <div class="col-sm-5 cq-full" data-cq="388">
                           <label class="form-label" for="repNationalite">Nationalité<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="repNationalite" placeholder="Rechercher…" required data-label="Nationalité">
                           <div class="invalid-feedback" id="repNationalite-error"></div>
                         </div>
-                        <div class="col-sm-7 cq-full" data-cq="440">
+                        <div class="col-sm-7 cq-full" data-cq="388">
                           <label class="form-label" for="repFonction">Fonction<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="repFonction" placeholder="Saisir ou choisir…" data-label="Fonction">
                         </div>
-                        <div class="col-sm-6 cq-full">
+                        <div class="col-sm-6 cq-full" data-cq="402">
                           <label class="form-label" for="repMobile">Téléphone mobile<span class="req" aria-hidden="true">*</span></label>
                           <div class="input-group phone-group">
                             <span class="input-group-text" id="repMobile-cc">+225</span>
@@ -1079,7 +1067,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <div class="field-hint" id="repMobile-op" data-for="repMobile"></div>
                           <div class="invalid-feedback" id="repMobile-error"></div>
                         </div>
-                        <div class="col-sm-6 cq-full">
+                        <div class="col-sm-6 cq-full" data-cq="402">
                           <label class="form-label" for="repMobile2">Confirmation<span class="visually-hidden"> du téléphone mobile</span><span class="req" aria-hidden="true">*</span></label>
                           <div class="input-group phone-group">
                             <span class="input-group-text" id="repMobile2-cc">+225</span>
@@ -1116,7 +1104,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                       <!-- Option ONECI -->
                       <div class="piece-panel" id="pieceOneci" data-cond="ONECI">
                         <div class="row g-3">
-                          <div class="col-sm-6 cq-full">
+                          <div class="col-sm-6">
                             <label class="form-label" for="oneciType">Type<span class="req" aria-hidden="true">*</span></label>
                             <select class="form-select" id="oneciType" required data-bind="piece.oneci.type" data-label="Type de pièce ONECI">
                               <option value="">Sélectionner…</option>
@@ -1125,7 +1113,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </select>
                             <div class="invalid-feedback" id="oneciType-error"></div>
                           </div>
-                          <div class="col-sm-6 cq-full">
+                          <div class="col-sm-6">
                             <label class="form-label" for="oneciNumero">N°<span class="req" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control" id="oneciNumero" placeholder="Ex. : CI000000000" required data-rule="pieceNum" data-bind="piece.oneci.numero" data-label="N° de la pièce ONECI">
                             <div class="invalid-feedback" id="oneciNumero-error"></div>
@@ -1145,7 +1133,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             <div class="field-hint" id="oneciNni-count" data-for="oneciNni"></div>
                             <div class="invalid-feedback" id="oneciNni-error"></div>
                           </div>
-                          <div class="col-sm-6 cq-full">
+                          <div class="col-sm-6 cq-full" data-cq="398">
                             <label class="form-label" for="oneciLieu">Lieu de délivrance<span class="opt">facultatif</span></label>
                             <input type="text" class="form-control" id="oneciLieu" placeholder="Saisir ou choisir…" data-label="Lieu de délivrance de la pièce">
                           </div>
@@ -1155,7 +1143,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                       <!-- Option Autre (le NNI est masqué) -->
                       <div class="piece-panel" id="pieceAutre" data-cond="AUTRE" hidden>
                         <div class="row g-3">
-                          <div class="col-sm-6 cq-full">
+                          <div class="col-sm-6 cq-full" data-cq="376">
                             <label class="form-label" for="autreType">Type<span class="req" aria-hidden="true">*</span></label>
                             <select class="form-select" id="autreType" required data-bind="piece.autre.type" data-label="Type de pièce">
                               <option value="">Sélectionner…</option>
@@ -1166,7 +1154,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </select>
                             <div class="invalid-feedback" id="autreType-error"></div>
                           </div>
-                          <div class="col-sm-6 cq-full">
+                          <div class="col-sm-6 cq-full" data-cq="376">
                             <label class="form-label" for="autreNumero">N°<span class="req" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control" id="autreNumero" required data-rule="pieceNum" data-bind="piece.autre.numero" data-label="N° de la pièce">
                             <div class="invalid-feedback" id="autreNumero-error"></div>
@@ -1180,7 +1168,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </div>
                             <div class="invalid-feedback" id="autreDelivre-error"></div>
                           </div>
-                          <div class="col-sm-6 cq-full">
+                          <div class="col-sm-6 cq-full" data-cq="398">
                             <label class="form-label" for="autreLieu">Lieu de délivrance<span class="opt">facultatif</span></label>
                             <input type="text" class="form-control" id="autreLieu" placeholder="Saisir ou choisir…" data-label="Lieu de délivrance de la pièce">
                           </div>
@@ -1525,8 +1513,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   const DGI = Object.freeze({
     ncc: '1926703U',
     denomination: 'MANSA BANK',
-    centreCode: '822',
-    centreLibelle: 'RECETTE DES GRANDES ENTREPRISES',
     rccm: 'CI-ABJ-2017-B-19569 DU 31-07-2017',
     formeJuridique: 'SA',
     activiteCode: 'SCE0502',
@@ -2948,7 +2934,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     renderTodo(checks);
     const et = state.etablissement;
     const company = [
-      ['Raison sociale', DGI.denomination], ['N° NCC', DGI.ncc], ['N° RCCM', DGI.rccm], ['Forme juridique', DGI.formeJuridique],
+      ['Raison sociale', DGI.denomination], ['Forme juridique', DGI.formeJuridique], ['N° RCCM', DGI.rccm],
       ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`], ['Date de création', et.dateCreation || '—'],
       ['Siège', [et.localite, et.quartier, et.rue].filter(Boolean).join(' – ') || '—'], ['Contact', et.mobile ? fmtIntl(et.mobile) : '—'],
     ];
@@ -3070,7 +3056,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     if (p.mode === 'ONECI') pieceRows.push(['NNI', p.oneci.nni]);
     else pieceRows.push(['Nom du père', p.autre.pereNom], ['Date de naissance du père', p.autre.pereNaissance || '—'], ['Nom de la mère', p.autre.mereNom], ['Date de naissance de la mère', p.autre.mereNaissance || '—']);
     const sections = [
-      ['bi-briefcase-fill', 'Entreprise (données DGI)', [['Raison sociale', DGI.denomination], ['N° NCC', DGI.ncc], ['N° RCCM', DGI.rccm], ['Forme juridique', DGI.formeJuridique], ['Centre', `${DGI.centreCode} – ${DGI.centreLibelle}`], ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`]]],
+      ['bi-briefcase-fill', 'Entreprise (données DGI)', [['Raison sociale', DGI.denomination], ['Forme juridique', DGI.formeJuridique], ['N° RCCM', DGI.rccm], ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`]]],
       ['bi-building-fill', 'Établissement principal', [
         ['Date de création', et.dateCreation], ['Nom abrégé / Sigle', et.sigle || '—'], ['N° Titre de commerce', et.titreCommerce || '—'], ["N° d'inscription FNCE", et.numFnce || 'À attribuer'],
         ['Capital social', `${fmtFCFA(et.capital)} (${montantEnLettres(et.capital)})`], ['Établissements secondaires', String(et.nbEts)],
