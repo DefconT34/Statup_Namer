@@ -1,0 +1,2891 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inscription au FNCE – Espace Entreprise</title>
+<meta name="description" content="Espace Entreprise – Portail administratif : inscription au FNCE et mise en conformité réglementaire.">
+<meta name="theme-color" content="#F26522">
+<!--
+  ============================================================================
+  ESPACE ENTREPRISE – PORTAIL ADMINISTRATIF (FNCE / DGI)
+  Fichier unique et autonome : HTML5 + CSS3 + JavaScript ES6 (sans framework).
+
+  Dépendances (CDN) : Bootstrap 5.3.3 (CSS + bundle JS) et Bootstrap Icons
+  1.11.3. La police Nunito (Google Fonts) est facultative : si elle ne se
+  charge pas, une police système arrondie prend le relais.
+
+  Plan du fichier
+    <style>   1. Jetons de charte   2. Base   3. Structure (bandeau, sidebar,
+              topbar)   4. Formulaire   5. Composants (liste avec recherche,
+              compteur, date)   6. Étape 2   7. Étape 3   8. Tableau de bord
+              9. Modales, toasts, notifications   10. Accessibilité
+    <body>    Bandeau · Sidebar · Topbar · Vue « Tableau de bord » ·
+              Vue « Inscription » (3 étapes) · Modales · Zone des toasts
+    <script>  0. Outils   1. Données de référence   2. État   3. Saisie
+              (majuscules, masques)   4. Composants   5. Validation
+              6. Navigation   7. Étape 1   8. Étape 2   9. Étape 3
+              10. Progression et tableau de bord   11. Notifications et toasts
+              12. Soumission   13. Initialisation
+  ============================================================================
+-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+" crossorigin="anonymous">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap">
+
+<style>
+/* ==========================================================================
+   1. JETONS DE CHARTE GRAPHIQUE
+   Les variantes « -text » sont des teintes plus foncées réservées au texte,
+   pour garantir un contraste AA (≥ 4,5:1) sur les fonds clairs.
+   ========================================================================== */
+:root {
+  --fnce-orange: #F26522;          /* orange principal */
+  --fnce-orange-text: #C2410C;     /* orange pour le texte (contraste AA) */
+  --fnce-orange-soft: #FFF3E0;     /* fond de l'onglet actif */
+  --fnce-orange-track: #FDE7D9;    /* rail des jauges */
+  --fnce-orange-line: #FDBA74;
+  --fnce-green-900: #064E3B;       /* dégradé vert : début */
+  --fnce-green-800: #065F46;
+  --fnce-green-600: #059669;       /* dégradé vert : fin, coches */
+  --fnce-green-text: #047857;      /* vert pour le texte (contraste AA) */
+  --fnce-green-soft: #ECFDF5;
+  --fnce-green-track: #D1FAE5;
+  --fnce-green-line: #6EE7B7;
+  --fnce-navy: #2E3A87;            /* bouton « Suivant » */
+  --fnce-navy-hover: #232D6E;
+  --fnce-navy-soft: #EEF2FF;
+  --fnce-page: #F1F5F9;            /* fond de page */
+  --fnce-card: #FFFFFF;            /* carte formulaire */
+  --fnce-border: #D1D5DB;          /* bordure des champs */
+  --fnce-line: #E5E7EB;
+  --fnce-ro-bg: #F8FAFC;           /* champ en lecture seule : fond */
+  --fnce-ro-text: #1E40AF;         /* champ en lecture seule : texte */
+  --fnce-yellow: #F5B800;          /* encadré « Identification » */
+  --fnce-cream: #FFFBEB;
+  --fnce-lavender: #818CF8;        /* encadré « Confirmation données » */
+  --fnce-lavender-bg: #EEF2FF;
+  --fnce-tab-bg: #F3F4F6;          /* onglet inactif */
+  --fnce-ink: #111827;
+  --fnce-ink-2: #374151;
+  --fnce-muted: #4B5563;
+  --fnce-red: #B91C1C;             /* erreurs et astérisques (AA sur tous les fonds) */
+  --fnce-red-soft: #FEF2F2;
+  --fnce-warn-text: #92400E;
+  --fnce-warn-soft: #FFFBEB;
+  --sidebar-w: 272px;
+  --topbar-h: 64px;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, .05), 0 8px 24px rgba(15, 23, 42, .06);
+
+  /* Surcharges des variables Bootstrap */
+  --bs-body-font-family: "Nunito", "Poppins", ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bs-body-color: var(--fnce-ink);
+  --bs-link-color-rgb: 46, 58, 135;
+  --bs-link-hover-color-rgb: 35, 45, 110;
+  --bs-success-rgb: 5, 150, 105;
+  --bs-form-valid-color: var(--fnce-green-text);
+  --bs-form-valid-border-color: var(--fnce-green-600);
+  --bs-form-invalid-color: var(--fnce-red);
+  --bs-form-invalid-border-color: var(--fnce-red);
+}
+
+/* ==========================================================================
+   2. BASE
+   ========================================================================== */
+body { font-size: .9375rem; line-height: 1.5; -webkit-font-smoothing: antialiased; background: var(--fnce-page); }
+.text-ink { color: var(--fnce-ink) !important; }
+.text-muted-2 { color: var(--fnce-muted) !important; }
+.min-w-0 { min-width: 0; }
+.anchor-target { scroll-margin-top: calc(var(--topbar-h) + 1rem); }
+.skip-link:focus { position: fixed; top: .75rem; left: .75rem; z-index: 2000; padding: .6rem 1rem; border-radius: 8px; background: #fff; color: var(--fnce-navy); font-weight: 800; box-shadow: 0 8px 24px rgba(0, 0, 0, .2); }
+
+/* ==========================================================================
+   3. STRUCTURE : BANDEAU, SIDEBAR, TOPBAR
+   ========================================================================== */
+.fnce-banner { background: var(--fnce-orange); color: #1A1A1A; padding: .7rem 1rem; text-align: center; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .08); }
+.fnce-banner-title { margin: 0; font-weight: 800; letter-spacing: .06em; font-size: clamp(.8rem, .55rem + 1.1vw, 1.08rem); }
+
+.app-shell { display: flex; align-items: flex-start; }
+.main-col { flex: 1 1 auto; min-width: 0; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* Sidebar verte : panneau fixe à partir de 1200 px, offcanvas en dessous */
+.sidebar {
+  --bs-offcanvas-width: 288px;
+  --bs-offcanvas-bg: var(--fnce-green-900);
+  --bs-offcanvas-color: #fff;
+  color: #fff;
+  background-image: linear-gradient(180deg, var(--fnce-green-900) 0%, var(--fnce-green-800) 55%, var(--fnce-green-600) 100%);
+}
+@media (min-width: 1200px) {
+  .sidebar.offcanvas-xl { position: sticky; top: 0; flex: 0 0 var(--sidebar-w); width: var(--sidebar-w); height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+}
+.sidebar .offcanvas-header { justify-content: flex-end; padding-bottom: 0; }
+.sidebar .offcanvas-title { font-weight: 800; }
+.sidebar .offcanvas-body { flex: 1 1 auto; display: flex; flex-direction: column; gap: 1.25rem; padding: 1.25rem 1rem; }
+.sidebar-brand { display: flex; align-items: center; gap: .75rem; padding: 0 .25rem; }
+.brand-mark { flex: 0 0 44px; height: 44px; border-radius: 12px; background: #fff; color: var(--fnce-green-900); display: grid; place-items: center; font-size: 1.35rem; box-shadow: 0 6px 16px rgba(0, 0, 0, .18); }
+.brand-title { font-weight: 800; font-size: 1.08rem; line-height: 1.15; margin: 0; }
+.brand-sub { font-size: .78rem; color: rgba(255, 255, 255, .88); margin: 0; }
+.sidebar-company { background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .18); border-radius: 12px; padding: .75rem .85rem; font-size: .8rem; line-height: 1.35; }
+.sidebar-company strong { display: block; font-size: .92rem; letter-spacing: .02em; }
+.side-nav { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+.side-link { display: flex; align-items: center; gap: .75rem; padding: .65rem .8rem; border-radius: 10px; color: #fff; text-decoration: none; font-weight: 700; font-size: .9rem; line-height: 1.2; transition: background-color .15s ease; }
+.side-link > .bi { font-size: 1.15rem; flex: 0 0 auto; }
+.side-link small { display: block; font-weight: 600; font-size: .74rem; color: rgba(255, 255, 255, .85); margin-top: 2px; }
+.side-link:hover { background: rgba(255, 255, 255, .12); color: #fff; }
+.side-link.active { background: #fff; color: var(--fnce-green-900); box-shadow: 0 6px 16px rgba(0, 0, 0, .18); }
+.side-link.active small { color: var(--fnce-green-text); }
+.side-link:focus-visible { outline: 3px solid #FCD34D; outline-offset: 2px; }
+.side-badge { margin-left: auto; font-size: .72rem; font-weight: 800; padding: .15rem .5rem; border-radius: 50rem; background: rgba(255, 255, 255, .18); color: #fff; white-space: nowrap; }
+.side-link.active .side-badge { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
+.side-badge.warn { background: #FEF3C7; color: var(--fnce-warn-text); }
+.sidebar-footer { margin-top: auto; background: rgba(0, 0, 0, .24); border-radius: 12px; padding: .85rem; font-size: .78rem; line-height: 1.4; }
+.sidebar-footer strong { display: block; font-size: .82rem; }
+
+/* Topbar */
+.topbar { position: sticky; top: 0; z-index: 1020; display: flex; align-items: center; gap: .75rem; min-height: var(--topbar-h); padding: .5rem 1rem; background: rgba(255, 255, 255, .97); border-bottom: 1px solid var(--fnce-line); }
+@media (min-width: 992px) { .topbar { padding: .5rem 2rem; } }
+.topbar .breadcrumb { font-size: .85rem; font-weight: 700; --bs-breadcrumb-item-active-color: var(--fnce-ink); }
+.topbar .breadcrumb-item:not(.active) { color: var(--fnce-muted); }
+.btn-icon { width: 42px; height: 42px; display: inline-grid; place-items: center; border-radius: 50%; border: 1px solid var(--fnce-line); background: #fff; color: var(--fnce-ink-2); font-size: 1.2rem; padding: 0; }
+.btn-icon:hover, .btn-icon[aria-expanded="true"] { background: var(--fnce-page); color: var(--fnce-ink); }
+.notif-count { position: absolute; top: -3px; right: -3px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--fnce-red); color: #fff; font-size: .7rem; font-weight: 800; display: grid; place-items: center; border: 2px solid #fff; line-height: 1; }
+.status-pill { display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .8rem; border-radius: 50rem; font-weight: 800; font-size: .8rem; border: 1px solid; white-space: nowrap; }
+.status-pill .st-short { display: none; }
+@media (max-width: 575.98px) {
+  .status-pill .st-long { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; }
+  .status-pill .st-short { display: inline; }
+}
+.st-draft { background: #F3F4F6; color: var(--fnce-ink-2); border-color: var(--fnce-border); }
+.st-progress { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border-color: var(--fnce-orange-line); }
+.st-ready { background: var(--fnce-navy-soft); color: var(--fnce-navy); border-color: #A5B4FC; }
+.st-submitted { background: var(--fnce-green-soft); color: var(--fnce-green-text); border-color: var(--fnce-green-line); }
+.profile-btn { display: inline-flex; align-items: center; gap: .55rem; padding: .25rem .6rem .25rem .25rem; border-radius: 50rem; border: 1px solid var(--fnce-line); background: #fff; color: var(--fnce-ink); }
+.profile-btn:hover, .profile-btn[aria-expanded="true"] { background: var(--fnce-page); }
+.avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--fnce-navy); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: .8rem; }
+.profile-name { font-size: .82rem; font-weight: 800; line-height: 1.1; }
+.profile-role { font-size: .72rem; color: var(--fnce-muted); line-height: 1.1; }
+
+main { padding: 1.5rem 1rem 3rem; outline: none; }
+@media (min-width: 992px) { main { padding: 1.75rem 2rem 3rem; } }
+
+/* ==========================================================================
+   4. FORMULAIRE
+   ========================================================================== */
+.page-head { margin-bottom: 1.25rem; }
+.page-title { font-size: clamp(1.3rem, 1.1rem + .8vw, 1.65rem); font-weight: 800; margin: 0; color: var(--fnce-ink); }
+.page-title:focus { outline: none; }
+.page-sub { margin: .3rem 0 0; color: var(--fnce-muted); font-size: .92rem; }
+
+.form-card { background: var(--fnce-card); border: 1px solid var(--fnce-line); border-radius: 12px; box-shadow: var(--shadow-card); scroll-margin-top: calc(var(--topbar-h) + 1rem); }
+
+/* Stepper à onglets */
+.wizard-tabs { display: flex; gap: .5rem; padding: .85rem .85rem 0; border-bottom: 1px solid var(--fnce-line); }
+.wizard-tab { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: .65rem; margin-bottom: -1px; padding: .75rem .9rem; border: 0; border-bottom: 3px solid transparent; border-radius: 8px 8px 0 0; background: var(--fnce-tab-bg); color: var(--fnce-muted); font-weight: 700; font-size: .9rem; line-height: 1.25; text-align: left; transition: background-color .15s ease, color .15s ease; }
+.wizard-tab:hover { background: #E9EBEF; color: var(--fnce-ink); }
+.wizard-tab[aria-selected="true"] { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border-bottom-color: var(--fnce-orange); }
+.wizard-tab:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; position: relative; z-index: 1; }
+.tab-num { flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; border: 2px solid currentColor; background: #fff; font-weight: 800; font-size: .85rem; }
+.tab-num .bi { display: none; font-size: .95rem; }
+.wizard-tab.done .tab-num { background: var(--fnce-green-600); border-color: var(--fnce-green-600); color: #fff; }
+.wizard-tab.done .tab-num .n { display: none; }
+.wizard-tab.done .tab-num .bi { display: block; }
+@media (max-width: 575.98px) {
+  .wizard-tabs { padding: .6rem .6rem 0; gap: .35rem; }
+  .wizard-tab { flex-direction: column; justify-content: flex-start; text-align: center; gap: .35rem; padding: .6rem .35rem; font-size: .74rem; }
+}
+
+.step-panel { padding: 1.5rem 1rem .5rem; }
+.step-panel:focus { outline: none; }
+@media (min-width: 768px) { .step-panel { padding: 1.75rem 1.75rem .75rem; } }
+
+/* Titres de section : barre orange 4 px + icône orange + titre gras */
+.section-title { display: flex; align-items: center; gap: .55rem; margin: 0 0 1rem; font-size: 1.02rem; font-weight: 800; line-height: 1.3; color: var(--fnce-ink); }
+.section-title::before { content: ""; flex: 0 0 4px; align-self: stretch; min-height: 1.3em; border-radius: 2px; background: var(--fnce-orange); }
+.section-title > .bi { color: var(--fnce-orange); font-size: 1.1em; }
+.section-title:focus { outline: none; }
+.subsection-title { display: block; width: 100%; margin: 0 0 .85rem; padding-bottom: .35rem; border-bottom: 1px solid var(--fnce-line); font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
+.subsection-title .bi { color: var(--fnce-orange); margin-right: .35rem; }
+
+/* Encadrés en pointillés */
+.box-dashed { border: 2px dashed; border-radius: 10px; padding: 1.1rem 1.1rem 1.2rem; }
+.box-ident { border-color: var(--fnce-yellow); background: var(--fnce-cream); }
+.box-confirm { border-color: var(--fnce-lavender); background: var(--fnce-lavender-bg); }
+.box-note { margin: -.45rem 0 .9rem; font-size: .8rem; color: var(--fnce-muted); }
+
+/* Champs */
+.form-label { margin-bottom: .3rem; font-size: 13px; font-weight: 700; color: var(--fnce-ink-2); }
+.req { color: var(--fnce-red); font-weight: 800; margin-left: .15rem; }
+.form-control, .form-select { height: 42px; border: 1px solid var(--fnce-border); border-radius: 4px; font-size: .9rem; color: var(--fnce-ink); }
+.form-control::placeholder { color: #6B7280; opacity: 1; }
+.form-control:focus, .form-select:focus { border-color: var(--fnce-orange); box-shadow: 0 0 0 .2rem rgba(242, 101, 34, .18); }
+.form-control[readonly] { background-color: var(--fnce-ro-bg); color: var(--fnce-ro-text); font-size: .84rem; font-weight: 800; text-transform: uppercase; text-overflow: ellipsis; }
+.form-control:disabled, .form-select:disabled { background-color: #F3F4F6; }
+.form-text { font-size: .78rem; color: var(--fnce-muted); }
+.w-code { flex: 0 0 84px; width: 84px; }
+/* Ligne « N° RCCM · Forme juridique » : côte à côte dès que la largeur le permet */
+.row > .col-rccm { flex: 1 1 320px; width: auto; }
+.row > .col-fj { flex: 0 0 140px; width: auto; }
+.w-code-lg { flex: 0 0 116px; width: 116px; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* États de validation : couleurs de la charte (coche verte, erreur rouge) */
+.form-control.is-valid { border-color: var(--fnce-green-600); background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%23059669' d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z'/%3e%3c/svg%3e"); }
+.form-control.is-invalid { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23B91C1C' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23B91C1C' stroke='none'/%3e%3c/svg%3e"); }
+.form-select.is-invalid:not([multiple]):not([size]) { --bs-form-select-bg-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23B91C1C' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23B91C1C' stroke='none'/%3e%3c/svg%3e"); }
+.valid-feedback, .invalid-feedback { font-size: .8rem; font-weight: 700; }
+.valid-feedback .bi { margin-right: .2rem; }
+
+/* Boutons radio */
+.form-check-input { border-color: #9CA3AF; }
+.form-check-input:checked { background-color: var(--fnce-orange); border-color: var(--fnce-orange); }
+.form-check-input:focus { border-color: var(--fnce-orange); box-shadow: 0 0 0 .2rem rgba(242, 101, 34, .22); }
+.form-check-label { font-size: .88rem; font-weight: 600; }
+.radio-inline-wrap { min-height: 42px; display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.25rem; }
+.radio-inline-wrap .form-check { margin: 0; }
+fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
+
+/* Pièce d'identité : bascule ONECI / Autre (transition douce) */
+.piece-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; margin-bottom: 1rem; }
+.piece-mode { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0; padding: .35rem .9rem; border-radius: 50rem; background: var(--fnce-page); }
+.piece-mode .form-check { margin: 0; }
+.piece-panel { transition: opacity .22s ease, transform .22s ease; }
+.piece-panel.is-leaving, .piece-panel.is-entering { opacity: 0; transform: translateY(8px); }
+
+.sync-hint { display: flex; gap: .3rem; align-items: flex-start; font-weight: 700; }
+.sync-hint.is-ok { color: var(--fnce-green-text); }
+.sync-hint.is-warn { color: var(--fnce-warn-text); }
+
+/* Pied de formulaire */
+.form-footer { padding: 0 1rem 1.5rem; }
+@media (min-width: 768px) { .form-footer { padding: 0 1.75rem 1.75rem; } }
+.form-footer hr { margin: .75rem 0 1.25rem; border-color: var(--fnce-line); opacity: 1; }
+.btn-next { --bs-btn-color: #fff; --bs-btn-bg: var(--fnce-navy); --bs-btn-border-color: var(--fnce-navy); --bs-btn-hover-color: #fff; --bs-btn-hover-bg: var(--fnce-navy-hover); --bs-btn-hover-border-color: var(--fnce-navy-hover); --bs-btn-active-color: #fff; --bs-btn-active-bg: #1C2459; --bs-btn-active-border-color: #1C2459; --bs-btn-disabled-color: #fff; --bs-btn-disabled-bg: var(--fnce-navy); --bs-btn-disabled-border-color: var(--fnce-navy); --bs-btn-focus-shadow-rgb: 46, 58, 135; border-radius: 50rem; padding: .62rem 2.4rem; font-weight: 800; }
+.btn-prev { --bs-btn-color: var(--fnce-ink-2); --bs-btn-bg: #fff; --bs-btn-border-color: #CBD5E1; --bs-btn-hover-color: var(--fnce-ink); --bs-btn-hover-bg: #F8FAFC; --bs-btn-hover-border-color: #94A3B8; --bs-btn-active-bg: #F1F5F9; --bs-btn-active-border-color: #94A3B8; --bs-btn-focus-shadow-rgb: 100, 116, 139; border-radius: 50rem; padding: .62rem 1.8rem; font-weight: 800; }
+.btn-submit { --bs-btn-color: #fff; --bs-btn-hover-color: #fff; --bs-btn-active-color: #fff; --bs-btn-disabled-color: #fff; --bs-btn-border-color: transparent; --bs-btn-hover-border-color: transparent; --bs-btn-focus-shadow-rgb: 5, 150, 105; border-radius: 50rem; padding: .62rem 2rem; font-weight: 800; background-image: linear-gradient(135deg, var(--fnce-green-900), var(--fnce-green-text)); }
+.btn-submit:hover { filter: brightness(1.08); }
+.submitted-alert { display: flex; align-items: flex-start; gap: 1rem; background: var(--fnce-green-soft); border: 1px solid var(--fnce-green-line); color: var(--fnce-ink); border-radius: 12px; }
+.submitted-alert > .bi { color: var(--fnce-green-600); }
+
+/* ==========================================================================
+   5. COMPOSANTS : LISTE AVEC RECHERCHE, COMPTEUR, DATE
+   ========================================================================== */
+/* Liste déroulante avec recherche et bouton d'effacement « × » */
+.combo { position: relative; }
+.combo-input.form-control { padding-right: 4.3rem; }
+.combo-input.form-control.is-invalid { background-image: none; padding-right: 4.3rem; }
+.combo-clear { position: absolute; top: 50%; right: 2.35rem; transform: translateY(-50%); width: 26px; height: 26px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--fnce-muted); display: grid; place-items: center; font-size: .78rem; }
+.combo-clear:hover { background: #F3F4F6; color: var(--fnce-ink); }
+.combo-clear:focus-visible { outline: 2px solid var(--fnce-orange); outline-offset: 1px; }
+.combo-toggle { position: absolute; top: 1px; right: 1px; bottom: 1px; width: 2.2rem; display: grid; place-items: center; border-left: 1px solid var(--fnce-line); color: var(--fnce-muted); cursor: pointer; }
+.combo-toggle .bi { transition: transform .2s ease; }
+.combo.open .combo-toggle .bi { transform: rotate(180deg); }
+.combo-list { position: absolute; z-index: 1060; top: calc(100% + 4px); left: 0; right: 0; max-height: 244px; overflow-y: auto; margin: 0; padding: .3rem; list-style: none; background: #fff; border: 1px solid var(--fnce-border); border-radius: 8px; box-shadow: 0 14px 30px rgba(15, 23, 42, .16); }
+.combo-list [role="option"] { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .45rem .65rem; border-radius: 6px; font-size: .88rem; cursor: pointer; }
+.combo-list [role="option"].active { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
+.combo-list [role="option"][aria-selected="true"] { font-weight: 800; }
+.combo-list [role="option"] .bi { color: var(--fnce-orange-text); }
+.combo-list mark { padding: 0; background: none; color: inherit; font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
+.combo-list .combo-empty { color: var(--fnce-muted); cursor: default; }
+
+/* Champ numérique avec compteur (spinner) */
+.spin { position: relative; }
+.spin .form-control { padding-right: 2.7rem; font-variant-numeric: tabular-nums; }
+.spin .form-control.is-invalid { background-image: none; }
+.spin-btns { position: absolute; top: 1px; right: 1px; bottom: 1px; width: 2.2rem; display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--fnce-line); border-radius: 0 3px 3px 0; }
+.spin-btns button { flex: 1 1 0; display: grid; place-items: center; padding: 0; border: 0; background: #F9FAFB; color: var(--fnce-muted); font-size: .62rem; line-height: 1; }
+.spin-btns button + button { border-top: 1px solid var(--fnce-line); }
+.spin-btns button:hover { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
+.spin-btns button:active { background: #FDE3D0; }
+.spin-btns button:disabled { opacity: .5; }
+
+/* Date JJ/MM/AAAA avec calendrier natif en complément */
+.date-field { position: relative; }
+.date-field .form-control { padding-right: 2.8rem; font-variant-numeric: tabular-nums; }
+.date-field .form-control.is-invalid { background-image: none; }
+.date-btn { position: absolute; top: 50%; right: .35rem; transform: translateY(-50%); width: 32px; height: 32px; padding: 0; border: 0; border-radius: 6px; background: transparent; color: var(--fnce-muted); display: grid; place-items: center; }
+.date-btn:hover { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
+.date-btn:focus-visible { outline: 2px solid var(--fnce-orange); outline-offset: 1px; }
+.date-native { position: absolute; right: .35rem; bottom: 0; width: 32px; height: 1px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
+
+/* ==========================================================================
+   6. ÉTAPE 2 : PAIEMENT ET ÉTABLISSEMENTS SECONDAIRES
+   ========================================================================== */
+.pay-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
+@media (max-width: 575.98px) { .pay-options { grid-template-columns: 1fr; } }
+.pay-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .3rem; min-height: 82px; margin: 0; padding: .6rem; border: 1px solid var(--fnce-border); border-radius: 10px; background: #fff; font-weight: 700; font-size: .84rem; text-align: center; cursor: pointer; transition: border-color .15s ease, background-color .15s ease; }
+.pay-tile .bi { font-size: 1.4rem; color: var(--fnce-muted); }
+.pay-tile:hover { border-color: var(--fnce-orange-line); }
+.btn-check:checked + .pay-tile { border-color: var(--fnce-orange); background: var(--fnce-orange-soft); color: var(--fnce-orange-text); box-shadow: inset 0 0 0 1px var(--fnce-orange); }
+.btn-check:checked + .pay-tile .bi { color: var(--fnce-orange); }
+.btn-check:focus-visible + .pay-tile { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
+.btn-check:disabled + .pay-tile { opacity: .65; cursor: not-allowed; }
+fieldset.is-invalid .pay-tile { border-color: var(--fnce-red); }
+.btn-verify { border: 1px solid var(--fnce-navy); background: #fff; color: var(--fnce-navy); font-weight: 800; min-width: 104px; }
+.btn-verify:hover, .btn-verify:focus-visible { background: var(--fnce-navy); color: #fff; border-color: var(--fnce-navy); }
+.btn-verify:disabled { background: #fff; color: var(--fnce-navy); border-color: #A5B4FC; opacity: 1; }
+.pay-status { display: inline-flex; align-items: center; gap: .45rem; padding: .45rem .85rem; border: 1px solid; border-radius: 50rem; font-size: .84rem; font-weight: 800; }
+.ps-none { background: #F3F4F6; color: var(--fnce-ink-2); border-color: var(--fnce-border); }
+.ps-pending { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border-color: var(--fnce-orange-line); }
+.ps-checking { background: var(--fnce-navy-soft); color: var(--fnce-navy); border-color: #A5B4FC; }
+.ps-ok { background: var(--fnce-green-soft); color: var(--fnce-green-text); border-color: var(--fnce-green-line); }
+.spin-ic { display: inline-block; animation: fnce-rotate 1s linear infinite; }
+@keyframes fnce-rotate { to { transform: rotate(360deg); } }
+
+.etab-counter { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .75rem; border: 1px solid #A7F3D0; border-radius: 50rem; background: var(--fnce-green-soft); color: var(--fnce-green-text); font-size: .8rem; font-weight: 800; white-space: nowrap; }
+.etab-counter.is-mismatch { border-color: #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); }
+.etab-alert { border: 1px solid #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); border-radius: 10px; font-size: .86rem; }
+.etab-alert > .bi { font-size: 1.1rem; }
+.etab-alert .btn-link { color: var(--fnce-navy); font-size: inherit; text-decoration: underline; }
+.btn-add { --bs-btn-color: #1A1A1A; --bs-btn-bg: var(--fnce-orange); --bs-btn-border-color: var(--fnce-orange); --bs-btn-hover-color: #1A1A1A; --bs-btn-hover-bg: #E0561A; --bs-btn-hover-border-color: #E0561A; --bs-btn-active-bg: #C94C15; --bs-btn-active-color: #1A1A1A; --bs-btn-focus-shadow-rgb: 242, 101, 34; border-radius: 50rem; padding: .45rem 1.1rem; font-weight: 800; }
+.etab-table-wrap { position: relative; border: 1px solid var(--fnce-line); border-radius: 10px; } /* contient les libellés masqués (évite un défilement horizontal de la page) */
+.etab-table { --bs-table-bg: #fff; margin: 0; font-size: .88rem; }
+.etab-table thead th { background: #F8FAFC; color: var(--fnce-ink-2); font-size: .74rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; border-bottom: 1px solid var(--fnce-line); }
+.etab-table tbody tr:last-child td { border-bottom: 0; }
+.etab-table .etab-empty td { padding: 1.5rem; text-align: center; color: var(--fnce-muted); }
+.btn-row { position: relative; width: 34px; height: 34px; display: inline-grid; place-items: center; padding: 0; border: 1px solid var(--fnce-line); border-radius: 8px; background: #fff; color: var(--fnce-ink-2); }
+.btn-row.edit:hover { color: var(--fnce-navy); border-color: #A5B4FC; background: var(--fnce-navy-soft); }
+.btn-row.del:hover { color: var(--fnce-red); border-color: #FCA5A5; background: var(--fnce-red-soft); }
+
+/* ==========================================================================
+   7. ÉTAPE 3 : PIÈCES JOINTES
+   ========================================================================== */
+.compl-box { min-width: min(100%, 280px); }
+.doc-card { height: 100%; display: flex; flex-direction: column; gap: .85rem; padding: 1rem; border: 1px solid var(--fnce-line); border-radius: 12px; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
+.doc-card.is-done { border-color: #A7F3D0; }
+.doc-card.is-invalid { border-color: var(--fnce-red); }
+.doc-card.dragover { border-color: var(--fnce-orange); box-shadow: 0 0 0 3px rgba(242, 101, 34, .2); }
+.doc-head { display: flex; align-items: flex-start; gap: .75rem; }
+.doc-icon { flex: 0 0 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; background: var(--fnce-orange-soft); color: var(--fnce-orange); font-size: 1.25rem; }
+.doc-title { margin: 0; font-size: .95rem; font-weight: 800; }
+.doc-desc { margin: .15rem 0 0; font-size: .8rem; color: var(--fnce-muted); }
+.doc-badge { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .6rem; border-radius: 50rem; font-size: .72rem; font-weight: 800; white-space: nowrap; }
+.badge-pending { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); border: 1px solid var(--fnce-orange-line); }
+.badge-done { background: var(--fnce-green-soft); color: var(--fnce-green-text); border: 1px solid var(--fnce-green-line); }
+.dropzone { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .3rem; padding: 1.25rem 1rem; border: 2px dashed #CBD5E1; border-radius: 10px; background: #F8FAFC; color: var(--fnce-ink-2); font-size: .86rem; text-align: center; transition: border-color .15s ease, background-color .15s ease; }
+.dropzone:hover, .doc-card.dragover .dropzone { border-color: var(--fnce-orange); background: var(--fnce-orange-soft); }
+.dropzone:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
+.dropzone .dz-ic { font-size: 1.7rem; color: var(--fnce-orange); }
+.dropzone .dz-link { color: var(--fnce-navy); font-weight: 800; text-decoration: underline; }
+.dropzone .dz-sub { font-size: .76rem; color: var(--fnce-muted); }
+.doc-file { display: flex; align-items: center; gap: .75rem; padding: .6rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #F8FAFC; }
+.doc-thumb { flex: 0 0 48px; width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--fnce-line); border-radius: 8px; background: #fff; object-fit: cover; font-size: 1.4rem; color: var(--fnce-muted); }
+.doc-thumb.is-pdf { color: var(--fnce-red); }
+.doc-name { margin: 0; overflow: hidden; font-size: .86rem; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.doc-meta { margin: 0; font-size: .76rem; color: var(--fnce-muted); }
+.doc-actions { margin-left: auto; display: flex; gap: .35rem; }
+.upload-bar { height: 6px; margin-top: .4rem; overflow: hidden; border-radius: 3px; background: var(--fnce-orange-track); }
+.upload-bar > span { display: block; width: 0; height: 100%; border-radius: 3px; background: var(--fnce-orange); }
+
+/* Jauge linéaire : remplissage orange sur un rail orange clair ; vert à 100 % */
+.meter { position: relative; height: 10px; overflow: hidden; border-radius: 5px; background: var(--fnce-orange-track); }
+.meter-fill { width: 0; height: 100%; border-radius: 5px; background: var(--fnce-orange); transition: width .45s ease; }
+.meter.is-complete { background: var(--fnce-green-track); }
+.meter.is-complete .meter-fill { background: var(--fnce-green-600); }
+.meter-lg { height: 14px; border-radius: 7px; }
+
+/* ==========================================================================
+   8. TABLEAU DE BORD
+   ========================================================================== */
+.dash-card { background: #fff; border: 1px solid var(--fnce-line); border-radius: 12px; box-shadow: var(--shadow-card); padding: 1.25rem; }
+.card-title-sm { margin: 0 0 1rem; font-size: .95rem; font-weight: 800; color: var(--fnce-ink); }
+.hero-figure { margin: 0; font-size: 3.5rem; font-weight: 800; line-height: 1; letter-spacing: -.02em; color: var(--fnce-ink); }
+.hero-unit { margin-left: .15rem; font-size: 1.6rem; color: var(--fnce-muted); }
+.step-meters { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: .9rem; }
+.step-meters .sm-head { display: flex; justify-content: space-between; gap: .5rem; margin-bottom: .35rem; font-size: .84rem; font-weight: 700; color: var(--fnce-ink-2); }
+.step-meters .sm-val { font-variant-numeric: tabular-nums; color: var(--fnce-ink); }
+.sm-state { margin-left: .2rem; color: var(--fnce-green-600); }
+.stat-tile { height: 100%; padding: 1rem 1.1rem; border: 1px solid var(--fnce-line); border-radius: 12px; background: #fff; box-shadow: var(--shadow-card); }
+.stat-label { display: flex; align-items: center; gap: .5rem; margin: 0; font-size: .8rem; font-weight: 700; color: var(--fnce-muted); }
+.stat-ic { flex: 0 0 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-size: .95rem; }
+.stat-value { margin: .45rem 0 .15rem; font-size: 1.55rem; font-weight: 800; color: var(--fnce-ink); }
+.stat-note { display: flex; align-items: center; gap: .35rem; margin: 0; font-size: .78rem; font-weight: 700; color: var(--fnce-muted); }
+.stat-note .is-ok { color: var(--fnce-green-600); }
+.stat-note .is-warn { color: var(--fnce-orange); }
+.tone-info { background: var(--fnce-navy-soft); color: var(--fnce-navy); }
+.tone-success { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
+.tone-warning { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
+.tone-neutral { background: #F3F4F6; color: var(--fnce-ink-2); }
+
+/* Timeline du dossier */
+.timeline { list-style: none; margin: 0; padding: 0; }
+.tl-item { position: relative; display: flex; gap: .9rem; padding-bottom: 1rem; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before { content: ""; position: absolute; top: 38px; bottom: 0; left: 17px; width: 2px; background: var(--fnce-line); }
+.tl-item:last-child::before { display: none; }
+.tl-item.is-done::before { background: var(--fnce-green-600); }
+.tl-marker { position: relative; z-index: 1; flex: 0 0 36px; height: 36px; display: grid; place-items: center; border: 2px solid; border-radius: 50%; background: #fff; font-size: .9rem; font-weight: 800; }
+.is-done .tl-marker { border-color: var(--fnce-green-600); background: var(--fnce-green-600); color: #fff; }
+.is-current .tl-marker { border-color: var(--fnce-orange); color: var(--fnce-orange-text); box-shadow: 0 0 0 4px var(--fnce-orange-soft); }
+.is-upcoming .tl-marker { border-color: #CBD5E1; color: #64748B; }
+.tl-card { flex: 1 1 auto; min-width: 0; display: grid; gap: .2rem; padding: .7rem .9rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #fff; color: inherit; text-align: left; transition: border-color .15s ease, box-shadow .15s ease; }
+.tl-card:hover { border-color: var(--fnce-orange-line); box-shadow: 0 6px 16px rgba(15, 23, 42, .08); }
+.tl-card:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
+.tl-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .35rem .5rem; }
+.tl-title { font-weight: 800; }
+.tl-state { display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .55rem; border-radius: 50rem; font-size: .74rem; font-weight: 800; }
+.is-done .tl-state { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
+.is-current .tl-state { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
+.is-upcoming .tl-state { background: #F3F4F6; color: var(--fnce-muted); }
+.tl-detail { font-size: .82rem; color: var(--fnce-muted); }
+.tl-link { font-size: .78rem; font-weight: 800; color: var(--fnce-navy); }
+
+.todo-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.todo-btn { width: 100%; display: flex; align-items: center; gap: .6rem; padding: .55rem .75rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #fff; color: var(--fnce-ink); font-size: .86rem; font-weight: 700; text-align: left; }
+.todo-btn:hover { border-color: var(--fnce-orange-line); background: #FFFAF5; }
+.todo-btn:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
+.todo-btn .bi { margin-left: auto; color: var(--fnce-muted); }
+.todo-step { flex: 0 0 auto; padding: .1rem .5rem; border-radius: 50rem; background: var(--fnce-orange-soft); color: var(--fnce-orange-text); font-size: .72rem; font-weight: 800; }
+.todo-empty { display: flex; gap: .5rem; align-items: flex-start; padding: .75rem; border-radius: 10px; background: var(--fnce-green-soft); color: var(--fnce-green-text); font-weight: 700; font-size: .86rem; }
+.todo-more { padding: .25rem .75rem; color: var(--fnce-muted); font-size: .8rem; }
+
+/* Listes de définitions (entreprise, récapitulatif) */
+.recap-dl { display: grid; grid-template-columns: minmax(120px, 38%) 1fr; gap: .35rem 1rem; margin: 0; font-size: .86rem; }
+.recap-dl dt { font-weight: 700; color: var(--fnce-muted); }
+.recap-dl dd { margin: 0; font-weight: 800; color: var(--fnce-ink); overflow-wrap: anywhere; }
+@media (max-width: 575.98px) { .recap-dl { grid-template-columns: 1fr; gap: .1rem; } .recap-dl dd { margin-bottom: .45rem; } }
+
+/* ==========================================================================
+   9. MODALES, TOASTS, NOTIFICATIONS
+   ========================================================================== */
+.modal-content { border: 0; border-radius: 14px; box-shadow: 0 24px 60px rgba(15, 23, 42, .25); }
+.modal-header, .modal-footer { border-color: var(--fnce-line); }
+.recap-section { margin-bottom: .85rem; padding: .9rem 1rem; border: 1px solid var(--fnce-line); border-radius: 10px; }
+.recap-section h3 { display: flex; align-items: center; gap: .45rem; margin: 0 0 .65rem; font-size: .8rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--fnce-muted); }
+.recap-section h3 .bi { color: var(--fnce-orange); font-size: 1rem; }
+.recap-certify { padding: .75rem 1rem .75rem 2.6rem; border-radius: 10px; background: var(--fnce-page); }
+
+.toast-container { z-index: 1090; }
+.fnce-toast { width: min(360px, calc(100vw - 2rem)); overflow: hidden; border: 0; border-radius: 12px; box-shadow: 0 12px 32px rgba(15, 23, 42, .28); color: #fff; }
+.fnce-toast .toast-body { padding: .85rem .9rem; font-size: .88rem; }
+.fnce-toast .toast-ic { font-size: 1.2rem; line-height: 1.2; }
+.t-success { background-color: var(--fnce-green-800); background-image: linear-gradient(135deg, var(--fnce-green-900) 0%, var(--fnce-green-800) 60%, var(--fnce-green-600) 100%); }
+.t-error { background: var(--fnce-red); }
+.t-info { background: var(--fnce-navy); }
+.btn-toast-action { padding: .2rem .85rem; border: 0; border-radius: 50rem; background: #fff; color: var(--fnce-ink); font-size: .8rem; font-weight: 800; }
+.btn-toast-action:hover { background: #F3F4F6; }
+
+.notif-menu { width: min(360px, calc(100vw - 1.5rem)); padding: 0; overflow: hidden; border: 1px solid var(--fnce-line); border-radius: 12px; box-shadow: 0 16px 40px rgba(15, 23, 42, .16); }
+.notif-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .75rem 1rem; border-bottom: 1px solid var(--fnce-line); font-weight: 800; }
+.notif-head .btn-link { font-size: .78rem; font-weight: 700; text-decoration: none; }
+.notif-list { list-style: none; max-height: 340px; margin: 0; padding: 0; overflow-y: auto; }
+.notif-item { display: flex; gap: .7rem; padding: .7rem 1rem; border-bottom: 1px solid #F1F5F9; font-size: .85rem; }
+.notif-item:last-child { border-bottom: 0; }
+.notif-item.unread { background: #FFF8F1; }
+.notif-item p { margin: 0; }
+.notif-item time { font-size: .74rem; color: var(--fnce-muted); }
+.notif-ic { flex: 0 0 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; }
+.notif-empty { padding: 1rem; text-align: center; color: var(--fnce-muted); font-size: .85rem; }
+
+/* ==========================================================================
+   10. ACCESSIBILITÉ : MOUVEMENT RÉDUIT
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+
+<body>
+<a class="visually-hidden-focusable skip-link" href="#main">Aller au contenu principal</a>
+<noscript><div class="alert alert-warning m-3">Ce portail nécessite JavaScript.</div></noscript>
+
+<!-- ========================================================================
+     BANDEAU SUPÉRIEUR ORANGE (pleine largeur)
+     ======================================================================== -->
+<header class="fnce-banner">
+  <p class="fnce-banner-title">FNCE - MISE EN CONFORMITE REGLEMENTAIRE</p>
+</header>
+
+<div class="app-shell">
+
+  <!-- ======================================================================
+       SIDEBAR VERTE (offcanvas sur mobile et tablette, panneau fixe ≥ 1200 px)
+       ====================================================================== -->
+  <aside class="sidebar offcanvas-xl offcanvas-start" id="sidebar" tabindex="-1" aria-labelledby="sidebarTitle">
+    <div class="offcanvas-header">
+      <p class="offcanvas-title visually-hidden" id="sidebarTitle">Menu Espace Entreprise</p>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Fermer le menu"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="sidebar-brand">
+        <span class="brand-mark" aria-hidden="true"><i class="bi bi-building-check"></i></span>
+        <div>
+          <p class="brand-title">Espace Entreprise</p>
+          <p class="brand-sub">Portail administratif</p>
+        </div>
+      </div>
+
+      <div class="sidebar-company">
+        <span>Compte entreprise</span>
+        <strong data-dgi-text="denomination"></strong>
+        <span>NCC <span data-dgi-text="ncc"></span></span>
+      </div>
+
+      <nav aria-label="Navigation principale">
+        <ul class="side-nav">
+          <li>
+            <a class="side-link" href="#/tableau-de-bord" data-route="dashboard">
+              <i class="bi bi-speedometer2" aria-hidden="true"></i>
+              <span>Tableau de bord<small>Suivi du dossier</small></span>
+            </a>
+          </li>
+          <li>
+            <a class="side-link" href="#/inscription/1" data-route="step1">
+              <i class="bi bi-ui-checks" aria-hidden="true"></i>
+              <span>Inscription FNCE<small>Assistant en 3 étapes · <span id="navBadgeInscription">0 %</span></small></span>
+            </a>
+          </li>
+          <li>
+            <a class="side-link" href="#/inscription/2" data-route="step2" data-target="etabSection">
+              <i class="bi bi-shop" aria-hidden="true"></i>
+              <span>Établissements secondaires</span>
+              <span class="side-badge" id="navBadgeEtab">0</span>
+            </a>
+          </li>
+          <li>
+            <a class="side-link" href="#/inscription/3" data-route="step3">
+              <i class="bi bi-folder2-open" aria-hidden="true"></i>
+              <span>Documents / Pièces jointes</span>
+              <span class="side-badge" id="navBadgeDocs">0/4</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <strong><i class="bi bi-info-circle me-1" aria-hidden="true"></i>Maquette de démonstration</strong>
+        Les données restent en mémoire dans le navigateur : aucun envoi n'est effectué.
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-col">
+
+    <!-- ====================================================================
+         TOPBAR : statut du dossier, notifications, profil
+         ==================================================================== -->
+    <div class="topbar">
+      <button type="button" class="btn-icon d-xl-none" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar" aria-label="Ouvrir le menu">
+        <i class="bi bi-list" aria-hidden="true"></i>
+      </button>
+      <nav class="d-none d-md-block" aria-label="Fil d'Ariane">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item">Espace Entreprise</li>
+          <li class="breadcrumb-item active" aria-current="page" id="crumbCurrent">Inscription FNCE</li>
+        </ol>
+      </nav>
+
+      <div class="ms-auto d-flex align-items-center gap-2 gap-sm-3">
+        <span class="status-pill st-draft" id="statusPill"></span>
+
+        <div class="dropdown">
+          <button type="button" class="btn-icon position-relative" id="notifBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Notifications">
+            <i class="bi bi-bell" aria-hidden="true"></i>
+            <span class="notif-count" id="notifCount" aria-hidden="true" hidden>0</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end notif-menu" aria-labelledby="notifBtn">
+            <div class="notif-head">
+              <span>Notifications</span>
+              <button type="button" class="btn btn-link btn-sm p-0" id="notifReadAll">Tout marquer comme lu</button>
+            </div>
+            <ul class="notif-list" id="notifList"></ul>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <button type="button" class="profile-btn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menu du profil">
+            <span class="avatar" aria-hidden="true">MB</span>
+            <span class="d-none d-md-block text-start">
+              <span class="profile-name d-block" data-dgi-text="denomination"></span>
+              <span class="profile-role d-block">Gestionnaire du compte</span>
+            </span>
+            <i class="bi bi-chevron-down small d-none d-md-inline" aria-hidden="true"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><h2 class="dropdown-header">Compte entreprise</h2></li>
+            <li><button type="button" class="dropdown-item" data-demo="Mon profil"><i class="bi bi-person me-2" aria-hidden="true"></i>Mon profil</button></li>
+            <li><button type="button" class="dropdown-item" data-demo="Sécurité du compte"><i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Sécurité du compte</button></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><button type="button" class="dropdown-item" data-demo="Déconnexion"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Se déconnecter</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <main id="main" tabindex="-1">
+
+      <!-- ==================================================================
+           VUE « TABLEAU DE BORD / SUIVI DU DOSSIER »
+           ================================================================== -->
+      <section id="view-dashboard" class="view" aria-labelledby="dashTitle" hidden>
+        <div class="page-head d-flex flex-wrap align-items-end justify-content-between gap-3">
+          <div>
+            <h1 class="page-title" id="dashTitle" tabindex="-1">Tableau de bord</h1>
+            <p class="page-sub">Suivi de votre dossier de mise en conformité FNCE : <strong class="text-ink" data-dgi-text="denomination"></strong></p>
+          </div>
+          <button type="button" class="btn btn-next" id="btnResume"></button>
+        </div>
+
+        <div class="row g-4">
+          <!-- Complétion : chiffre principal + jauge linéaire (une seule valeur) -->
+          <div class="col-xl-5">
+            <article class="dash-card h-100" aria-labelledby="progTitle">
+              <h2 class="card-title-sm" id="progTitle">Complétion du dossier</h2>
+              <div class="d-flex flex-wrap align-items-end gap-3 mb-3">
+                <p class="hero-figure"><span id="dashPct">0</span><span class="hero-unit">%</span></p>
+                <p class="mb-2 small text-muted-2 fw-bold" id="dashProgText"></p>
+              </div>
+              <div class="meter meter-lg" id="dashMeter" role="progressbar" aria-labelledby="progTitle" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
+              <ul class="step-meters">
+                <li id="stepMeter-1">
+                  <div class="sm-head"><span id="smLabel-1">Étape 1 · Identification du commerce <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
+                  <div class="meter" role="progressbar" aria-labelledby="smLabel-1" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
+                </li>
+                <li id="stepMeter-2">
+                  <div class="sm-head"><span id="smLabel-2">Étape 2 · Paiements / Établissements <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
+                  <div class="meter" role="progressbar" aria-labelledby="smLabel-2" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
+                </li>
+                <li id="stepMeter-3">
+                  <div class="sm-head"><span id="smLabel-3">Étape 3 · Pièces jointes <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
+                  <div class="meter" role="progressbar" aria-labelledby="smLabel-3" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <!-- Timeline interactive -->
+          <div class="col-xl-7">
+            <article class="dash-card h-100" aria-labelledby="tlTitle">
+              <h2 class="card-title-sm" id="tlTitle">Suivi du dossier</h2>
+              <ol class="timeline" id="timeline" aria-labelledby="tlTitle"></ol>
+            </article>
+          </div>
+
+          <!-- Indicateurs -->
+          <div class="col-12">
+            <h2 class="visually-hidden">Indicateurs du dossier</h2>
+            <div class="row g-3" id="kpiRow"></div>
+          </div>
+
+          <div class="col-lg-7">
+            <article class="dash-card h-100" aria-labelledby="todoTitle">
+              <h2 class="card-title-sm" id="todoTitle">Actions à réaliser</h2>
+              <ul class="todo-list" id="todoList"></ul>
+            </article>
+          </div>
+          <div class="col-lg-5">
+            <article class="dash-card h-100" aria-labelledby="companyTitle">
+              <h2 class="card-title-sm" id="companyTitle">Entreprise (données DGI)</h2>
+              <dl class="recap-dl" id="companyDl"></dl>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           VUE « INSCRIPTION AU FNCE » (assistant en 3 étapes)
+           ================================================================== -->
+      <section id="view-inscription" class="view" aria-labelledby="inscTitle">
+        <div class="page-head">
+          <h1 class="page-title" id="inscTitle" tabindex="-1">Inscription au FNCE</h1>
+          <p class="page-sub">Les champs marqués d'un astérisque (<span class="req" aria-hidden="true">*</span>) sont obligatoires.</p>
+        </div>
+
+        <div class="alert submitted-alert" id="submittedAlert" hidden>
+          <i class="bi bi-send-check-fill fs-4" aria-hidden="true"></i>
+          <div>
+            <strong>Dossier soumis le <span id="submittedAt"></span></strong>, référence <strong id="submittedRef"></strong>.<br>
+            <span class="small">Les informations ne sont plus modifiables. Suivez l'avancement depuis le <a href="#/tableau-de-bord">tableau de bord</a>.</span>
+          </div>
+        </div>
+
+        <div class="form-card" id="wizardCard">
+          <!-- Stepper à onglets -->
+          <div class="wizard-tabs" role="tablist" aria-label="Étapes de l'inscription">
+            <button type="button" class="wizard-tab" role="tab" id="tab-1" data-step="1" aria-controls="step-1" aria-selected="true">
+              <span class="tab-num" aria-hidden="true"><span class="n">1</span><i class="bi bi-check-lg"></i></span>
+              <span><span class="visually-hidden">Étape 1 : </span>Identification du commerce<span class="visually-hidden tab-state"></span></span>
+            </button>
+            <button type="button" class="wizard-tab" role="tab" id="tab-2" data-step="2" aria-controls="step-2" aria-selected="false" tabindex="-1">
+              <span class="tab-num" aria-hidden="true"><span class="n">2</span><i class="bi bi-check-lg"></i></span>
+              <span><span class="visually-hidden">Étape 2 : </span>Paiements / Établissements secondaires<span class="visually-hidden tab-state"></span></span>
+            </button>
+            <button type="button" class="wizard-tab" role="tab" id="tab-3" data-step="3" aria-controls="step-3" aria-selected="false" tabindex="-1">
+              <span class="tab-num" aria-hidden="true"><span class="n">3</span><i class="bi bi-check-lg"></i></span>
+              <span><span class="visually-hidden">Étape 3 : </span>Pièces jointes<span class="visually-hidden tab-state"></span></span>
+            </button>
+          </div>
+
+          <form id="fnceForm" novalidate autocomplete="off">
+            <fieldset id="formFieldset">
+
+              <!-- ============================================================
+                   ÉTAPE 1 – IDENTIFICATION DU COMMERCE
+                   ============================================================ -->
+              <div class="step-panel" role="tabpanel" id="step-1" aria-labelledby="tab-1" tabindex="-1">
+                <div class="row g-4">
+
+                  <!-- ---------------- Colonne gauche ---------------- -->
+                  <div class="col-lg-6">
+
+                    <!-- A. Identification de l'Entreprise (lecture seule, données DGI) -->
+                    <section class="box-dashed box-ident" aria-labelledby="secIdentTitle">
+                      <h2 class="section-title" id="secIdentTitle"><i class="bi bi-briefcase-fill" aria-hidden="true"></i>Identification de l'Entreprise</h2>
+                      <p class="box-note"><i class="bi bi-cloud-check me-1" aria-hidden="true"></i>Données pré-remplies depuis la DGI (lecture seule).</p>
+                      <div class="row g-3">
+                        <div class="col-sm-5">
+                          <label class="form-label" for="dgiNcc">N° NCC</label>
+                          <input type="text" class="form-control" id="dgiNcc" data-dgi="ncc" readonly>
+                        </div>
+                        <div class="col-sm-7">
+                          <label class="form-label" for="dgiDenomination">Dénomination</label>
+                          <input type="text" class="form-control" id="dgiDenomination" data-dgi="denomination" readonly>
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label" for="dgiCentreCode">Centre<span class="visually-hidden"> (code)</span></label>
+                          <div class="d-flex gap-2">
+                            <input type="text" class="form-control w-code text-center" id="dgiCentreCode" data-dgi="centreCode" readonly>
+                            <input type="text" class="form-control flex-grow-1 min-w-0" id="dgiCentreLib" data-dgi="centreLibelle" aria-label="Libellé du centre" readonly>
+                          </div>
+                        </div>
+                        <div class="col-rccm">
+                          <label class="form-label" for="dgiRccm">N° RCCM</label>
+                          <input type="text" class="form-control" id="dgiRccm" data-dgi="rccm" readonly>
+                        </div>
+                        <div class="col-fj">
+                          <label class="form-label" for="dgiForme">Forme juridique</label>
+                          <input type="text" class="form-control" id="dgiForme" data-dgi="formeJuridique" readonly>
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label" for="dgiActCode">Activité<span class="visually-hidden"> (code)</span></label>
+                          <div class="d-flex gap-2">
+                            <input type="text" class="form-control w-code-lg text-center" id="dgiActCode" data-dgi="activiteCode" readonly>
+                            <input type="text" class="form-control flex-grow-1 min-w-0" id="dgiActLib" data-dgi="activiteLibelle" aria-label="Libellé de l'activité" readonly>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+
+                    <!-- B. Confirmation données (ressaisie comparée en temps réel au bloc A) -->
+                    <section class="box-dashed box-confirm mt-4" aria-labelledby="secConfirmTitle">
+                      <h2 class="section-title" id="secConfirmTitle"><i class="bi bi-patch-check-fill" aria-hidden="true"></i>Confirmation données</h2>
+                      <p class="box-note">Ressaisissez la forme juridique et le N° RCCM tels qu'enregistrés à la DGI.</p>
+                      <div class="row g-3">
+                        <div class="col-sm-5">
+                          <label class="form-label" for="confForme">Forme juridique<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="confForme" placeholder="Ex. : SA, SARL, SAS" required data-rule="dgi:formeJuridique" data-bind="confirmation.formeJuridique" data-label="Confirmation de la forme juridique" aria-describedby="confForme-ok">
+                          <div class="valid-feedback" id="confForme-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
+                          <div class="invalid-feedback" id="confForme-error"></div>
+                        </div>
+                        <div class="col-sm-7">
+                          <label class="form-label" for="confRccm">N° RCCM<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="confRccm" placeholder="Ex. : CI-ABJ-AAAA-B-NNNNN" required data-rule="dgi:rccm" data-bind="confirmation.rccm" data-label="Confirmation du N° RCCM" aria-describedby="confRccm-ok">
+                          <div class="valid-feedback" id="confRccm-ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i>Donnée confirmée</div>
+                          <div class="invalid-feedback" id="confRccm-error"></div>
+                        </div>
+                      </div>
+                    </section>
+
+                    <!-- C. Siège social (hors encadré) -->
+                    <fieldset class="mt-4">
+                      <legend class="subsection-title"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Siège social</legend>
+                      <div class="row g-3">
+                        <div class="col-sm-6 col-xxl-4">
+                          <label class="form-label" for="villeSiege">Ville Siège<span class="req" aria-hidden="true">*</span></label>
+                          <div class="combo">
+                            <input type="text" class="form-control combo-input" id="villeSiege" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="villeSiege-list" autocomplete="off" spellcheck="false" placeholder="Rechercher…" required data-no-upper data-label="Ville du siège">
+                            <button type="button" class="combo-clear" aria-label="Effacer la ville du siège" hidden><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+                            <span class="combo-toggle" aria-hidden="true"><i class="bi bi-chevron-down"></i></span>
+                            <ul class="combo-list" id="villeSiege-list" role="listbox" aria-label="Villes" hidden></ul>
+                          </div>
+                          <div class="invalid-feedback" id="villeSiege-error"></div>
+                        </div>
+                        <div class="col-sm-6 col-xxl-5">
+                          <label class="form-label" for="quartierSiege">Quartier Siège<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="quartierSiege" required data-bind="siege.quartier" data-label="Quartier du siège">
+                          <div class="invalid-feedback" id="quartierSiege-error"></div>
+                        </div>
+                        <div class="col-12 col-xxl-3">
+                          <label class="form-label" for="rueSiege">Rue</label>
+                          <input type="text" class="form-control" id="rueSiege" data-bind="siege.rue">
+                        </div>
+                        <div class="col-sm-7">
+                          <label class="form-label" for="capital">Capital social<span class="req" aria-hidden="true">*</span></label>
+                          <div class="spin">
+                            <input type="text" class="form-control" id="capital" inputmode="numeric" role="spinbutton" aria-valuemin="0" autocomplete="off" required data-mask="thousands" data-kind="number" data-rule="positive" data-bind="siege.capital" data-min="0" data-step="1000000" data-unit="FCFA" data-label="Capital social" aria-describedby="capital-hint">
+                            <div class="spin-btns">
+                              <button type="button" tabindex="-1" data-spin="1" aria-label="Augmenter le capital d'un million"><i class="bi bi-caret-up-fill" aria-hidden="true"></i></button>
+                              <button type="button" tabindex="-1" data-spin="-1" aria-label="Diminuer le capital d'un million"><i class="bi bi-caret-down-fill" aria-hidden="true"></i></button>
+                            </div>
+                          </div>
+                          <div class="form-text" id="capital-hint">En FCFA. Flèches ↑ / ↓ : ± 1 000 000.</div>
+                          <div class="invalid-feedback" id="capital-error"></div>
+                        </div>
+                        <div class="col-sm-5">
+                          <label class="form-label" for="nbEts">Nbre ets secondaire<span class="req" aria-hidden="true">*</span></label>
+                          <div class="spin">
+                            <input type="text" class="form-control" id="nbEts" inputmode="numeric" role="spinbutton" aria-valuemin="0" aria-valuemax="999" autocomplete="off" required data-mask="digits" data-max-digits="3" data-kind="number" data-bind="siege.nbEts" data-min="0" data-max-value="999" data-step="1" data-label="Nombre d'établissements secondaires" aria-describedby="nbEts-sync">
+                            <div class="spin-btns">
+                              <button type="button" tabindex="-1" data-spin="1" aria-label="Augmenter le nombre d'établissements"><i class="bi bi-caret-up-fill" aria-hidden="true"></i></button>
+                              <button type="button" tabindex="-1" data-spin="-1" aria-label="Diminuer le nombre d'établissements"><i class="bi bi-caret-down-fill" aria-hidden="true"></i></button>
+                            </div>
+                          </div>
+                          <div class="form-text sync-hint" id="nbEts-sync"></div>
+                          <div class="invalid-feedback" id="nbEts-error"></div>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+
+                  <!-- ---------------- Colonne droite ---------------- -->
+                  <div class="col-lg-6">
+
+                    <!-- D. Représentant légal -->
+                    <section aria-labelledby="secRepTitle">
+                      <h2 class="section-title" id="secRepTitle"><i class="bi bi-person-fill" aria-hidden="true"></i>Représentant légal</h2>
+                      <div class="row g-3">
+                        <div class="col-sm-7">
+                          <label class="form-label" for="repNom">Nom<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="repNom" required data-bind="representant.nom" data-label="Nom du représentant">
+                          <div class="invalid-feedback" id="repNom-error"></div>
+                        </div>
+                        <div class="col-sm-5">
+                          <fieldset class="radio-group" id="repSexe" data-group data-required data-label="Sexe du représentant">
+                            <legend class="form-label">Sexe<span class="req" aria-hidden="true">*</span></legend>
+                            <div class="radio-inline-wrap">
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sexe" id="sexeM" value="M" data-bind="representant.sexe">
+                                <label class="form-check-label" for="sexeM">Masculin</label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sexe" id="sexeF" value="F" data-bind="representant.sexe">
+                                <label class="form-check-label" for="sexeF">Féminin</label>
+                              </div>
+                            </div>
+                            <div class="invalid-feedback" id="repSexe-error"></div>
+                          </fieldset>
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label" for="repPrenoms">Prénoms<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="repPrenoms" required data-bind="representant.prenoms" data-label="Prénoms du représentant">
+                          <div class="invalid-feedback" id="repPrenoms-error"></div>
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="repNaissance">Né(e) le<span class="req" aria-hidden="true">*</span></label>
+                          <div class="date-field">
+                            <input type="text" class="form-control" id="repNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" required data-mask="date" data-rule="date age18" data-bind="representant.naissance" data-label="Date de naissance du représentant">
+                            <button type="button" class="date-btn" aria-label="Choisir la date de naissance dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
+                            <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
+                          </div>
+                          <div class="invalid-feedback" id="repNaissance-error"></div>
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="repLieu">Lieu<span class="req" aria-hidden="true">*</span></label>
+                          <input type="text" class="form-control" id="repLieu" required data-bind="representant.lieu" data-label="Lieu de naissance">
+                          <div class="invalid-feedback" id="repLieu-error"></div>
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="repNationalite">Nationalité<span class="req" aria-hidden="true">*</span></label>
+                          <div class="combo">
+                            <input type="text" class="form-control combo-input" id="repNationalite" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="repNationalite-list" autocomplete="off" spellcheck="false" placeholder="Rechercher…" required data-no-upper data-label="Nationalité">
+                            <button type="button" class="combo-clear" aria-label="Effacer la nationalité" hidden><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+                            <span class="combo-toggle" aria-hidden="true"><i class="bi bi-chevron-down"></i></span>
+                            <ul class="combo-list" id="repNationalite-list" role="listbox" aria-label="Nationalités" hidden></ul>
+                          </div>
+                          <div class="invalid-feedback" id="repNationalite-error"></div>
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="repFonction">Fonction</label>
+                          <input type="text" class="form-control" id="repFonction" data-bind="representant.fonction">
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="repMobile">Téléphone mobile<span class="req" aria-hidden="true">*</span></label>
+                          <input type="tel" class="form-control text-center tabular" id="repMobile" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile" data-bind="representant.mobile" data-label="Téléphone mobile">
+                          <div class="invalid-feedback" id="repMobile-error"></div>
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="repMobile2">Confirmation<span class="req" aria-hidden="true">*</span></label>
+                          <input type="tel" class="form-control text-center tabular" id="repMobile2" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile match:repMobile" data-bind="representant.mobile2" data-label="Confirmation du téléphone mobile">
+                          <div class="invalid-feedback" id="repMobile2-error"></div>
+                        </div>
+                      </div>
+                    </section>
+
+                    <!-- E. Pièce d'identité (ONECI avec NNI, ou autre pièce + filiation) -->
+                    <section class="mt-4" aria-labelledby="secPieceTitle">
+                      <div class="piece-head">
+                        <h2 class="section-title m-0" id="secPieceTitle"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i>Pièce d'identité</h2>
+                        <fieldset class="piece-mode">
+                          <legend class="visually-hidden">Type de pièce d'identité</legend>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pieceMode" id="modeOneci" value="ONECI" checked>
+                            <label class="form-check-label" for="modeOneci">Pièce ONECI (avec NNI)</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="pieceMode" id="modeAutre" value="AUTRE">
+                            <label class="form-check-label" for="modeAutre">Autre</label>
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <!-- Option ONECI -->
+                      <div class="piece-panel" id="pieceOneci" data-cond="ONECI">
+                        <div class="row g-3">
+                          <div class="col-sm-6">
+                            <label class="form-label" for="oneciType">Type<span class="req" aria-hidden="true">*</span></label>
+                            <select class="form-select" id="oneciType" required data-bind="piece.oneci.type" data-label="Type de pièce ONECI">
+                              <option value="">Sélectionner…</option>
+                              <option>Nouvelle CNI</option>
+                              <option>Carte de résident</option>
+                            </select>
+                            <div class="invalid-feedback" id="oneciType-error"></div>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="oneciNumero">N°<span class="req" aria-hidden="true">*</span></label>
+                            <input type="text" class="form-control" id="oneciNumero" placeholder="Ex. : CI000000000" required data-rule="pieceNum" data-bind="piece.oneci.numero" data-label="N° de la pièce ONECI">
+                            <div class="invalid-feedback" id="oneciNumero-error"></div>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="oneciDelivre">Délivré le</label>
+                            <div class="date-field">
+                              <input type="text" class="form-control" id="oneciDelivre" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.oneci.delivre" data-label="Date de délivrance de la pièce">
+                              <button type="button" class="date-btn" aria-label="Choisir la date de délivrance dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
+                              <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
+                            </div>
+                            <div class="invalid-feedback" id="oneciDelivre-error"></div>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="oneciNni">NNI<span class="req" aria-hidden="true">*</span></label>
+                            <input type="text" class="form-control tabular" id="oneciNni" inputmode="numeric" placeholder="11 chiffres" autocomplete="off" required data-mask="digits" data-max-digits="11" data-kind="digits" data-rule="nni" data-bind="piece.oneci.nni" data-label="NNI" aria-describedby="oneciNni-count">
+                            <div class="form-text" id="oneciNni-count"></div>
+                            <div class="invalid-feedback" id="oneciNni-error"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Option Autre (le NNI est masqué) -->
+                      <div class="piece-panel" id="pieceAutre" data-cond="AUTRE" hidden>
+                        <div class="row g-3">
+                          <div class="col-sm-6">
+                            <label class="form-label" for="autreType">Type<span class="req" aria-hidden="true">*</span></label>
+                            <select class="form-select" id="autreType" required data-bind="piece.autre.type" data-label="Type de pièce">
+                              <option value="">Sélectionner…</option>
+                              <option>Ancienne CNI</option>
+                              <option>Attestation d'identité</option>
+                              <option>Passeport</option>
+                              <option>Permis de conduire</option>
+                            </select>
+                            <div class="invalid-feedback" id="autreType-error"></div>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="autreNumero">N°<span class="req" aria-hidden="true">*</span></label>
+                            <input type="text" class="form-control" id="autreNumero" required data-rule="pieceNum" data-bind="piece.autre.numero" data-label="N° de la pièce">
+                            <div class="invalid-feedback" id="autreNumero-error"></div>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="autreDelivre">Délivré le</label>
+                            <div class="date-field">
+                              <input type="text" class="form-control" id="autreDelivre" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.delivre" data-label="Date de délivrance de la pièce">
+                              <button type="button" class="date-btn" aria-label="Choisir la date de délivrance dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
+                              <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
+                            </div>
+                            <div class="invalid-feedback" id="autreDelivre-error"></div>
+                          </div>
+                          <div class="col-12">
+                            <h3 class="subsection-title mt-2 mb-0">Filiation</h3>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="pereNom">Nom du père<span class="req" aria-hidden="true">*</span></label>
+                            <input type="text" class="form-control" id="pereNom" required data-bind="piece.autre.pereNom">
+                            <div class="invalid-feedback" id="pereNom-error"></div>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="pereNaissance">Date de naissance du père</label>
+                            <div class="date-field">
+                              <input type="text" class="form-control" id="pereNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.pereNaissance">
+                              <button type="button" class="date-btn" aria-label="Choisir la date de naissance du père dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
+                              <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
+                            </div>
+                            <div class="invalid-feedback" id="pereNaissance-error"></div>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="mereNom">Nom de la mère<span class="req" aria-hidden="true">*</span></label>
+                            <input type="text" class="form-control" id="mereNom" required data-bind="piece.autre.mereNom">
+                            <div class="invalid-feedback" id="mereNom-error"></div>
+                          </div>
+                          <div class="col-sm-6">
+                            <label class="form-label" for="mereNaissance">Date de naissance de la mère</label>
+                            <div class="date-field">
+                              <input type="text" class="form-control" id="mereNaissance" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.mereNaissance">
+                              <button type="button" class="date-btn" aria-label="Choisir la date de naissance de la mère dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
+                              <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
+                            </div>
+                            <div class="invalid-feedback" id="mereNaissance-error"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ============================================================
+                   ÉTAPE 2 – PAIEMENTS / ÉTABLISSEMENTS SECONDAIRES
+                   ============================================================ -->
+              <div class="step-panel" role="tabpanel" id="step-2" aria-labelledby="tab-2" tabindex="-1" hidden>
+                <div class="row g-4">
+                  <div class="col-lg-6">
+                    <section aria-labelledby="secPrincipalTitle">
+                      <h2 class="section-title" id="secPrincipalTitle"><i class="bi bi-building-fill" aria-hidden="true"></i>Établissement principal</h2>
+                      <div class="row g-3">
+                        <div class="col-sm-6">
+                          <label class="form-label" for="sigle">Nom abrégé / Sigle</label>
+                          <input type="text" class="form-control" id="sigle" placeholder="Ex. : MB" data-bind="principal.sigle">
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="bp">Adresse postale (BP)</label>
+                          <input type="text" class="form-control" id="bp" placeholder="Ex. : 01 BP 1234 ABIDJAN 01" data-bind="principal.bp">
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="telFixe">Téléphone fixe</label>
+                          <input type="tel" class="form-control text-center tabular" id="telFixe" inputmode="numeric" placeholder="27 20 00 00 00" autocomplete="off" data-mask="phone" data-kind="digits" data-rule="fixe" data-bind="principal.telFixe" data-label="Téléphone fixe">
+                          <div class="invalid-feedback" id="telFixe-error"></div>
+                        </div>
+                        <div class="col-sm-6">
+                          <label class="form-label" for="email">Email officiel<span class="req" aria-hidden="true">*</span></label>
+                          <input type="email" class="form-control" id="email" placeholder="contact@entreprise.ci" autocomplete="email" required data-rule="email" data-bind="principal.email" data-label="Email officiel">
+                          <div class="invalid-feedback" id="email-error"></div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <section class="anchor-target" id="secPaiement" aria-labelledby="secPaiementTitle">
+                      <h2 class="section-title" id="secPaiementTitle" tabindex="-1"><i class="bi bi-wallet2" aria-hidden="true"></i>Paiement</h2>
+                      <fieldset class="radio-group" id="payMode" data-group data-required data-label="Mode de paiement">
+                        <legend class="form-label">Mode de paiement<span class="req" aria-hidden="true">*</span></legend>
+                        <div class="pay-options">
+                          <input type="radio" class="btn-check" name="payMode" id="payMomo" value="MOBILE_MONEY" data-bind="paiement.mode">
+                          <label class="pay-tile" for="payMomo"><i class="bi bi-phone" aria-hidden="true"></i>Mobile Money</label>
+                          <input type="radio" class="btn-check" name="payMode" id="payVirement" value="VIREMENT" data-bind="paiement.mode">
+                          <label class="pay-tile" for="payVirement"><i class="bi bi-bank" aria-hidden="true"></i>Virement bancaire</label>
+                          <input type="radio" class="btn-check" name="payMode" id="payGuichet" value="GUICHET" data-bind="paiement.mode">
+                          <label class="pay-tile" for="payGuichet"><i class="bi bi-cash-coin" aria-hidden="true"></i>Espèces au guichet</label>
+                        </div>
+                        <div class="invalid-feedback" id="payMode-error"></div>
+                      </fieldset>
+                      <div class="row g-3 mt-1">
+                        <div class="col-sm-7">
+                          <label class="form-label" for="payRef">Référence de transaction<span class="req" aria-hidden="true">*</span></label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="payRef" required autocomplete="off" data-rule="payRef paid" data-bind="paiement.reference" data-label="Référence de transaction" aria-describedby="payRef-hint">
+                            <button type="button" class="btn btn-verify" id="btnVerify">Vérifier</button>
+                          </div>
+                          <div class="form-text" id="payRef-hint"></div>
+                          <div class="invalid-feedback" id="payRef-error"></div>
+                        </div>
+                        <div class="col-sm-5">
+                          <label class="form-label" for="payMontant">Montant</label>
+                          <input type="text" class="form-control" id="payMontant" readonly>
+                        </div>
+                        <div class="col-12">
+                          <span class="form-label d-block" id="payStatutLabel">Statut</span>
+                          <div id="payStatut" role="status" aria-labelledby="payStatutLabel"></div>
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+
+                  <div class="col-12">
+                    <section class="anchor-target" id="etabSection" aria-labelledby="secEtabTitle">
+                      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                        <h2 class="section-title m-0" id="secEtabTitle" tabindex="-1"><i class="bi bi-shop" aria-hidden="true"></i>Établissements secondaires</h2>
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                          <span class="etab-counter" id="etabCounter"></span>
+                          <button type="button" class="btn btn-add" id="btnAddEtab"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Ajouter</button>
+                        </div>
+                      </div>
+                      <!-- Zone d'avertissement (annoncée aux lecteurs d'écran) -->
+                      <div id="etabLive" aria-live="polite"></div>
+                      <div class="table-responsive etab-table-wrap">
+                        <table class="table etab-table align-middle">
+                          <caption class="visually-hidden">Liste des établissements secondaires</caption>
+                          <thead>
+                            <tr>
+                              <th scope="col" class="text-center">N°</th>
+                              <th scope="col">Nom</th>
+                              <th scope="col">Ville/Commune</th>
+                              <th scope="col">Quartier</th>
+                              <th scope="col">Activité</th>
+                              <th scope="col" class="text-end">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody id="etabBody"></tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ============================================================
+                   ÉTAPE 3 – PIÈCES JOINTES
+                   ============================================================ -->
+              <div class="step-panel" role="tabpanel" id="step-3" aria-labelledby="tab-3" tabindex="-1" hidden>
+                <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3">
+                  <div>
+                    <h2 class="section-title mb-1" id="secDocsTitle"><i class="bi bi-paperclip" aria-hidden="true"></i>Pièces jointes</h2>
+                    <p class="small text-muted-2 mb-0">Formats acceptés : PDF, JPG ou PNG. Taille maximale : 5 Mo par fichier.</p>
+                  </div>
+                  <div class="compl-box">
+                    <div class="d-flex justify-content-between small fw-bold mb-1">
+                      <span id="complLabel">Complétion du dossier</span>
+                      <span id="complPct" class="tabular">0 %</span>
+                    </div>
+                    <div class="meter" id="complMeter" role="progressbar" aria-labelledby="complLabel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
+                  </div>
+                </div>
+                <div class="row g-3" id="docGrid"></div>
+              </div>
+
+            </fieldset>
+
+            <!-- Pied de formulaire : navigation entre étapes -->
+            <div class="form-footer">
+              <hr>
+              <div class="d-flex flex-wrap justify-content-center gap-3">
+                <button type="button" class="btn btn-prev" id="btnPrev" hidden><i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Précédent</button>
+                <button type="submit" class="btn btn-next" id="btnNext">Suivant<i class="bi bi-arrow-right ms-2" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-submit" id="btnSubmit" hidden><i class="bi bi-send-check me-2" aria-hidden="true"></i>Soumettre le dossier</button>
+                <button type="button" class="btn btn-submit" id="btnSubmitted" disabled hidden><i class="bi bi-check2-circle me-2" aria-hidden="true"></i>Dossier soumis</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     MODALE : AJOUT / MODIFICATION D'UN ÉTABLISSEMENT SECONDAIRE
+     ========================================================================== -->
+<div class="modal fade" id="etabModal" tabindex="-1" aria-labelledby="etabModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form class="modal-content" id="etabForm" novalidate autocomplete="off">
+      <div class="modal-header">
+        <h2 class="modal-title section-title m-0" id="etabModalTitle"><i class="bi bi-shop" aria-hidden="true"></i><span id="etabModalTitleText">Ajouter un établissement secondaire</span></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <p class="small text-muted-2">Les champs marqués d'un astérisque (<span class="req" aria-hidden="true">*</span>) sont obligatoires.</p>
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label" for="etabNom">Nom<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" class="form-control" id="etabNom" required placeholder="Ex. : AGENCE PLATEAU">
+            <div class="invalid-feedback" id="etabNom-error"></div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label" for="etabVille">Ville/Commune<span class="req" aria-hidden="true">*</span></label>
+            <div class="combo">
+              <input type="text" class="form-control combo-input" id="etabVille" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="etabVille-list" autocomplete="off" spellcheck="false" placeholder="Rechercher…" required data-no-upper>
+              <button type="button" class="combo-clear" aria-label="Effacer la ville ou commune" hidden><i class="bi bi-x-lg" aria-hidden="true"></i></button>
+              <span class="combo-toggle" aria-hidden="true"><i class="bi bi-chevron-down"></i></span>
+              <ul class="combo-list" id="etabVille-list" role="listbox" aria-label="Villes et communes" hidden></ul>
+            </div>
+            <div class="invalid-feedback" id="etabVille-error"></div>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label" for="etabQuartier">Quartier<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" class="form-control" id="etabQuartier" required>
+            <div class="invalid-feedback" id="etabQuartier-error"></div>
+          </div>
+          <div class="col-12">
+            <label class="form-label" for="etabActivite">Activité<span class="req" aria-hidden="true">*</span></label>
+            <input type="text" class="form-control" id="etabActivite" required>
+            <div class="invalid-feedback" id="etabActivite-error"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center gap-2">
+        <button type="button" class="btn btn-prev" data-bs-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-next">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     MODALE : RÉCAPITULATIF AVANT SOUMISSION
+     ========================================================================== -->
+<div class="modal fade" id="recapModal" tabindex="-1" aria-labelledby="recapTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title section-title m-0" id="recapTitle"><i class="bi bi-clipboard-check" aria-hidden="true"></i>Récapitulatif du dossier</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="recapBody"></div>
+      <div class="modal-footer d-block">
+        <div class="form-check recap-certify mb-3">
+          <input class="form-check-input" type="checkbox" id="recapCertify">
+          <label class="form-check-label" for="recapCertify">Je certifie sur l'honneur l'exactitude des informations fournies.</label>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+          <button type="button" class="btn btn-prev" data-bs-dismiss="modal"><i class="bi bi-pencil me-2" aria-hidden="true"></i>Modifier</button>
+          <button type="button" class="btn btn-submit" id="btnConfirmSubmit" disabled><i class="bi bi-send-check me-2" aria-hidden="true"></i>Confirmer l'envoi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Zone des toasts (en bas à droite), annoncée aux lecteurs d'écran -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastZone" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+(() => {
+  'use strict';
+
+  /* ==========================================================================
+   * 0. OUTILS
+   * ======================================================================== */
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const byId = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const stripAccents = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const norm = (s) => stripAccents(s).toUpperCase().replace(/\s+/g, ' ').trim();
+  const digits = (s) => String(s ?? '').replace(/\D/g, '');
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const NBSP = ' ';
+  const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const scrollMode = () => (reducedMotion() ? 'auto' : 'smooth');
+  const isDisabled = (el) => el.matches(':disabled'); // tient compte d'un <fieldset disabled> parent
+  let seq = 0;
+  const uid = (prefix) => `${prefix}-${++seq}`;
+
+  /* Formatage */
+  const fmtThousands = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  const fmtPhone = (d) => String(d).slice(0, 10).replace(/(\d{2})(?=\d)/g, '$1 ');
+  const fmtDateMask = (d) => {
+    const s = String(d).slice(0, 8);
+    if (s.length > 4) return `${s.slice(0, 2)}/${s.slice(2, 4)}/${s.slice(4)}`;
+    if (s.length > 2) return `${s.slice(0, 2)}/${s.slice(2)}`;
+    return s;
+  };
+  const fmtFCFA = (n) => (n == null || n === '' ? '—' : `${fmtThousands(n)} FCFA`);
+  const fmtSize = (b) => (b < 1048576 ? `${Math.max(1, Math.round(b / 1024))} Ko` : `${(b / 1048576).toFixed(1).replace('.', ',')} Mo`);
+  const plural = (n, one, many = `${one}s`) => `${n}${NBSP}${n > 1 ? many : one}`;
+  const fmtDateTime = (d) => new Intl.DateTimeFormat('fr-FR', { dateStyle: 'short', timeStyle: 'short' }).format(d);
+  const fmtTime = (d) => new Intl.DateTimeFormat('fr-FR', { timeStyle: 'short' }).format(d);
+  const rtf = new Intl.RelativeTimeFormat('fr', { numeric: 'auto' });
+  function relTime(t) {
+    const s = Math.round((t - Date.now()) / 1000);
+    if (Math.abs(s) < 45) return "à l'instant";
+    const m = Math.round(s / 60);
+    if (Math.abs(m) < 60) return rtf.format(m, 'minute');
+    const h = Math.round(m / 60);
+    if (Math.abs(h) < 24) return rtf.format(h, 'hour');
+    return rtf.format(Math.round(h / 24), 'day');
+  }
+
+  /* Dates au format JJ/MM/AAAA */
+  const today = () => { const t = new Date(); t.setHours(0, 0, 0, 0); return t; };
+  const toISO = (d) => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+  const isoToFR = (s) => { const [y, m, d] = s.split('-'); return `${d}/${m}/${y}`; };
+  function parseDateFR(s) {
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(s ?? '').trim());
+    if (!m) return null;
+    const [dd, mm, yy] = [Number(m[1]), Number(m[2]), Number(m[3])];
+    const d = new Date(yy, mm - 1, dd);
+    const ok = yy >= 1900 && d.getFullYear() === yy && d.getMonth() === mm - 1 && d.getDate() === dd;
+    return ok ? d : null;
+  }
+  function ageOn(birth, ref = today()) {
+    let age = ref.getFullYear() - birth.getFullYear();
+    const m = ref.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && ref.getDate() < birth.getDate())) age -= 1;
+    return age;
+  }
+
+  /* Lecture / écriture d'un chemin « a.b.c » dans l'état */
+  const getPath = (obj, path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj);
+  const setPath = (obj, path, value) => {
+    const keys = path.split('.');
+    const last = keys.pop();
+    keys.reduce((o, k) => o[k], obj)[last] = value;
+  };
+
+  /* ==========================================================================
+   * 1. DONNÉES DE RÉFÉRENCE (valeurs d'exemple de la maquette)
+   * ======================================================================== */
+  const DGI = Object.freeze({
+    ncc: '1926703U',
+    denomination: 'MANSA BANK',
+    centreCode: '822',
+    centreLibelle: 'RECETTE DES GRANDES ENTREPRISES',
+    rccm: 'CI-ABJ-2017-B-19569 DU 31-07-2017',
+    formeJuridique: 'SA',
+    activiteCode: 'SCE0502',
+    activiteLibelle: 'BANQUES',
+  });
+
+  const VILLES = ['ABENGOUROU', 'ABIDJAN', 'ABOISSO', 'ADZOPE', 'AGBOVILLE', 'AGNIBILEKROU', 'ANYAMA', 'BANGOLO', 'BEOUMI', 'BIANKOUMA', 'BINGERVILLE', 'BONDOUKOU', 'BONGOUANOU', 'BOUAFLE', 'BOUAKE', 'BOUNA', 'BOUNDIALI', 'DABOU', 'DALOA', 'DANANE', 'DAOUKRO', 'DIMBOKRO', 'DIVO', 'DUEKOUE', 'FERKESSEDOUGOU', 'GAGNOA', 'GRAND-BASSAM', 'GRAND-LAHOU', 'GUIGLO', 'ISSIA', 'JACQUEVILLE', 'KATIOLA', 'KORHOGO', 'LAKOTA', 'MAN', 'MANKONO', 'ODIENNE', 'OUME', 'SAN-PEDRO', 'SASSANDRA', 'SEGUELA', 'SINFRA', 'SONGON', 'SOUBRE', 'TABOU', 'TANDA', 'TIASSALE', 'TINGRELA', 'TOUBA', 'TOUMODI', 'VAVOUA', 'YAMOUSSOUKRO', 'ZUENOULA'];
+  const COMMUNES_ABIDJAN = ['ABOBO', 'ADJAME', 'ATTECOUBE', 'COCODY', 'KOUMASSI', 'MARCORY', 'PLATEAU', 'PORT-BOUET', 'TREICHVILLE', 'YOPOUGON'].map((c) => `ABIDJAN - ${c}`);
+  const VILLES_COMMUNES = [...COMMUNES_ABIDJAN, ...VILLES.filter((v) => v !== 'ABIDJAN')].sort((a, b) => a.localeCompare(b, 'fr'));
+  const NATIONALITES = [
+    'Ivoirienne',
+    ...['Algérienne', 'Allemande', 'Américaine', 'Belge', 'Béninoise', 'Britannique', 'Burkinabè', 'Camerounaise', 'Canadienne', 'Cap-verdienne', 'Centrafricaine', 'Chinoise', 'Congolaise (Brazzaville)', 'Congolaise (RDC)', 'Égyptienne', 'Espagnole', 'Française', 'Gabonaise', 'Gambienne', 'Ghanéenne', 'Guinéenne', 'Indienne', 'Italienne', 'Libanaise', 'Libérienne', 'Malienne', 'Marocaine', 'Mauritanienne', 'Nigériane', 'Nigérienne', 'Portugaise', 'Sénégalaise', 'Sierra-léonaise', 'Suisse', 'Tchadienne', 'Togolaise', 'Tunisienne'].sort((a, b) => a.localeCompare(b, 'fr')),
+    'Autre',
+  ];
+
+  /* Pièces jointes exigées (étape 3) */
+  const DOCS = [
+    { key: 'pieceIdentite', title: "Pièce d'identité du représentant", desc: 'CNI, carte de résident ou passeport en cours de validité.', icon: 'bi-person-vcard' },
+    { key: 'rccm', title: 'Registre du commerce (RCCM)', desc: 'Extrait du registre du commerce et du crédit mobilier.', icon: 'bi-journal-text' },
+    { key: 'photo', title: "Photo d'identité", desc: 'Photo récente du représentant légal, sur fond clair.', icon: 'bi-person-bounding-box' },
+    { key: 'nomination', title: 'Document de nomination', desc: 'PV ou acte de nomination du représentant légal.', icon: 'bi-file-earmark-check' },
+  ];
+  const MAX_FILE = 5 * 1024 * 1024;
+  const MIME = { 'application/pdf': 'PDF', 'image/jpeg': 'JPG', 'image/png': 'PNG' };
+  const EXT = { pdf: 'PDF', jpg: 'JPG', jpeg: 'JPG', png: 'PNG' };
+
+  /* Paiement */
+  const PAY_MODES = {
+    MOBILE_MONEY: { label: 'Mobile Money', ph: 'Ex. : MP260925.1432.A1B2C3', hint: 'Référence reçue par SMS après le paiement Mobile Money.' },
+    VIREMENT: { label: 'Virement bancaire', ph: 'Ex. : VIR-2026-000123', hint: "Référence indiquée sur l'avis de virement." },
+    GUICHET: { label: 'Espèces au guichet', ph: 'Ex. : QUIT-2026-000123', hint: 'Numéro de la quittance remise au guichet.' },
+  };
+  const PAY_STATUS = {
+    NON_PAYE: { label: 'Non payé', icon: 'bi-dash-circle', cls: 'ps-none' },
+    A_VERIFIER: { label: 'En attente de vérification', icon: 'bi-hourglass-split', cls: 'ps-pending' },
+    EN_COURS: { label: 'Vérification en cours…', icon: 'bi-arrow-repeat', cls: 'ps-checking' },
+    CONFIRME: { label: 'Paiement confirmé', icon: 'bi-check-circle-fill', cls: 'ps-ok' },
+  };
+  const MONTANT_FNCE = 25000; // valeur de démonstration (FCFA)
+
+  /* ==========================================================================
+   * 2. ÉTAT DE L'APPLICATION : un objet unique, en mémoire, sans backend
+   * ======================================================================== */
+  const state = {
+    view: 'inscription',
+    step: 1,
+    submitted: false,
+    submittedAt: null,
+    dossierRef: '',
+    confirmation: { formeJuridique: '', rccm: '' },
+    siege: { ville: 'ABIDJAN', quartier: 'COCODY-RIVERA BEVERLY HILLS', rue: '', capital: 20943530000, nbEts: 2 },
+    representant: { nom: '', sexe: '', prenoms: '', naissance: '', lieu: 'BOUAKE', nationalite: 'Ivoirienne', fonction: 'DIRECTEUR GENERAL', mobile: '0755555525', mobile2: '0755555525' },
+    piece: {
+      mode: 'ONECI',
+      oneci: { type: 'Nouvelle CNI', numero: 'CI001346702', delivre: '', nni: '11693044220' },
+      autre: { type: '', numero: '', delivre: '', pereNom: '', pereNaissance: '', mereNom: '', mereNaissance: '' },
+    },
+    principal: { sigle: '', bp: '', telFixe: '', email: '' },
+    paiement: { mode: '', reference: '', montant: MONTANT_FNCE, statut: 'NON_PAYE' },
+    etablissements: [
+      { id: uid('ets'), nom: 'AGENCE PLATEAU', ville: 'ABIDJAN - PLATEAU', quartier: 'PLATEAU', activite: 'BANQUES' },
+      { id: uid('ets'), nom: 'AGENCE SAN-PEDRO', ville: 'SAN-PEDRO', quartier: 'CENTRE-VILLE', activite: 'BANQUES' },
+    ],
+    documents: { pieceIdentite: null, rccm: null, photo: null, nomination: null },
+    notifications: [],
+  };
+
+  /* ==========================================================================
+   * 3. SAISIE : MAJUSCULES AUTOMATIQUES ET MASQUES
+   * ======================================================================== */
+  /* Toute saisie dans un champ texte passe en MAJUSCULES (le curseur est conservé).
+     Exclus : champs e-mail (type="email") et listes avec recherche (data-no-upper). */
+  function toUpper(el) {
+    if (!(el instanceof HTMLInputElement) || el.type !== 'text' || el.readOnly || 'noUpper' in el.dataset) return;
+    const up = el.value.toUpperCase();
+    if (up === el.value) return;
+    const { selectionStart: start, selectionEnd: end } = el;
+    el.value = up;
+    try { el.setSelectionRange(start, end); } catch (_) { /* champ sans sélection */ }
+  }
+  document.addEventListener('input', (e) => { if (!e.isComposing) toUpper(e.target); }, true);
+  document.addEventListener('compositionend', (e) => {
+    const el = e.target;
+    if (!(el instanceof HTMLInputElement) || el.type !== 'text' || 'noUpper' in el.dataset) return;
+    toUpper(el);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  }, true);
+
+  /* Masques : téléphone « 07 55 55 55 25 », milliers « 20 943 530 000 »,
+     date « JJ/MM/AAAA », chiffres seuls (NNI). Le curseur reste après le même chiffre. */
+  const MASKS = {
+    phone: { max: 10, format: fmtPhone, pre: (d) => (d.length > 10 && d.startsWith('225') ? d.slice(3) : d) },
+    thousands: { max: 15, format: fmtThousands },
+    date: { max: 8, format: fmtDateMask },
+    digits: { max: 11, format: (d) => d },
+  };
+  function applyMask(el) {
+    const mask = MASKS[el.dataset.mask];
+    if (!mask) return;
+    const max = Number(el.dataset.maxDigits) || mask.max;
+    const old = el.value;
+    const caret = el.selectionStart ?? old.length;
+    let before = digits(old.slice(0, caret)).length;
+    let raw = digits(old);
+    if (mask.pre) {
+      const cleaned = mask.pre(raw);
+      if (cleaned !== raw) { raw = cleaned; before = Infinity; } // indicatif +225 collé : curseur en fin
+    }
+    const out = mask.format(raw.slice(0, max));
+    if (out === old) return;
+    el.value = out;
+    if (document.activeElement !== el) return;
+    let pos = out.length;
+    if (before !== Infinity) {
+      pos = 0;
+      for (let seen = 0; pos < out.length && seen < before; pos += 1) if (/\d/.test(out[pos])) seen += 1;
+    }
+    el.setSelectionRange(pos, pos);
+  }
+  function initMasks() {
+    $$('[data-mask]').forEach((el) => {
+      el.addEventListener('input', () => applyMask(el));
+      // Retour arrière / Suppr. sautent les séparateurs pour effacer directement le chiffre voisin
+      el.addEventListener('keydown', (e) => {
+        const { selectionStart: s, selectionEnd: t, value } = el;
+        if (s !== t) return;
+        if (e.key === 'Backspace' && s > 0 && /[\s/]/.test(value[s - 1])) el.setSelectionRange(s - 1, s - 1);
+        if (e.key === 'Delete' && s < value.length && /[\s/]/.test(value[s])) el.setSelectionRange(s + 1, s + 1);
+      });
+    });
+  }
+
+  /* ==========================================================================
+   * 4. COMPOSANTS
+   * ======================================================================== */
+
+  /* 4.1 Liste avec recherche (motif ARIA « combobox » + « listbox ») :
+     filtrage sans accents, flèches ↑/↓, Entrée, Échap, bouton « × » d'effacement.
+     La valeur retenue est toujours une option de la liste. */
+  function highlight(text, query) {
+    const q = stripAccents(query).toUpperCase().trim();
+    const base = stripAccents(text).toUpperCase();
+    const i = q ? base.indexOf(q) : -1;
+    if (i < 0 || base.length !== text.length) return esc(text);
+    return `${esc(text.slice(0, i))}<mark>${esc(text.slice(i, i + q.length))}</mark>${esc(text.slice(i + q.length))}`;
+  }
+
+  class Combo {
+    constructor(root, items, onChange) {
+      this.root = root;
+      this.input = $('.combo-input', root);
+      this.list = $('.combo-list', root);
+      this.clearBtn = $('.combo-clear', root);
+      this.toggleEl = $('.combo-toggle', root);
+      this.items = items;
+      this.onChange = onChange;
+      this.value = '';
+      this.filtered = items.slice();
+      this.active = -1;
+
+      this.input.addEventListener('input', () => { this.filter(this.input.value); this.open(); this.syncClear(); });
+      this.input.addEventListener('keydown', (e) => this.onKey(e));
+      this.input.addEventListener('click', () => { if (!this.isOpen()) { this.filter(''); this.open(); } });
+      this.input.addEventListener('blur', () => this.commit());
+      this.list.addEventListener('mousedown', (e) => e.preventDefault()); // garde le focus dans le champ
+      this.list.addEventListener('click', (e) => {
+        const li = e.target.closest('[role="option"]:not([aria-disabled="true"])');
+        if (!li) return;
+        this.select(li.dataset.value);
+        this.close();
+      });
+      this.clearBtn.addEventListener('mousedown', (e) => e.preventDefault());
+      this.clearBtn.addEventListener('click', () => {
+        this.select('');
+        this.input.focus();
+        this.filter('');
+        this.open();
+      });
+      this.toggleEl.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        if (isDisabled(this.input)) return;
+        this.input.focus();
+        if (this.isOpen()) this.close(); else { this.filter(''); this.open(); }
+      });
+    }
+    isOpen() { return !this.list.hidden; }
+    open() {
+      if (isDisabled(this.input) || this.input.readOnly) return;
+      this.list.hidden = false;
+      this.root.classList.add('open');
+      this.input.setAttribute('aria-expanded', 'true');
+      this.render();
+    }
+    close() {
+      this.list.hidden = true;
+      this.root.classList.remove('open');
+      this.input.setAttribute('aria-expanded', 'false');
+      this.input.removeAttribute('aria-activedescendant');
+      this.active = -1;
+    }
+    filter(query) {
+      const q = norm(query);
+      this.filtered = q ? this.items.filter((it) => norm(it).includes(q)) : this.items.slice();
+      this.active = q ? (this.filtered.length ? 0 : -1) : this.filtered.indexOf(this.value);
+    }
+    render() {
+      const q = this.input.value === this.value ? '' : this.input.value;
+      if (!this.filtered.length) {
+        this.list.innerHTML = '<li class="combo-empty" role="option" aria-disabled="true" aria-selected="false">Aucun résultat</li>';
+        return;
+      }
+      this.list.innerHTML = this.filtered.map((it, i) => {
+        const selected = it === this.value;
+        return `<li role="option" id="${this.input.id}-opt-${i}" data-value="${esc(it)}" aria-selected="${selected}"><span>${highlight(it, q)}</span>${selected ? '<i class="bi bi-check2" aria-hidden="true"></i>' : ''}</li>`;
+      }).join('');
+      this.syncActive();
+    }
+    syncActive() {
+      const options = $$('[role="option"]', this.list);
+      options.forEach((li, i) => li.classList.toggle('active', i === this.active));
+      const li = options[this.active];
+      if (!li || li.getAttribute('aria-disabled') === 'true') { this.input.removeAttribute('aria-activedescendant'); return; }
+      this.input.setAttribute('aria-activedescendant', li.id);
+      // Défilement interne de la liste, sans faire défiler la page
+      const top = li.offsetTop;
+      const bottom = top + li.offsetHeight;
+      if (top < this.list.scrollTop) this.list.scrollTop = top;
+      else if (bottom > this.list.scrollTop + this.list.clientHeight) this.list.scrollTop = bottom - this.list.clientHeight;
+    }
+    move(delta) {
+      if (!this.filtered.length) return;
+      this.active = this.active < 0 ? (delta > 0 ? 0 : this.filtered.length - 1) : (this.active + delta + this.filtered.length) % this.filtered.length;
+      this.syncActive();
+    }
+    onKey(e) {
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          if (!this.isOpen()) { this.filter(''); this.open(); if (this.active < 0) this.move(1); } else this.move(1);
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          if (!this.isOpen()) { this.filter(''); this.open(); } else this.move(-1);
+          break;
+        case 'Enter':
+          if (!this.isOpen()) break;
+          e.preventDefault(); // n'envoie pas le formulaire
+          if (this.filtered.length) this.select(this.filtered[Math.max(this.active, 0)]);
+          this.close();
+          break;
+        case 'Escape':
+          if (!this.isOpen()) break;
+          e.preventDefault();
+          e.stopPropagation(); // ferme la liste sans fermer la modale parente
+          this.close();
+          this.input.value = this.value;
+          this.syncClear();
+          break;
+        case 'Tab':
+          if (this.isOpen() && this.active >= 0 && this.input.value !== this.value) this.select(this.filtered[this.active]);
+          this.close();
+          break;
+        default:
+      }
+    }
+    /* Sortie du champ : texte identique à une option → sélection ; sinon retour à la valeur précédente */
+    commit() {
+      this.close();
+      const text = norm(this.input.value);
+      if (!text) { this.select(''); return; }
+      const exact = this.items.find((it) => norm(it) === text);
+      if (exact) this.select(exact);
+      else { this.input.value = this.value; this.syncClear(); }
+    }
+    select(value, { silent = false } = {}) {
+      const changed = value !== this.value;
+      this.value = value;
+      this.input.value = value;
+      this.syncClear();
+      if (changed && !silent) this.onChange(value);
+    }
+    setValue(value) { this.select(this.items.includes(value) ? value : '', { silent: true }); }
+    syncClear() { this.clearBtn.hidden = !this.input.value || isDisabled(this.input); }
+  }
+
+  const combos = new Map();
+  function makeCombo(id, items, bindPath) {
+    const input = byId(id);
+    const combo = new Combo(input.closest('.combo'), items, (value) => {
+      if (bindPath) setPath(state, bindPath, value);
+      if (value) input.dataset.touched = '1';
+      liveValidate(input);
+      scheduleRefresh();
+    });
+    combos.set(id, combo);
+  }
+  const closeAllCombos = () => combos.forEach((c) => c.close());
+
+  /* 4.2 Champ numérique avec compteur : boutons ▲▼ (maintien = répétition),
+     flèches ↑/↓ et Page ↑/↓ au clavier, rôle ARIA « spinbutton ». */
+  function initSpinner(wrap) {
+    const input = $('input', wrap);
+    const step = Number(input.dataset.step || 1);
+    const min = Number(input.dataset.min || 0);
+    const max = Number(input.dataset.maxValue || Number.MAX_SAFE_INTEGER);
+    const current = () => { const d = digits(input.value); return d === '' ? null : Number(d); };
+    const syncAria = () => {
+      const v = current();
+      if (v == null) { input.removeAttribute('aria-valuenow'); input.removeAttribute('aria-valuetext'); return; }
+      input.setAttribute('aria-valuenow', String(v));
+      input.setAttribute('aria-valuetext', `${fmtThousands(v)}${input.dataset.unit ? ` ${input.dataset.unit}` : ''}`);
+    };
+    const set = (value) => {
+      const v = Math.min(max, Math.max(min, value));
+      input.value = input.dataset.mask === 'thousands' ? fmtThousands(v) : String(v);
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+    const bump = (n) => set((current() ?? min) + n * step);
+
+    input.addEventListener('input', syncAria);
+    input.addEventListener('keydown', (e) => {
+      const moves = { ArrowUp: 1, ArrowDown: -1, PageUp: 10, PageDown: -10 };
+      if (!(e.key in moves) || isDisabled(input)) return;
+      e.preventDefault();
+      bump(moves[e.key]);
+    });
+    $$('[data-spin]', wrap).forEach((btn) => {
+      let delay = 0;
+      let repeat = 0;
+      const stop = () => { clearTimeout(delay); clearInterval(repeat); };
+      btn.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0 || isDisabled(input)) return;
+        e.preventDefault();
+        const dir = Number(btn.dataset.spin);
+        bump(dir);
+        input.focus({ preventScroll: true });
+        delay = setTimeout(() => { repeat = setInterval(() => bump(dir), 70); }, 400);
+      });
+      ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach((ev) => btn.addEventListener(ev, stop));
+      btn.addEventListener('contextmenu', (e) => e.preventDefault());
+    });
+    syncAria();
+  }
+
+  /* 4.3 Date JJ/MM/AAAA : saisie masquée + calendrier natif en complément */
+  function initDateField(wrap) {
+    const input = $('.form-control', wrap);
+    const native = $('.date-native', wrap);
+    const btn = $('.date-btn', wrap);
+    btn.addEventListener('click', () => {
+      if (isDisabled(input)) return;
+      const rules = input.dataset.rule || '';
+      const d = parseDateFR(input.value);
+      const max = today();
+      if (rules.includes('age18')) max.setFullYear(max.getFullYear() - 18);
+      native.min = '1900-01-01';
+      native.max = /past|age18/.test(rules) ? toISO(max) : '';
+      native.value = d ? toISO(d) : '';
+      try { native.showPicker(); } catch (_) { input.focus(); } // repli : saisie clavier
+    });
+    native.addEventListener('change', () => {
+      if (!native.value) return;
+      input.value = isoToFR(native.value);
+      input.dataset.touched = '1';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.focus();
+    });
+  }
+
+  /* ==========================================================================
+   * 5. VALIDATION
+   * Chaque champ déclare ses règles dans data-rule (ex. data-rule="date age18").
+   * fieldError() est une fonction pure (aucun effet sur l'interface) : elle sert
+   * aussi bien à l'affichage des erreurs qu'au calcul de la progression.
+   * ======================================================================== */
+  const MSG = {
+    required: 'Ce champ est obligatoire.',
+    select: 'Veuillez sélectionner une option.',
+    combo: 'Sélectionnez une valeur dans la liste.',
+    group: 'Veuillez faire un choix.',
+    dgi: 'Ne correspond pas à la donnée enregistrée à la DGI.',
+    unpaid: 'Paiement non vérifié : cliquez sur « Vérifier ».',
+    doc: 'Pièce obligatoire : veuillez joindre ce document.',
+  };
+
+  /* Comparaison avec la DGI : casse, accents, espaces et points ignorés.
+     Pour le RCCM, le numéro seul (sans « DU jj-mm-aaaa ») est aussi accepté. */
+  const canon = (s) => stripAccents(s).toUpperCase().replace(/[\s.]/g, '');
+  const dgiTargets = (key) => (key === 'rccm' ? [canon(DGI.rccm), canon(DGI.rccm.split(/\s+DU\s+/i)[0])] : [canon(DGI[key])]);
+  const dgiEquals = (key, v) => dgiTargets(key).includes(canon(v));
+  const dgiPrefix = (key, v) => dgiTargets(key).some((t) => t.startsWith(canon(v)));
+
+  const RULES = {
+    date: (v) => (parseDateFR(v) ? '' : 'Date invalide : utilisez le format JJ/MM/AAAA.'),
+    past: (v) => (parseDateFR(v) > today() ? "La date ne peut pas être postérieure à aujourd'hui." : ''),
+    age18: (v) => {
+      const d = parseDateFR(v);
+      if (!d) return '';
+      if (d > today()) return 'La date de naissance ne peut pas être dans le futur.';
+      const age = ageOn(d);
+      if (age < 18) return `Le représentant légal doit être majeur (18 ans révolus). Âge actuel : ${plural(age, 'an')}.`;
+      return age > 110 ? 'Date de naissance invraisemblable.' : '';
+    },
+    mobile: (v) => {
+      const d = digits(v);
+      if (d.length !== 10) return `Numéro incomplet : 10 chiffres attendus (${d.length}/10).`;
+      return /^0[157]/.test(d) ? '' : 'Le numéro mobile doit commencer par 01, 05 ou 07.';
+    },
+    fixe: (v) => {
+      const d = digits(v);
+      if (d.length !== 10) return `Numéro incomplet : 10 chiffres attendus (${d.length}/10).`;
+      return /^2[157]/.test(d) ? '' : 'Le numéro fixe doit commencer par 21, 25 ou 27.';
+    },
+    match: (v, otherId) => (digits(v) === digits(byId(otherId).value) ? '' : 'Les deux numéros ne sont pas identiques.'),
+    nni: (v) => (/^\d{11}$/.test(v) ? '' : `Le NNI doit comporter exactement 11 chiffres (${digits(v).length}/11).`),
+    email: (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Adresse e-mail invalide (ex. : contact@entreprise.ci).'),
+    dgi: (v, key) => (dgiEquals(key, v) ? '' : MSG.dgi),
+    positive: (v) => (Number(digits(v)) > 0 ? '' : 'Le capital social doit être supérieur à 0.'),
+    pieceNum: (v) => (/^[A-Z0-9][A-Z0-9 /-]{4,24}$/i.test(v) ? '' : 'Numéro invalide : 5 à 25 caractères (lettres, chiffres, espace, / ou -).'),
+    payRef: (v) => (/^[A-Z0-9][A-Z0-9./-]{5,29}$/i.test(v) ? '' : 'Référence invalide : 6 à 30 caractères (lettres, chiffres, point, / ou -).'),
+    paid: () => (state.paiement.statut === 'CONFIRME' ? '' : MSG.unpaid),
+  };
+
+  /* Champ appartenant au bloc de pièce non sélectionné (ONECI / Autre) : exclu */
+  const isExcluded = (el) => { const c = el.closest('[data-cond]'); return !!c && c.dataset.cond !== state.piece.mode; };
+  /* Après un clic sur « Suivant », les erreurs de l'étape s'affichent en direct */
+  const showsErrors = (el) => !!el.closest('[data-submitted="1"]');
+
+  function fieldError(el) {
+    if (isExcluded(el)) return '';
+    const combo = combos.get(el.id);
+    if (combo) return el.required && !combo.value ? MSG.combo : '';
+    const v = String(el.value ?? '').trim();
+    if (!v) return el.required ? (el.tagName === 'SELECT' ? MSG.select : MSG.required) : '';
+    for (const token of (el.dataset.rule || '').split(/\s+/)) {
+      if (!token) continue;
+      const [name, arg] = token.split(':');
+      const msg = RULES[name] ? RULES[name](v, arg, el) : '';
+      if (msg) return msg;
+    }
+    return '';
+  }
+  const groupError = (fs) => (!isExcluded(fs) && fs.hasAttribute('data-required') && !$('input:checked', fs) ? MSG.group : '');
+
+  /* Affichage : classes Bootstrap is-valid / is-invalid, message sous le champ, aria-invalid */
+  function setFieldState(el, msg, { valid = false } = {}) {
+    const err = byId(`${el.id}-error`);
+    const ok = byId(`${el.id}-ok`);
+    el.classList.toggle('is-invalid', !!msg);
+    el.classList.toggle('is-valid', !msg && valid);
+    if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+    if (err) { err.textContent = msg; err.classList.toggle('d-block', !!msg); }
+    if (ok) ok.classList.toggle('d-block', !msg && valid);
+  }
+  function setGroupState(fs, msg) {
+    fs.classList.toggle('is-invalid', !!msg);
+    $$('input[type="radio"]', fs).forEach((r) => {
+      r.classList.toggle('is-invalid', !!msg);
+      if (msg) r.setAttribute('aria-invalid', 'true'); else r.removeAttribute('aria-invalid');
+    });
+    const err = byId(`${fs.id}-error`);
+    if (err) { err.textContent = msg; err.classList.toggle('d-block', !!msg); }
+  }
+
+  /* Coche verte : données DGI confirmées, ou deux numéros mobiles valides et identiques */
+  function validFlag(el, msg) {
+    if (msg) return false;
+    if ((el.dataset.rule || '').startsWith('dgi:')) return true;
+    if (el.id === 'repMobile' || el.id === 'repMobile2') return !fieldError(byId('repMobile')) && !fieldError(byId('repMobile2'));
+    return false;
+  }
+
+  /* Validation « en direct » pendant la saisie */
+  function liveValidate(el, strict = false) {
+    if (!el || !el.id) return;
+    if (el.type === 'radio') {
+      const fs = el.closest('fieldset[data-group]');
+      if (fs && !isExcluded(fs)) setGroupState(fs, groupError(fs));
+      return;
+    }
+    if (el.readOnly || el.type === 'file' || isExcluded(el)) return;
+    const rule = el.dataset.rule || '';
+    if (rule.startsWith('dgi:')) { liveDgi(el, strict || showsErrors(el)); return; }
+    if (el.id === 'repMobile' || el.id === 'repMobile2') { livePhones(); return; }
+    let msg = fieldError(el);
+    if (msg === MSG.unpaid && !showsErrors(el)) msg = ''; // rappelé seulement au clic sur « Suivant »
+    if (!msg) setFieldState(el, '');
+    else if (el.dataset.touched || showsErrors(el)) setFieldState(el, msg);
+  }
+
+  /* Bloc « Confirmation données » : coche dès que la saisie est identique à la DGI,
+     erreur dès que la saisie diverge (ou à la sortie du champ si incomplète). */
+  function liveDgi(el, strict) {
+    const key = el.dataset.rule.split(':')[1];
+    const v = el.value.trim();
+    if (!v) { setFieldState(el, showsErrors(el) ? MSG.required : ''); return; }
+    if (dgiEquals(key, v)) { setFieldState(el, '', { valid: true }); return; }
+    setFieldState(el, strict || !dgiPrefix(key, v) ? MSG.dgi : '');
+  }
+
+  /* Téléphone + confirmation : coche verte dans les deux champs si format valide et numéros identiques */
+  function livePhones() {
+    const a = byId('repMobile');
+    const b = byId('repMobile2');
+    const ea = fieldError(a);
+    const eb = fieldError(b);
+    const both = !ea && !eb;
+    const visible = (el, msg) => (msg && (el.dataset.touched || showsErrors(el) || digits(el.value).length === 10) ? msg : '');
+    setFieldState(a, visible(a, ea), { valid: both });
+    setFieldState(b, visible(b, eb), { valid: both });
+  }
+
+  /* Champs d'une étape (hors lecture seule, fichiers et blocs exclus) */
+  function stepControls(n) {
+    const panel = byId(`step-${n}`);
+    const fields = $$('input, select', panel).filter((el) => el.id && !['radio', 'file', 'hidden', 'checkbox'].includes(el.type) && !el.readOnly && !el.classList.contains('date-native') && !isExcluded(el));
+    const groups = $$('fieldset[data-group]', panel).filter((fs) => !isExcluded(fs));
+    return { fields, groups };
+  }
+  const domOrder = (a, b) => (a === b ? 0 : (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+
+  /* Valide une étape ; reveal = true affiche les erreurs. Renvoie les éléments invalides (ordre du DOM). */
+  function validateStep(n, reveal = false) {
+    const { fields, groups } = stepControls(n);
+    const bad = [];
+    fields.forEach((el) => {
+      let msg = fieldError(el);
+      if (reveal) setFieldState(el, msg, { valid: validFlag(el, msg) });
+      if (msg) bad.push(el);
+    });
+    groups.forEach((fs) => {
+      const msg = groupError(fs);
+      if (reveal) setGroupState(fs, msg);
+      if (msg) bad.push(fs);
+    });
+    if (n === 2 && !etabConsistent()) bad.push(byId('etabLive'));
+    if (n === 3) {
+      DOCS.forEach((d) => {
+        const missing = !state.documents[d.key];
+        if (reveal && (missing || byId(`file-${d.key}`).classList.contains('is-invalid'))) setDocError(d.key, missing ? MSG.doc : '');
+        if (missing) bad.push(byId(`file-${d.key}`));
+      });
+    }
+    return bad.sort(domOrder);
+  }
+
+  /* Défilement doux jusqu'au premier élément en erreur, puis focus */
+  function focusError(el) {
+    if (!el) return;
+    let focusEl = el;
+    let scrollEl = el.closest('.combo, .spin, .date-field, .input-group') || el;
+    if (el.tagName === 'FIELDSET') {
+      focusEl = $('input:checked', el) || $('input', el);
+      scrollEl = el;
+    } else if (el.id === 'etabLive') {
+      focusEl = byId('btnAddEtab');
+      scrollEl = byId('etabSection');
+    } else if (el.type === 'file') {
+      const key = el.dataset.doc;
+      scrollEl = byId(`doc-${key}`);
+      focusEl = byId(`drop-${key}`).hidden ? $(`#doc-${key}-file [data-replace]`) : byId(`drop-${key}`);
+    }
+    scrollEl.scrollIntoView({ behavior: scrollMode(), block: 'center' });
+    if (focusEl) focusEl.focus({ preventScroll: true });
+  }
+
+  /* Libellé lisible d'un contrôle (liste « Actions à réaliser ») */
+  function labelOf(el) {
+    if (el.dataset.label) return el.dataset.label;
+    const txt = el.tagName === 'FIELDSET' ? $('legend', el)?.textContent : $(`label[for="${el.id}"]`)?.textContent;
+    return (txt || el.id).replace(/\*/g, '').replace(/\s+/g, ' ').trim();
+  }
+
+  /* Liste des éléments obligatoires du dossier (sert au calcul de progression) */
+  function collectChecks() {
+    const checks = [];
+    [1, 2, 3].forEach((step) => {
+      const { fields, groups } = stepControls(step);
+      fields.filter((el) => el.required).forEach((el) => checks.push({ step, kind: 'field', ok: !fieldError(el), label: labelOf(el), target: el }));
+      groups.filter((fs) => fs.hasAttribute('data-required')).forEach((fs) => checks.push({ step, kind: 'field', ok: !groupError(fs), label: labelOf(fs), target: fs }));
+      if (step === 2) checks.push({ step, kind: 'etab', ok: etabConsistent(), label: 'Établissements secondaires conformes au nombre déclaré', target: byId('etabLive') });
+      if (step === 3) DOCS.forEach((d) => checks.push({ step, kind: 'doc', ok: !!state.documents[d.key], label: d.title, target: byId(`file-${d.key}`) }));
+    });
+    return checks.sort((a, b) => a.step - b.step || domOrder(a.target, b.target));
+  }
+
+  /* ==========================================================================
+   * 6. NAVIGATION : vues, onglets, sidebar (routage par ancre #/…)
+   * ======================================================================== */
+  const sidebarEl = byId('sidebar');
+  let routeOpts = {};
+  let sidebarClosing = false;
+  let pendingFocus = null;
+
+  function navigate(hash, opts = {}) {
+    routeOpts = opts;
+    if (location.hash === hash) onRoute(); else location.hash = hash;
+  }
+  /* Sur mobile, le focus est posé après la fermeture de l'offcanvas */
+  function afterNav(fn) { if (sidebarClosing) pendingFocus = fn; else fn(); }
+
+  function onRoute() {
+    const opts = { focus: 'panel', scroll: true, ...routeOpts };
+    routeOpts = {};
+    // Bouton « Précédent » du navigateur pendant qu'une modale est ouverte : on la referme
+    if (window.bootstrap) $$('.modal.show').forEach((m) => bootstrap.Modal.getInstance(m)?.hide());
+    if (location.hash === '#/tableau-de-bord') {
+      showView('dashboard');
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      if (opts.focus !== 'none') afterNav(() => byId('dashTitle').focus({ preventScroll: true }));
+      return;
+    }
+    const m = /^#\/inscription\/([1-3])$/.exec(location.hash);
+    if (!m) history.replaceState(null, '', '#/inscription/1');
+    const step = m ? Number(m[1]) : 1;
+    showView('inscription');
+    setStep(step);
+    if (opts.then) { afterNav(opts.then); return; }
+    if (opts.target) {
+      const t = byId(opts.target);
+      t.scrollIntoView({ behavior: scrollMode(), block: 'start' });
+      afterNav(() => ($('[tabindex="-1"]', t) || t).focus({ preventScroll: true }));
+      return;
+    }
+    if (opts.scroll) byId('wizardCard').scrollIntoView({ behavior: scrollMode(), block: 'start' });
+    if (opts.focus === 'panel') afterNav(() => byId(`step-${step}`).focus({ preventScroll: true }));
+  }
+
+  function showView(name) {
+    state.view = name;
+    byId('view-dashboard').hidden = name !== 'dashboard';
+    byId('view-inscription').hidden = name !== 'inscription';
+    byId('crumbCurrent').textContent = name === 'dashboard' ? 'Tableau de bord' : 'Inscription FNCE';
+    document.title = `${name === 'dashboard' ? 'Tableau de bord' : 'Inscription au FNCE'} – Espace Entreprise`;
+    updateSidebarActive();
+    if (name === 'dashboard') refreshUI();
+  }
+
+  function setStep(n) {
+    state.step = n;
+    $$('.wizard-tab').forEach((tab) => {
+      const on = Number(tab.dataset.step) === n;
+      tab.setAttribute('aria-selected', String(on));
+      tab.tabIndex = on ? 0 : -1;
+    });
+    $$('.step-panel').forEach((p) => { p.hidden = p.id !== `step-${n}`; });
+    byId('btnPrev').hidden = n === 1;
+    byId('btnNext').hidden = n === 3;
+    byId('btnSubmit').hidden = n !== 3 || state.submitted;
+    byId('btnSubmitted').hidden = n !== 3 || !state.submitted;
+    closeAllCombos();
+    updateSidebarActive();
+  }
+
+  function updateSidebarActive() {
+    const key = state.view === 'dashboard' ? 'dashboard' : `step${state.step}`;
+    $$('.side-link').forEach((a) => {
+      const on = a.dataset.route === key;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+  }
+
+  /* « Suivant » : valide l'étape en cours ; en cas d'erreur, défile jusqu'à la première */
+  function goNext() {
+    const n = state.step;
+    const bad = validateStep(n, true);
+    if (bad.length) {
+      byId(`step-${n}`).dataset.submitted = '1';
+      focusError(bad[0]);
+      toast('error', 'Étape incomplète', `${plural(bad.length, 'élément')} à corriger avant de continuer.`);
+      return;
+    }
+    toast('success', `Étape ${n} enregistrée`, n === 1 ? 'Identification du commerce validée.' : 'Paiement et établissements enregistrés.');
+    navigate(`#/inscription/${n + 1}`);
+  }
+
+  /* ==========================================================================
+   * 7. ÉTAPE 1 : pièce d'identité, NNI, cohérence du nombre d'établissements
+   * ======================================================================== */
+  let pieceTimer = 0;
+  /* Bascule ONECI / Autre avec transition douce ; les champs masqués sont exclus de la validation */
+  function setPieceMode(mode, animate = true) {
+    state.piece.mode = mode;
+    const panels = { ONECI: byId('pieceOneci'), AUTRE: byId('pieceAutre') };
+    const show = panels[mode];
+    const hide = panels[mode === 'ONECI' ? 'AUTRE' : 'ONECI'];
+    clearTimeout(pieceTimer);
+    show.classList.remove('is-leaving');
+    hide.classList.remove('is-entering');
+    $$('input, select', hide).forEach((el) => setFieldState(el, ''));
+    const finish = () => { hide.hidden = true; hide.classList.remove('is-leaving'); show.hidden = false; };
+    if (!animate || reducedMotion() || hide.hidden) {
+      finish();
+      show.classList.remove('is-entering');
+    } else {
+      hide.classList.add('is-leaving');
+      pieceTimer = setTimeout(() => {
+        finish();
+        show.classList.add('is-entering');
+        void show.offsetWidth; // force le recalcul pour lancer la transition d'entrée
+        show.classList.remove('is-entering');
+      }, 200);
+    }
+    scheduleRefresh();
+  }
+
+  function updateNniCount() {
+    const n = digits(byId('oneciNni').value).length;
+    byId('oneciNni-count').textContent = `${n}/11 chiffres`;
+  }
+
+  /* ==========================================================================
+   * 8. ÉTAPE 2 : établissements secondaires et paiement
+   * ======================================================================== */
+  const etabConsistent = () => state.siege.nbEts != null && state.etablissements.length === state.siege.nbEts;
+
+  function renderEtabs() {
+    const rows = state.etablissements;
+    byId('etabBody').innerHTML = rows.length
+      ? rows.map((e, i) => `
+        <tr>
+          <td class="text-center fw-bold">${i + 1}</td>
+          <td class="fw-bold">${esc(e.nom)}</td>
+          <td>${esc(e.ville)}</td>
+          <td>${esc(e.quartier)}</td>
+          <td>${esc(e.activite)}</td>
+          <td class="text-end text-nowrap">
+            <button type="button" class="btn btn-row edit" data-edit="${e.id}" title="Modifier"><i class="bi bi-pencil-square" aria-hidden="true"></i><span class="visually-hidden">Modifier ${esc(e.nom)}</span></button>
+            <button type="button" class="btn btn-row del" data-del="${e.id}" title="Supprimer"><i class="bi bi-trash3" aria-hidden="true"></i><span class="visually-hidden">Supprimer ${esc(e.nom)}</span></button>
+          </td>
+        </tr>`).join('')
+      : '<tr class="etab-empty"><td colspan="6"><i class="bi bi-shop-window me-1" aria-hidden="true"></i>Aucun établissement secondaire. Cliquez sur « Ajouter » pour en déclarer un.</td></tr>';
+    renderEtabSync();
+  }
+
+  /* Compteur, avertissement de l'étape 2 et indication sous « Nbre ets secondaire » */
+  let lastEtabAlert = null;
+  function renderEtabSync() {
+    const n = state.etablissements.length;
+    const d = state.siege.nbEts;
+    const ok = etabConsistent();
+    const counter = byId('etabCounter');
+    counter.className = `etab-counter${ok ? '' : ' is-mismatch'}`;
+    counter.innerHTML = `<i class="bi ${ok ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}" aria-hidden="true"></i>${n} saisi${n > 1 ? 's' : ''} / ${d ?? '–'} déclaré${d > 1 ? 's' : ''}`;
+
+    const declared = d == null ? 'aucun nombre déclaré' : `${plural(d, 'établissement')} déclaré${d > 1 ? 's' : ''}`;
+    const alertHtml = ok ? '' : `
+      <div class="alert etab-alert d-flex gap-2 align-items-start mb-3">
+        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+        <div><strong>Écart détecté :</strong> ${declared} à l'étape 1 (« Nbre ets secondaire ») pour ${plural(n, 'établissement')} dans la liste ci-dessous.
+        <button type="button" class="btn btn-link p-0 align-baseline fw-bold" data-fix-nb>Corriger le nombre déclaré</button> ou ajustez la liste.</div>
+      </div>`;
+    if (alertHtml !== lastEtabAlert) { byId('etabLive').innerHTML = alertHtml; lastEtabAlert = alertHtml; }
+
+    const hint = byId('nbEts-sync');
+    hint.className = `form-text sync-hint ${ok ? 'is-ok' : 'is-warn'}`;
+    hint.innerHTML = ok
+      ? `<i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Cohérent avec l'étape 2 (${plural(n, 'établissement')}).</span>`
+      : `<i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i><span>Écart : ${plural(n, 'établissement')} saisi${n > 1 ? 's' : ''} à l'étape 2.</span>`;
+  }
+
+  let etabModal = null;
+  let editingId = null;
+  let etabTrigger = null;
+  function openEtabModal(id = null) {
+    if (state.submitted) return;
+    editingId = id;
+    etabTrigger = document.activeElement;
+    const e = id ? state.etablissements.find((x) => x.id === id) : { nom: '', ville: '', quartier: '', activite: DGI.activiteLibelle };
+    byId('etabModalTitleText').textContent = id ? "Modifier l'établissement secondaire" : 'Ajouter un établissement secondaire';
+    byId('etabNom').value = e.nom;
+    combos.get('etabVille').setValue(e.ville);
+    byId('etabQuartier').value = e.quartier;
+    byId('etabActivite').value = e.activite;
+    const form = byId('etabForm');
+    delete form.dataset.submitted;
+    $$('input', form).forEach((el) => { delete el.dataset.touched; setFieldState(el, ''); });
+    etabModal.show();
+  }
+  function saveEtab(e) {
+    e.preventDefault();
+    const form = byId('etabForm');
+    form.dataset.submitted = '1';
+    const bad = ['etabNom', 'etabVille', 'etabQuartier', 'etabActivite'].map((id) => byId(id)).filter((el) => {
+      const msg = fieldError(el);
+      setFieldState(el, msg);
+      return !!msg;
+    });
+    if (bad.length) { bad[0].focus(); return; }
+    const data = { nom: byId('etabNom').value.trim(), ville: combos.get('etabVille').value, quartier: byId('etabQuartier').value.trim(), activite: byId('etabActivite').value.trim() };
+    if (editingId) {
+      Object.assign(state.etablissements.find((x) => x.id === editingId), data);
+      toast('success', 'Établissement modifié', data.nom);
+    } else {
+      editingId = uid('ets');
+      state.etablissements.push({ id: editingId, ...data });
+      toast('success', 'Établissement ajouté', `${data.nom} (${data.ville})`);
+      notify(`Établissement secondaire ajouté : ${data.nom}.`, 'bi-shop', 'success');
+    }
+    etabTrigger = null;
+    etabModal.hide();
+    renderEtabs();
+    scheduleRefresh();
+  }
+  function deleteEtab(id) {
+    const idx = state.etablissements.findIndex((x) => x.id === id);
+    if (idx < 0 || state.submitted) return;
+    const [removed] = state.etablissements.splice(idx, 1);
+    renderEtabs();
+    scheduleRefresh();
+    byId('btnAddEtab').focus();
+    toast('info', 'Établissement supprimé', removed.nom, {
+      action: {
+        label: 'Annuler',
+        onClick: () => {
+          if (state.submitted) return;
+          state.etablissements.splice(Math.min(idx, state.etablissements.length), 0, removed);
+          renderEtabs();
+          scheduleRefresh();
+          toast('success', 'Suppression annulée', removed.nom);
+        },
+      },
+    });
+  }
+
+  /* Paiement : la vérification de la référence est simulée (aucun backend) */
+  let payToken = 0;
+  function invalidatePayment() {
+    payToken += 1;
+    const ref = byId('payRef').value.trim();
+    state.paiement.statut = ref ? 'A_VERIFIER' : 'NON_PAYE';
+  }
+  function renderPay() {
+    const p = state.paiement;
+    const mode = PAY_MODES[p.mode];
+    byId('payRef').placeholder = mode ? mode.ph : "Choisissez d'abord un mode de paiement";
+    byId('payRef-hint').textContent = mode ? mode.hint : 'La référence figure sur le justificatif de paiement.';
+    const st = PAY_STATUS[p.statut];
+    const box = byId('payStatut');
+    box.className = `pay-status ${st.cls}`;
+    box.innerHTML = `<i class="bi ${st.icon}${p.statut === 'EN_COURS' ? ' spin-ic' : ''}" aria-hidden="true"></i>${esc(st.label)}`;
+    const btn = byId('btnVerify');
+    btn.disabled = p.statut === 'EN_COURS' || p.statut === 'CONFIRME';
+    btn.innerHTML = p.statut === 'CONFIRME' ? '<i class="bi bi-check2 me-1" aria-hidden="true"></i>Vérifié'
+      : p.statut === 'EN_COURS' ? '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span class="visually-hidden">Vérification en cours</span>'
+        : 'Vérifier';
+  }
+  function verifyPayment() {
+    const fs = byId('payMode');
+    const modeErr = groupError(fs);
+    if (modeErr) { setGroupState(fs, modeErr); focusError(fs); return; }
+    const ref = byId('payRef');
+    const v = ref.value.trim();
+    const err = v ? RULES.payRef(v) : 'Saisissez la référence de transaction.';
+    if (err) { ref.dataset.touched = '1'; setFieldState(ref, err); ref.focus(); return; }
+    state.paiement.reference = v;
+    state.paiement.statut = 'EN_COURS';
+    renderPay();
+    const token = ++payToken;
+    setTimeout(() => {
+      if (token !== payToken) return; // la référence a changé entre-temps
+      state.paiement.statut = 'CONFIRME';
+      renderPay();
+      setFieldState(ref, '');
+      toast('success', 'Paiement confirmé', `Référence ${v} · ${fmtFCFA(state.paiement.montant)}`);
+      notify(`Paiement confirmé (réf. ${v}).`, 'bi-wallet2', 'success');
+      scheduleRefresh();
+    }, reducedMotion() ? 300 : 1200);
+  }
+
+  /* ==========================================================================
+   * 9. ÉTAPE 3 : pièces jointes (glisser-déposer ou clic)
+   * ======================================================================== */
+  const docsCount = () => DOCS.filter((d) => state.documents[d.key]).length;
+  const uploadTokens = {};
+
+  function docCardHTML(d) {
+    return `
+      <div class="col-md-6">
+        <article class="doc-card" id="doc-${d.key}" aria-labelledby="doc-${d.key}-title">
+          <div class="doc-head">
+            <span class="doc-icon" aria-hidden="true"><i class="bi ${d.icon}"></i></span>
+            <div class="flex-grow-1 min-w-0">
+              <h3 class="doc-title" id="doc-${d.key}-title">${esc(d.title)}<span class="req" aria-hidden="true">*</span></h3>
+              <p class="doc-desc">${esc(d.desc)}</p>
+            </div>
+            <span class="doc-badge badge-pending" id="doc-${d.key}-badge"></span>
+          </div>
+          <input type="file" class="visually-hidden" id="file-${d.key}" data-doc="${d.key}" tabindex="-1" aria-hidden="true" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+          <button type="button" class="dropzone" id="drop-${d.key}" aria-label="Joindre le document : ${esc(d.title)}" aria-describedby="doc-${d.key}-help file-${d.key}-error">
+            <i class="bi bi-cloud-arrow-up dz-ic" aria-hidden="true"></i>
+            <span><strong>Glissez-déposez</strong> votre fichier ici ou <span class="dz-link">cliquez pour parcourir</span></span>
+            <span class="dz-sub" id="doc-${d.key}-help">PDF, JPG ou PNG · 5 Mo maximum</span>
+          </button>
+          <div class="doc-file" id="doc-${d.key}-file" hidden></div>
+          <div class="invalid-feedback" id="file-${d.key}-error"></div>
+        </article>
+      </div>`;
+  }
+
+  function setDocError(key, msg) {
+    setFieldState(byId(`file-${key}`), msg);
+    byId(`doc-${key}`).classList.toggle('is-invalid', !!msg);
+  }
+
+  function renderDoc(key) {
+    const doc = state.documents[key];
+    const d = DOCS.find((x) => x.key === key);
+    const badge = byId(`doc-${key}-badge`);
+    const drop = byId(`drop-${key}`);
+    const box = byId(`doc-${key}-file`);
+    byId(`doc-${key}`).classList.toggle('is-done', !!doc);
+    badge.className = `doc-badge ${doc ? 'badge-done' : 'badge-pending'}`;
+    badge.innerHTML = doc ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i>Document transmis' : '<i class="bi bi-clock" aria-hidden="true"></i>En attente';
+    if (!doc) { drop.hidden = false; box.hidden = true; box.innerHTML = ''; return; }
+    drop.hidden = true;
+    box.hidden = false;
+    const thumb = doc.url
+      ? `<img class="doc-thumb" src="${doc.url}" alt="Aperçu : ${esc(doc.name)}">`
+      : '<span class="doc-thumb is-pdf"><i class="bi bi-file-earmark-pdf-fill" aria-hidden="true"></i></span>';
+    box.innerHTML = `
+      ${thumb}
+      <div class="flex-grow-1 min-w-0">
+        <p class="doc-name" title="${esc(doc.name)}">${esc(doc.name)}</p>
+        <p class="doc-meta">${doc.kind} · ${fmtSize(doc.size)} · transmis à ${fmtTime(doc.at)}</p>
+      </div>
+      <div class="doc-actions">
+        <button type="button" class="btn btn-row edit" data-replace title="Remplacer"><i class="bi bi-arrow-repeat" aria-hidden="true"></i><span class="visually-hidden">Remplacer le fichier : ${esc(d.title)}</span></button>
+        <button type="button" class="btn btn-row del" data-remove title="Retirer"><i class="bi bi-trash3" aria-hidden="true"></i><span class="visually-hidden">Retirer le fichier : ${esc(d.title)}</span></button>
+      </div>`;
+  }
+
+  function rejectFile(key, msg) {
+    setDocError(key, msg);
+    renderDoc(key);
+    toast('error', 'Fichier refusé', msg);
+  }
+
+  /* Contrôle (format, taille), envoi simulé avec barre de progression, puis mise à jour */
+  function handleFile(key, file) {
+    if (state.submitted) { toast('info', 'Dossier déjà soumis', 'Les pièces ne peuvent plus être modifiées.'); return; }
+    const d = DOCS.find((x) => x.key === key);
+    const ext = file.name.includes('.') ? file.name.split('.').pop().toLowerCase() : '';
+    const kind = file.type ? MIME[file.type] : EXT[ext];
+    if (!kind) { rejectFile(key, `Format non accepté${ext ? ` (.${ext})` : ''} : PDF, JPG ou PNG uniquement.`); return; }
+    if (file.size > MAX_FILE) { rejectFile(key, `Fichier trop volumineux (${fmtSize(file.size)}) : 5 Mo maximum.`); return; }
+    if (file.size === 0) { rejectFile(key, 'Le fichier est vide.'); return; }
+    setDocError(key, '');
+    const token = (uploadTokens[key] || 0) + 1;
+    uploadTokens[key] = token;
+
+    const box = byId(`doc-${key}-file`);
+    byId(`drop-${key}`).hidden = true;
+    box.hidden = false;
+    box.innerHTML = `
+      <span class="doc-thumb"><i class="bi bi-hourglass-split" aria-hidden="true"></i></span>
+      <div class="flex-grow-1 min-w-0">
+        <p class="doc-name" title="${esc(file.name)}">${esc(file.name)}</p>
+        <div class="upload-bar" role="progressbar" aria-label="Envoi de ${esc(file.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+      </div>`;
+    const bar = $('.upload-bar', box);
+    const fill = $('span', bar);
+    const start = performance.now();
+    const duration = reducedMotion() ? 150 : 900;
+    const tick = (now) => {
+      if (uploadTokens[key] !== token) return; // un autre fichier a été choisi entre-temps
+      const p = Math.min(100, Math.round(((now - start) / duration) * 100));
+      fill.style.width = `${p}%`;
+      bar.setAttribute('aria-valuenow', String(p));
+      if (p < 100) { requestAnimationFrame(tick); return; }
+      const prev = state.documents[key];
+      if (prev?.url) URL.revokeObjectURL(prev.url);
+      state.documents[key] = { name: file.name, size: file.size, kind, url: kind === 'PDF' ? null : URL.createObjectURL(file), at: new Date() };
+      renderDoc(key);
+      toast('success', 'Document transmis', `${d.title} : ${file.name}`);
+      notify(`Pièce transmise : ${d.title}.`, 'bi-paperclip', 'success');
+      scheduleRefresh();
+    };
+    requestAnimationFrame(tick);
+  }
+
+  function removeDoc(key) {
+    const doc = state.documents[key];
+    if (!doc || state.submitted) return;
+    if (doc.url) URL.revokeObjectURL(doc.url);
+    state.documents[key] = null;
+    uploadTokens[key] = (uploadTokens[key] || 0) + 1;
+    renderDoc(key);
+    byId(`drop-${key}`).focus();
+    toast('info', 'Document retiré', DOCS.find((x) => x.key === key).title);
+    scheduleRefresh();
+  }
+
+  const hasFiles = (e) => Array.from(e.dataTransfer?.types || []).includes('Files');
+  function initDocs() {
+    byId('docGrid').innerHTML = DOCS.map(docCardHTML).join('');
+    DOCS.forEach((d) => {
+      const card = byId(`doc-${d.key}`);
+      const input = byId(`file-${d.key}`);
+      byId(`drop-${d.key}`).addEventListener('click', () => input.click());
+      input.addEventListener('change', () => {
+        const file = input.files && input.files[0];
+        if (file) handleFile(d.key, file);
+        input.value = ''; // permet de choisir à nouveau le même fichier
+      });
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('[data-replace]')) input.click();
+        if (e.target.closest('[data-remove]')) removeDoc(d.key);
+      });
+      ['dragenter', 'dragover'].forEach((type) => card.addEventListener(type, (e) => {
+        if (!hasFiles(e)) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = state.submitted ? 'none' : 'copy';
+        if (!state.submitted) card.classList.add('dragover');
+      }));
+      card.addEventListener('dragleave', (e) => { if (!card.contains(e.relatedTarget)) card.classList.remove('dragover'); });
+      card.addEventListener('drop', (e) => {
+        if (!hasFiles(e)) return;
+        e.preventDefault();
+        card.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 1) toast('info', 'Un seul fichier par pièce', 'Seul le premier fichier a été pris en compte.');
+        if (files[0]) handleFile(d.key, files[0]);
+      });
+      renderDoc(d.key);
+    });
+    // Un fichier lâché hors d'une zone de dépôt ne doit pas remplacer la page
+    window.addEventListener('dragover', (e) => {
+      if (e.target.closest && e.target.closest('.doc-card')) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = 'none';
+    });
+    window.addEventListener('drop', (e) => { if (!(e.target.closest && e.target.closest('.doc-card'))) e.preventDefault(); });
+  }
+
+  /* ==========================================================================
+   * 10. PROGRESSION, STATUT ET TABLEAU DE BORD
+   * ======================================================================== */
+  let refreshQueued = false;
+  function scheduleRefresh() {
+    if (refreshQueued) return;
+    refreshQueued = true;
+    requestAnimationFrame(() => { refreshQueued = false; refreshUI(); });
+  }
+
+  function refreshUI() {
+    const checks = collectChecks();
+    const done = checks.filter((c) => c.ok).length;
+    const pct = checks.length ? Math.round((done / checks.length) * 100) : 0;
+    const stepOk = [1, 2, 3].map((n) => validateStep(n).length === 0);
+    const ready = stepOk.every(Boolean);
+    stepOk.forEach((ok, i) => {
+      const tab = byId(`tab-${i + 1}`);
+      tab.classList.toggle('done', ok);
+      $('.tab-state', tab).textContent = ok ? ' (étape complète)' : '';
+    });
+    renderStatus(pct, ready);
+    setMeter(byId('complMeter'), pct);
+    byId('complPct').textContent = `${pct}${NBSP}%`;
+    renderEtabSync();
+    renderSidebarBadges(pct);
+    renderDashboard(checks, pct, stepOk);
+  }
+
+  function setMeter(el, pct) {
+    $('.meter-fill', el).style.width = `${pct}%`;
+    el.setAttribute('aria-valuenow', String(pct));
+    el.setAttribute('aria-valuetext', `${pct}${NBSP}%`);
+    el.classList.toggle('is-complete', pct >= 100);
+  }
+
+  /* Badge de statut global (topbar) */
+  function renderStatus(pct, ready) {
+    let cls; let icon; let long; let short;
+    if (state.submitted) { cls = 'st-submitted'; icon = 'bi-send-check-fill'; long = 'Soumis, en vérification'; short = 'Soumis'; }
+    else if (ready) { cls = 'st-ready'; icon = 'bi-check2-circle'; long = 'Prêt à soumettre'; short = 'Prêt'; }
+    else if (pct > 0) { cls = 'st-progress'; icon = 'bi-hourglass-split'; long = `En cours de saisie · ${pct}${NBSP}%`; short = `${pct}${NBSP}%`; }
+    else { cls = 'st-draft'; icon = 'bi-pencil'; long = 'Brouillon'; short = 'Brouillon'; }
+    const pill = byId('statusPill');
+    pill.className = `status-pill ${cls}`;
+    pill.innerHTML = `<i class="bi ${icon}" aria-hidden="true"></i><span class="visually-hidden">Statut du dossier : </span><span class="st-long">${long}</span><span class="st-short" aria-hidden="true">${short}</span>`;
+  }
+
+  function renderSidebarBadges(pct) {
+    byId('navBadgeInscription').textContent = `${pct}${NBSP}%`;
+    const etab = byId('navBadgeEtab');
+    etab.textContent = String(state.etablissements.length);
+    etab.classList.toggle('warn', !etabConsistent());
+    byId('navBadgeDocs').textContent = `${docsCount()}/${DOCS.length}`;
+  }
+
+  /* N'écrit dans le DOM que si le contenu change (préserve le focus clavier) */
+  const htmlCache = {};
+  function setHTML(id, html) {
+    if (htmlCache[id] === html) return;
+    byId(id).innerHTML = html;
+    htmlCache[id] = html;
+  }
+
+  function kpiTile({ icon, tone, label, value, note, ok }) {
+    return `
+      <div class="col-sm-6 col-xl-3">
+        <div class="stat-tile">
+          <p class="stat-label"><span class="stat-ic tone-${tone}"><i class="bi ${icon}" aria-hidden="true"></i></span>${esc(label)}</p>
+          <p class="stat-value">${esc(value)}</p>
+          <p class="stat-note"><i class="bi ${ok ? 'bi-check-circle-fill is-ok' : 'bi-exclamation-circle-fill is-warn'}" aria-hidden="true"></i>${esc(note)}</p>
+        </div>
+      </div>`;
+  }
+
+  /* Timeline : Pré-inscription → Paiement → Vérification des pièces → Validation finale */
+  const TL_STATES = {
+    done: { label: 'Fait', icon: 'bi-check-circle-fill' },
+    current: { label: 'En cours', icon: 'bi-hourglass-split' },
+    upcoming: { label: 'À venir', icon: 'bi-clock' },
+  };
+  function timelineItems(stepOk, checks) {
+    const left1 = checks.filter((c) => c.step === 1 && !c.ok).length;
+    const payOk = state.paiement.statut === 'CONFIRME';
+    const docs = docsCount();
+    return [
+      { key: 'pre', step: 1, title: 'Pré-inscription', status: stepOk[0] ? 'done' : 'current',
+        detail: stepOk[0] ? 'Identification du commerce complète.' : `Identification du commerce : ${plural(left1, 'élément')} à compléter.` },
+      { key: 'pay', step: 2, title: 'Paiement', status: payOk ? 'done' : (stepOk[0] ? 'current' : 'upcoming'),
+        detail: payOk ? `Paiement confirmé, réf. ${state.paiement.reference}.` : (state.paiement.statut === 'A_VERIFIER' ? 'Référence saisie : vérification à lancer.' : `Frais d'inscription : ${fmtFCFA(state.paiement.montant)}.`) },
+      { key: 'verif', step: 3, title: 'Vérification des pièces', status: state.submitted ? 'current' : 'upcoming',
+        detail: state.submitted ? "Pièces en cours d'examen par l'administration." : `${docs}/${DOCS.length} pièce${docs > 1 ? 's' : ''} transmise${docs > 1 ? 's' : ''}.` },
+      { key: 'final', step: null, title: 'Validation finale', status: 'upcoming',
+        detail: "Délivrance de l'attestation d'inscription au FNCE." },
+    ];
+  }
+  function renderTimeline(stepOk, checks) {
+    setHTML('timeline', timelineItems(stepOk, checks).map((it, i) => {
+      const st = TL_STATES[it.status];
+      const marker = it.status === 'done' ? '<i class="bi bi-check-lg"></i>' : String(i + 1);
+      return `
+        <li class="tl-item is-${it.status}"${it.status === 'current' ? ' aria-current="step"' : ''}>
+          <span class="tl-marker" aria-hidden="true">${marker}</span>
+          <button type="button" class="tl-card" data-tl="${it.key}">
+            <span class="tl-top"><span class="tl-title">${esc(it.title)}</span><span class="tl-state"><i class="bi ${st.icon}" aria-hidden="true"></i>${st.label}</span></span>
+            <span class="tl-detail">${esc(it.detail)}</span>
+            ${it.step ? `<span class="tl-link">Voir l'étape ${it.step} <i class="bi bi-arrow-right" aria-hidden="true"></i></span>` : ''}
+          </button>
+        </li>`;
+    }).join(''));
+  }
+
+  let todoItems = [];
+  function renderTodo(checks) {
+    todoItems = checks.filter((c) => !c.ok);
+    let html;
+    if (state.submitted) {
+      html = `<li class="todo-empty"><i class="bi bi-send-check-fill" aria-hidden="true"></i><span>Dossier soumis le ${esc(fmtDateTime(state.submittedAt))}, référence ${esc(state.dossierRef)}. Aucune action requise pour le moment.</span></li>`;
+    } else if (!todoItems.length) {
+      html = '<li class="todo-empty"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Toutes les informations sont complètes : vous pouvez soumettre le dossier depuis l\'étape 3.</span></li>';
+    } else {
+      const extra = todoItems.length - 6;
+      html = todoItems.slice(0, 6).map((c, i) => `<li><button type="button" class="todo-btn" data-todo="${i}"><span class="todo-step">Étape ${c.step}</span><span>${esc(c.label)}</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button></li>`).join('')
+        + (extra > 0 ? `<li class="todo-more">et ${plural(extra, 'autre élément', 'autres éléments')} à compléter</li>` : '');
+    }
+    setHTML('todoList', html);
+  }
+
+  function renderDashboard(checks, pct, stepOk) {
+    const done = checks.filter((c) => c.ok).length;
+    byId('dashPct').textContent = String(pct);
+    setMeter(byId('dashMeter'), pct);
+    byId('dashProgText').textContent = `${done} élément${done > 1 ? 's' : ''} sur ${checks.length} complété${done > 1 ? 's' : ''}`;
+    [1, 2, 3].forEach((n) => {
+      const cs = checks.filter((c) => c.step === n);
+      const ok = cs.filter((c) => c.ok).length;
+      const row = byId(`stepMeter-${n}`);
+      $('.sm-val', row).textContent = `${ok}/${cs.length}`;
+      $('.sm-state', row).innerHTML = stepOk[n - 1] ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i><span class="visually-hidden"> (étape complète)</span>' : '';
+      setMeter($('.meter', row), cs.length ? Math.round((ok / cs.length) * 100) : 0);
+    });
+
+    const fields = checks.filter((c) => c.kind === 'field');
+    const fieldsOk = fields.filter((c) => c.ok).length;
+    const docs = docsCount();
+    const n = state.etablissements.length;
+    const d = state.siege.nbEts;
+    const payOk = state.paiement.statut === 'CONFIRME';
+    setHTML('kpiRow', [
+      kpiTile({ icon: 'bi-ui-checks', tone: 'info', label: 'Champs obligatoires', value: `${fieldsOk}/${fields.length}`, ok: fieldsOk === fields.length, note: fieldsOk === fields.length ? 'Tous renseignés' : `${fields.length - fieldsOk} à compléter` }),
+      kpiTile({ icon: 'bi-paperclip', tone: 'warning', label: 'Pièces jointes', value: `${docs}/${DOCS.length}`, ok: docs === DOCS.length, note: docs === DOCS.length ? 'Toutes transmises' : `${DOCS.length - docs} en attente` }),
+      kpiTile({ icon: 'bi-shop', tone: 'success', label: 'Établissements secondaires', value: String(n), ok: etabConsistent(), note: etabConsistent() ? 'Conforme au nombre déclaré' : `Écart : ${d ?? '–'} déclaré${d > 1 ? 's' : ''}` }),
+      kpiTile({ icon: 'bi-wallet2', tone: 'neutral', label: "Frais d'inscription", value: fmtFCFA(state.paiement.montant), ok: payOk, note: PAY_STATUS[state.paiement.statut].label }),
+    ].join(''));
+
+    renderTimeline(stepOk, checks);
+    renderTodo(checks);
+    const company = [
+      ['Dénomination', DGI.denomination], ['N° NCC', DGI.ncc], ['N° RCCM', DGI.rccm], ['Forme juridique', DGI.formeJuridique],
+      ['Centre', `${DGI.centreCode} – ${DGI.centreLibelle}`], ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`],
+      ['Siège', [state.siege.ville, state.siege.quartier].filter(Boolean).join(' – ') || '—'],
+    ];
+    setHTML('companyDl', company.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join(''));
+    setHTML('btnResume', state.submitted
+      ? '<i class="bi bi-eye me-2" aria-hidden="true"></i>Consulter le dossier'
+      : '<i class="bi bi-pencil-square me-2" aria-hidden="true"></i>Reprendre l\'inscription');
+  }
+
+  /* ==========================================================================
+   * 11. NOTIFICATIONS ET TOASTS
+   * ======================================================================== */
+  function notify(text, icon = 'bi-bell', tone = 'info') {
+    state.notifications.unshift({ id: uid('notif'), text, icon, tone, time: Date.now(), read: false });
+    renderNotifs();
+  }
+  function renderNotifs() {
+    const unread = state.notifications.filter((x) => !x.read).length;
+    const count = byId('notifCount');
+    count.textContent = unread > 9 ? '9+' : String(unread);
+    count.hidden = unread === 0;
+    byId('notifBtn').setAttribute('aria-label', unread ? `Notifications : ${plural(unread, 'non lue', 'non lues')}` : 'Notifications');
+    byId('notifList').innerHTML = state.notifications.length
+      ? state.notifications.map((x) => `
+        <li class="notif-item${x.read ? '' : ' unread'}">
+          <span class="notif-ic tone-${x.tone}"><i class="bi ${x.icon}" aria-hidden="true"></i></span>
+          <div><p>${x.read ? '' : '<span class="visually-hidden">Non lue : </span>'}${esc(x.text)}</p><time datetime="${new Date(x.time).toISOString()}">${relTime(x.time)}</time></div>
+        </li>`).join('')
+      : '<li class="notif-empty">Aucune notification</li>';
+  }
+  function markAllRead() {
+    state.notifications.forEach((x) => { x.read = true; });
+    renderNotifs();
+  }
+
+  /* Toasts en bas à droite : succès (vert), erreur (rouge), information (bleu marine) */
+  const TOASTS = {
+    success: { cls: 't-success', icon: 'bi-check-circle-fill' },
+    error: { cls: 't-error', icon: 'bi-x-octagon-fill' },
+    info: { cls: 't-info', icon: 'bi-info-circle-fill' },
+  };
+  function toast(tone, title, body = '', { action = null } = {}) {
+    const t = TOASTS[tone];
+    const el = document.createElement('div');
+    el.className = `toast fnce-toast ${t.cls}`;
+    el.setAttribute('role', tone === 'error' ? 'alert' : 'status');
+    el.setAttribute('aria-atomic', 'true');
+    el.innerHTML = `
+      <div class="toast-body d-flex align-items-start gap-2">
+        <i class="bi ${t.icon} toast-ic" aria-hidden="true"></i>
+        <div class="flex-grow-1 min-w-0">
+          <strong class="d-block">${esc(title)}</strong>
+          ${body ? `<span class="small d-block text-break">${esc(body)}</span>` : ''}
+          ${action ? `<button type="button" class="btn-toast-action mt-2">${esc(action.label)}</button>` : ''}
+        </div>
+        <button type="button" class="btn-close btn-close-white flex-shrink-0" data-bs-dismiss="toast" aria-label="Fermer"></button>
+      </div>`;
+    byId('toastZone').appendChild(el);
+    el.addEventListener('hidden.bs.toast', () => el.remove());
+    if (!window.bootstrap) { setTimeout(() => el.remove(), 5000); el.classList.add('show'); return; }
+    const instance = new bootstrap.Toast(el, { delay: action ? 7000 : 4500 });
+    if (action) {
+      $('.btn-toast-action', el).addEventListener('click', () => { action.onClick(); instance.hide(); });
+    }
+    instance.show();
+    const visible = $$('.fnce-toast:not([data-leaving])', byId('toastZone'));
+    visible.slice(0, Math.max(0, visible.length - 4)).forEach((old) => {
+      old.dataset.leaving = '1';
+      bootstrap.Toast.getOrCreateInstance(old).hide();
+    });
+  }
+
+  /* ==========================================================================
+   * 12. SOUMISSION : contrôle global, récapitulatif, envoi (simulé)
+   * ======================================================================== */
+  let recapModal = null;
+  let afterRecapHidden = null;
+
+  function trySubmit() {
+    if (state.submitted) return;
+    const results = [1, 2, 3].map((n) => validateStep(n, true));
+    const idx = results.findIndex((r) => r.length);
+    if (idx >= 0) {
+      results.forEach((r, i) => { if (r.length) byId(`step-${i + 1}`).dataset.submitted = '1'; });
+      navigate(`#/inscription/${idx + 1}`, { then: () => focusError(results[idx][0]) });
+      toast('error', 'Dossier incomplet', `Étape ${idx + 1} : ${plural(results[idx].length, 'élément')} à corriger.`);
+      return;
+    }
+    byId('recapBody').innerHTML = recapHTML();
+    byId('recapCertify').checked = false;
+    byId('btnConfirmSubmit').disabled = true;
+    recapModal.show();
+  }
+
+  function recapHTML() {
+    const r = state.representant;
+    const p = state.piece;
+    const s = state.siege;
+    const pr = state.principal;
+    const pay = state.paiement;
+    const pieceRows = p.mode === 'ONECI'
+      ? [['Type', p.oneci.type], ['N°', p.oneci.numero], ['Délivré le', p.oneci.delivre || '—'], ['NNI', p.oneci.nni]]
+      : [['Type', p.autre.type], ['N°', p.autre.numero], ['Délivré le', p.autre.delivre || '—'], ['Nom du père', p.autre.pereNom], ['Date de naissance du père', p.autre.pereNaissance || '—'], ['Nom de la mère', p.autre.mereNom], ['Date de naissance de la mère', p.autre.mereNaissance || '—']];
+    const sections = [
+      ['bi-briefcase-fill', 'Entreprise', [['Dénomination', DGI.denomination], ['N° NCC', DGI.ncc], ['N° RCCM', DGI.rccm], ['Forme juridique', DGI.formeJuridique], ['Centre', `${DGI.centreCode} – ${DGI.centreLibelle}`], ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`]]],
+      ['bi-geo-alt-fill', 'Siège social', [['Ville', s.ville], ['Quartier', s.quartier], ['Rue', s.rue || '—'], ['Capital social', fmtFCFA(s.capital)], ['Établissements secondaires', String(s.nbEts)]]],
+      ['bi-person-fill', 'Représentant légal', [['Nom et prénoms', `${r.nom} ${r.prenoms}`], ['Sexe', r.sexe === 'M' ? 'Masculin' : 'Féminin'], ['Né(e) le', `${r.naissance} à ${r.lieu}`], ['Nationalité', r.nationalite], ['Fonction', r.fonction || '—'], ['Téléphone mobile', fmtPhone(r.mobile)]]],
+      ['bi-person-vcard-fill', `Pièce d'identité (${p.mode === 'ONECI' ? 'ONECI avec NNI' : 'autre pièce'})`, pieceRows],
+      ['bi-building-fill', 'Établissement principal', [['Nom abrégé / Sigle', pr.sigle || '—'], ['Adresse postale', pr.bp || '—'], ['Téléphone fixe', pr.telFixe ? fmtPhone(pr.telFixe) : '—'], ['Email officiel', pr.email]]],
+      ['bi-wallet2', 'Paiement', [['Mode', PAY_MODES[pay.mode].label], ['Référence', pay.reference], ['Montant', fmtFCFA(pay.montant)], ['Statut', PAY_STATUS[pay.statut].label]]],
+      ['bi-shop', `Établissements secondaires (${state.etablissements.length})`, state.etablissements.length ? state.etablissements.map((e, i) => [`${i + 1}. ${e.nom}`, `${e.ville}, ${e.quartier} · ${e.activite}`]) : [['Aucun', '—']]],
+      ['bi-paperclip', 'Pièces jointes', DOCS.map((d) => [d.title, `${state.documents[d.key].name} (${fmtSize(state.documents[d.key].size)})`])],
+    ];
+    return sections.map(([icon, title, rows]) => `
+      <section class="recap-section">
+        <h3><i class="bi ${icon}" aria-hidden="true"></i>${esc(title)}</h3>
+        <dl class="recap-dl">${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+      </section>`).join('');
+  }
+
+  function confirmSubmit() {
+    const btn = byId('btnConfirmSubmit');
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Envoi en cours…';
+    setTimeout(() => {
+      state.submitted = true;
+      state.submittedAt = new Date();
+      state.dossierRef = `FNCE-${state.submittedAt.getFullYear()}-${String(Math.floor(100000 + Math.random() * 900000))}`;
+      byId('formFieldset').disabled = true; // dossier verrouillé après soumission
+      closeAllCombos();
+      combos.forEach((c) => c.syncClear());
+      byId('submittedAt').textContent = fmtDateTime(state.submittedAt);
+      byId('submittedRef').textContent = state.dossierRef;
+      byId('submittedAlert').hidden = false;
+      setStep(state.step);
+      btn.innerHTML = original;
+      notify(`Dossier ${state.dossierRef} soumis : vérification des pièces en cours.`, 'bi-send-check-fill', 'success');
+      afterRecapHidden = () => {
+        navigate('#/tableau-de-bord');
+        toast('success', 'Dossier soumis', `Référence ${state.dossierRef}. Vous serez notifié à chaque étape du traitement.`);
+      };
+      recapModal.hide();
+      scheduleRefresh();
+    }, reducedMotion() ? 300 : 1200);
+  }
+
+  /* ==========================================================================
+   * 13. INITIALISATION ET ÉVÉNEMENTS
+   * ======================================================================== */
+  /* Remplit les champs à partir de l'état (données de démonstration) */
+  function hydrate() {
+    $$('[data-bind]').forEach((el) => {
+      const v = getPath(state, el.dataset.bind);
+      if (el.type === 'radio') { el.checked = el.value === v; return; }
+      if (v == null || v === '') { el.value = ''; return; }
+      if (el.dataset.mask === 'phone') el.value = fmtPhone(digits(v));
+      else if (el.dataset.mask === 'thousands') el.value = fmtThousands(v);
+      else el.value = String(v);
+    });
+    combos.get('villeSiege').setValue(state.siege.ville);
+    combos.get('repNationalite').setValue(state.representant.nationalite);
+  }
+
+  /* Valeur saisie → valeur stockée dans l'état */
+  function readValue(el) {
+    if (el.dataset.kind === 'digits') return digits(el.value);
+    if (el.dataset.kind === 'number') { const d = digits(el.value); return d === '' ? null : Number(d); }
+    return el.value.trim();
+  }
+
+  /* Relie chaque champ à son message d'erreur (aria-describedby) */
+  function linkDescriptions() {
+    $$('.invalid-feedback[id$="-error"]').forEach((err) => {
+      const el = byId(err.id.slice(0, -6));
+      if (!el) return;
+      const ids = (el.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+      if (!ids.includes(err.id)) el.setAttribute('aria-describedby', [...ids, err.id].join(' '));
+    });
+  }
+
+  function onFieldEdit(e) {
+    const el = e.target;
+    if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement)) return;
+    if (el.classList.contains('combo-input') || el.classList.contains('date-native') || el.type === 'file') return;
+    if (el.dataset.bind) {
+      if (el.type === 'radio') { if (el.checked) setPath(state, el.dataset.bind, el.value); }
+      else setPath(state, el.dataset.bind, readValue(el));
+    }
+    if (el.id === 'oneciNni') updateNniCount();
+    liveValidate(el);
+    scheduleRefresh();
+  }
+
+  function seedNotifications() {
+    const now = Date.now();
+    state.notifications = [
+      { id: uid('notif'), text: "Bienvenue sur l'Espace Entreprise : complétez les 3 étapes de votre inscription au FNCE.", icon: 'bi-info-circle-fill', tone: 'info', time: now - 8 * 60000, read: false },
+      { id: uid('notif'), text: `Données DGI importées : ${DGI.denomination} (NCC ${DGI.ncc}).`, icon: 'bi-cloud-check-fill', tone: 'success', time: now - 12 * 60000, read: false },
+    ];
+    renderNotifs();
+  }
+
+  function bindEvents() {
+    const form = byId('fnceForm');
+    form.addEventListener('submit', (e) => { e.preventDefault(); if (state.step < 3) goNext(); });
+    form.addEventListener('input', onFieldEdit);
+    form.addEventListener('change', onFieldEdit);
+    byId('btnPrev').addEventListener('click', () => navigate(`#/inscription/${Math.max(1, state.step - 1)}`));
+    byId('btnSubmit').addEventListener('click', trySubmit);
+
+    // Champ touché : les erreurs s'affichent dès la sortie d'un champ rempli
+    document.addEventListener('focusout', (e) => {
+      const el = e.target;
+      if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement)) return;
+      if (['radio', 'file', 'checkbox'].includes(el.type) || el.readOnly || el.classList.contains('date-native')) return;
+      if (String(el.value).trim()) el.dataset.touched = '1';
+      liveValidate(el, true);
+    });
+
+    // Onglets : clic et flèches ← → / Début / Fin (activation par Entrée ou Espace)
+    const tablist = $('.wizard-tabs');
+    tablist.addEventListener('click', (e) => {
+      const tab = e.target.closest('.wizard-tab');
+      if (tab) navigate(`#/inscription/${tab.dataset.step}`, { focus: 'none', scroll: false });
+    });
+    tablist.addEventListener('keydown', (e) => {
+      const tabs = $$('.wizard-tab');
+      const i = tabs.indexOf(document.activeElement);
+      const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (i < 0 || next === undefined) return;
+      e.preventDefault();
+      tabs[(next + tabs.length) % tabs.length].focus();
+    });
+
+    // Sidebar
+    $$('.side-link').forEach((a) => a.addEventListener('click', (e) => {
+      routeOpts = a.dataset.target ? { target: a.dataset.target } : {};
+      const oc = window.bootstrap && bootstrap.Offcanvas.getInstance(sidebarEl);
+      if (oc && sidebarEl.classList.contains('show')) { sidebarClosing = true; oc.hide(); }
+      if (a.getAttribute('href') === location.hash) { e.preventDefault(); onRoute(); }
+    }));
+    sidebarEl.addEventListener('hidden.bs.offcanvas', () => {
+      sidebarClosing = false;
+      if (pendingFocus) { const fn = pendingFocus; pendingFocus = null; setTimeout(fn, 0); }
+    });
+    window.addEventListener('hashchange', onRoute);
+
+    // Étape 1
+    $$('input[name="pieceMode"]').forEach((r) => r.addEventListener('change', () => { if (r.checked) setPieceMode(r.value); }));
+
+    // Étape 2 : établissements
+    byId('btnAddEtab').addEventListener('click', () => openEtabModal());
+    byId('etabBody').addEventListener('click', (e) => {
+      const edit = e.target.closest('[data-edit]');
+      const del = e.target.closest('[data-del]');
+      if (edit) openEtabModal(edit.dataset.edit);
+      if (del) deleteEtab(del.dataset.del);
+    });
+    byId('etabLive').addEventListener('click', (e) => {
+      if (e.target.closest('[data-fix-nb]')) navigate('#/inscription/1', { then: () => focusError(byId('nbEts')) });
+    });
+    byId('etabForm').addEventListener('submit', saveEtab);
+    byId('etabForm').addEventListener('input', (e) => { if (!e.target.classList.contains('combo-input')) liveValidate(e.target); });
+    const etabModalEl = byId('etabModal');
+    etabModalEl.addEventListener('shown.bs.modal', () => byId('etabNom').focus());
+    etabModalEl.addEventListener('hide.bs.modal', closeAllCombos);
+    etabModalEl.addEventListener('hidden.bs.modal', () => {
+      const target = (etabTrigger && etabTrigger.isConnected) ? etabTrigger : ($(`[data-edit="${editingId}"]`) || byId('btnAddEtab'));
+      if (target && !target.disabled) target.focus();
+    });
+
+    // Étape 2 : paiement
+    $$('input[name="payMode"]').forEach((r) => r.addEventListener('change', () => { invalidatePayment(); renderPay(); }));
+    byId('payRef').addEventListener('input', () => { invalidatePayment(); renderPay(); });
+    byId('payRef').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); verifyPayment(); } });
+    byId('btnVerify').addEventListener('click', verifyPayment);
+
+    // Soumission
+    byId('recapCertify').addEventListener('change', (e) => { byId('btnConfirmSubmit').disabled = !e.target.checked; });
+    byId('btnConfirmSubmit').addEventListener('click', confirmSubmit);
+    byId('recapModal').addEventListener('hidden.bs.modal', () => {
+      if (afterRecapHidden) { const fn = afterRecapHidden; afterRecapHidden = null; fn(); }
+      else byId('btnSubmit').focus();
+    });
+
+    // Tableau de bord
+    byId('btnResume').addEventListener('click', () => {
+      const first = [1, 2, 3].find((n) => validateStep(n).length);
+      navigate(`#/inscription/${state.submitted ? 1 : (first || 3)}`);
+    });
+    byId('timeline').addEventListener('click', (e) => {
+      const card = e.target.closest('[data-tl]');
+      if (!card) return;
+      const step = { pre: 1, pay: 2, verif: 3 }[card.dataset.tl];
+      if (step) navigate(`#/inscription/${step}`, step === 2 ? { target: 'secPaiement' } : {});
+      else toast('info', 'Validation finale', "Cette étape débutera après la vérification des pièces par l'administration.");
+    });
+    byId('todoList').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-todo]');
+      const item = btn && todoItems[Number(btn.dataset.todo)];
+      if (!item) return;
+      navigate(`#/inscription/${item.step}`, {
+        then: () => {
+          const el = item.target;
+          if (el.tagName === 'FIELDSET') setGroupState(el, groupError(el));
+          else if (el.type === 'file') setDocError(el.dataset.doc, state.documents[el.dataset.doc] ? '' : MSG.doc);
+          else if (el.id !== 'etabLive') { const msg = fieldError(el); setFieldState(el, msg, { valid: validFlag(el, msg) }); }
+          focusError(el);
+        },
+      });
+    });
+
+    // Notifications et profil
+    byId('notifBtn').addEventListener('show.bs.dropdown', renderNotifs);
+    byId('notifBtn').addEventListener('hidden.bs.dropdown', markAllRead);
+    byId('notifReadAll').addEventListener('click', markAllRead);
+    $$('[data-demo]').forEach((b) => b.addEventListener('click', () => toast('info', b.dataset.demo, 'Fonction non disponible dans cette maquette.')));
+  }
+
+  function init() {
+    if (!window.bootstrap) {
+      document.body.insertAdjacentHTML('afterbegin', '<div class="alert alert-danger m-3" role="alert">Bootstrap n\'a pas pu être chargé : vérifiez votre connexion Internet.</div>');
+    }
+    // Données DGI (lecture seule) et textes d'en-tête
+    $$('[data-dgi]').forEach((el) => { el.value = DGI[el.dataset.dgi]; });
+    $$('[data-dgi-text]').forEach((el) => { el.textContent = DGI[el.dataset.dgiText]; });
+    byId('payMontant').value = fmtFCFA(state.paiement.montant);
+
+    // Composants (l'ordre compte : listes → valeurs → masques → compteurs → dates)
+    makeCombo('villeSiege', VILLES, 'siege.ville');
+    makeCombo('repNationalite', NATIONALITES, 'representant.nationalite');
+    makeCombo('etabVille', VILLES_COMMUNES, null);
+    initDocs();
+    hydrate();
+    initMasks();
+    $$('.spin').forEach(initSpinner);
+    $$('.date-field').forEach(initDateField);
+    if (window.bootstrap) {
+      etabModal = new bootstrap.Modal(byId('etabModal'));
+      recapModal = new bootstrap.Modal(byId('recapModal'));
+    }
+
+    // Contenu initial
+    setPieceMode(state.piece.mode, false);
+    updateNniCount();
+    livePhones();
+    renderEtabs();
+    renderPay();
+    seedNotifications();
+    linkDescriptions();
+    bindEvents();
+
+    // Première vue (sans voler le focus)
+    routeOpts = { focus: 'none', scroll: false };
+    onRoute();
+    refreshUI();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
