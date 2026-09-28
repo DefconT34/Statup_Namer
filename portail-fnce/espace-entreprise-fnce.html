@@ -20,14 +20,14 @@
     <style>   1. Jetons de charte   2. Base   3. Structure (bandeau, sidebar,
               topbar)   4. Formulaire   5. Ergonomie (sections, navigation de
               sections, barre d'actions, aides)   6. Composants (liste avec
-              recherche, compteur, date)   7. Étape 2   8. Étape 3
+              recherche, compteur, date)   7. Établissements   8. Pièces jointes
               9. Tableau de bord   10. Modales, toasts, notifications
               11. Accessibilité
     <body>    Bandeau · Sidebar · Topbar · Vue « Tableau de bord » ·
-              Vue « Inscription » (3 étapes) · Modales · Zone des toasts
+              Vue « Inscription » (4 étapes) · Modales · Zone des toasts
     <script>  0. Outils   1. Données de référence   2. État   3. Saisie
               (majuscules, masques)   4. Composants   5. Validation
-              6. Navigation   7. Aides à la saisie   8. Étape 2   9. Étape 3
+              6. Navigation   7. Aides à la saisie   8. Établissements   9. Pièces jointes
               10. Progression et tableau de bord   11. Notifications et toasts
               12. Soumission   13. Initialisation
   ============================================================================
@@ -78,7 +78,6 @@
   --fnce-red: #B91C1C;             /* erreurs et astérisques (AA sur tous les fonds) */
   --fnce-red-soft: #FEF2F2;
   --fnce-warn-text: #92400E;
-  --fnce-warn-soft: #FFFBEB;
   --sidebar-w: 272px;
   --topbar-h: 64px;
   --shadow-card: 0 1px 2px rgba(15, 23, 42, .05), 0 8px 24px rgba(15, 23, 42, .06);
@@ -143,7 +142,6 @@ body { font-size: .875rem; line-height: 1.5; -webkit-font-smoothing: antialiased
 .side-link:focus-visible { outline: 3px solid #FCD34D; outline-offset: 2px; }
 .side-badge { margin-left: auto; font-size: .72rem; font-weight: 800; padding: .15rem .5rem; border-radius: 50rem; background: rgba(255, 255, 255, .18); color: #fff; white-space: nowrap; }
 .side-link.active .side-badge { background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
-.side-badge.warn { background: #FEF3C7; color: var(--fnce-warn-text); }
 .dropdown-menu { --bs-dropdown-font-size: .86rem; --bs-dropdown-item-padding-y: .4rem; }
 .sidebar-footer { margin-top: auto; background: rgba(0, 0, 0, .24); border-radius: 12px; padding: .7rem .8rem; font-size: .74rem; line-height: 1.4; }
 .sidebar-footer strong { display: block; font-size: .76rem; }
@@ -198,9 +196,12 @@ main { padding: 1.5rem 1rem 3rem; outline: none; }
 .wizard-tab.done .tab-num { background: var(--fnce-green-600); border-color: var(--fnce-green-600); color: #fff; }
 .wizard-tab.done .tab-num .n { display: none; }
 .wizard-tab.done .tab-num .bi { display: block; }
+.wizard-current { display: none; }
 @media (max-width: 575.98px) {
   .wizard-tabs { padding: .6rem .6rem 0; gap: .35rem; }
-  .wizard-tab { flex-direction: column; justify-content: flex-start; text-align: center; gap: .35rem; padding: .6rem .35rem; font-size: .74rem; }
+  .wizard-tab { justify-content: center; padding: .55rem .25rem; }
+  .wizard-tab .tab-label { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; }
+  .wizard-current { display: block; margin: 0; padding: .7rem .85rem 0; font-size: .82rem; font-weight: 800; color: var(--fnce-orange-text); }
 }
 
 .step-panel { padding: 1.25rem .75rem .75rem; }
@@ -220,13 +221,15 @@ main { padding: 1.5rem 1rem 3rem; outline: none; }
 .form-label { margin-bottom: .25rem; font-size: 12px; font-weight: 700; color: var(--fnce-ink-2); }
 .req { color: var(--fnce-red); font-weight: 800; margin-left: .15rem; }
 .opt { margin-left: .35rem; font-size: .7rem; font-weight: 600; color: #6B7280; }
-.form-control, .form-select { height: 36px; border: 1px solid var(--fnce-border); border-radius: 4px; font-size: .84rem; color: var(--fnce-ink); transition: border-color .15s ease, box-shadow .15s ease; }
+.form-control, .form-select { height: 36px; border: 1px solid var(--fnce-border); border-radius: 4px; font-size: .84rem; color: var(--fnce-ink); text-overflow: ellipsis; transition: border-color .15s ease, box-shadow .15s ease; }
 .form-control::placeholder { color: #6B7280; opacity: 1; }
 .form-control:not([readonly]):not(:disabled):not(:focus):not(.is-invalid):not(.is-valid):hover,
 .form-select:not(:disabled):not(:focus):not(.is-invalid):hover { border-color: #9CA3AF; }
 .form-control:focus, .form-select:focus { border-color: var(--fnce-orange); box-shadow: 0 0 0 .2rem rgba(242, 101, 34, .18); }
-.form-control[readonly] { background-color: var(--fnce-ro-bg); color: var(--fnce-ro-text); font-size: .78rem; font-weight: 800; text-transform: uppercase; text-overflow: ellipsis; }
+.form-control[readonly] { background-color: var(--fnce-ro-bg); color: var(--fnce-ro-text); font-size: .78rem; font-weight: 800; text-transform: uppercase; }
 .form-control:disabled, .form-select:disabled { background-color: #F3F4F6; }
+/* Téléphone tactile : 16 px dans les champs modifiables, sinon iOS agrandit la page à chaque saisie */
+@media (max-width: 575.98px) and (pointer: coarse) { .form-control:not([readonly]), .form-select { font-size: 1rem; } }
 input.form-control:-webkit-autofill { -webkit-text-fill-color: var(--fnce-ink); box-shadow: inset 0 0 0 1000px #fff; }
 .form-text { font-size: .74rem; color: var(--fnce-muted); }
 .w-code-lg { flex: 0 0 104px; width: 104px; }
@@ -276,13 +279,25 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .box-ident { border-color: var(--fnce-yellow); background: var(--fnce-cream); }
 .box-confirm { border-color: var(--fnce-lavender); background: var(--fnce-lavender-bg); }
 .box-note { margin: -.4rem 0 .8rem; font-size: .76rem; color: var(--fnce-muted); }
-@media (min-width: 992px) { .form-section { scroll-margin-top: calc(var(--topbar-h) + 4.75rem); } }
-/* Rangées adaptatives : selon la largeur réelle de la section (classes posées en JavaScript),
-   un champ « cq-full » passe en pleine largeur sous son seuil (data-cq, 470 px par défaut) et
-   les couples code/libellé se replient : aucune valeur n'est tronquée, quel que soit l'écran. */
+/* Encart d'anticipation (ex. pièces à préparer) */
+.step-aside { margin-top: 1rem; padding: .85rem 1rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #F8FAFC; font-size: .78rem; color: var(--fnce-ink-2); }
+.step-aside-title { display: flex; align-items: center; gap: .4rem; margin: 0 0 .4rem; font-size: .76rem; font-weight: 800; color: var(--fnce-ink); }
+.step-aside-title .bi { color: var(--fnce-muted); }
+.step-aside ul { margin: 0; padding-left: 1.1rem; }
+.step-aside li + li { margin-top: .15rem; }
+/* Rangées adaptatives : selon la largeur réelle de la section ou de la sous-rubrique (« cq-scope »),
+   un champ « cq-full » passe en pleine largeur sous son seuil (data-cq, 470 px par défaut ; calibré
+   sur la plus longue valeur de sa liste, ex. « PRESIDENT DU CONSEIL D'ADMINISTRATION ») et les couples
+   code/libellé se replient : aucune valeur n'est tronquée, quel que soit l'écran. */
 .row > .cq-full.is-full { flex: 0 0 auto; width: 100%; }
 .form-section.is-tiny .cq-wrap { flex-wrap: wrap; }
 .form-section.is-tiny .cq-wrap > .flex-grow-1 { flex: 1 1 100%; }
+/* Nombre d'établissements secondaires : calculé depuis la liste de l'étape 3, affiché en lecture seule */
+.ets-count { display: flex; align-items: center; justify-content: space-between; gap: .5rem; min-height: 36px; padding: .25rem .5rem .25rem .75rem; border: 1px solid var(--fnce-border); border-radius: 4px; background: var(--fnce-ro-bg); font-size: .84rem; color: var(--fnce-muted); }
+.ets-count strong { color: var(--fnce-ro-text); font-size: .9rem; font-weight: 800; }
+.ets-count-link { flex: 0 0 auto; padding: .15rem .45rem; border-radius: 4px; color: var(--fnce-navy); font-size: .78rem; font-weight: 800; text-decoration: none; }
+.ets-count-link:hover { background: var(--fnce-navy-soft); text-decoration: underline; }
+.ets-count-link:focus-visible { outline: 2px solid var(--fnce-orange); outline-offset: 1px; }
 
 /* Pastille d'avancement d'une section (« 3/5 » puis « Complet ») */
 .sec-badge { margin-left: auto; display: inline-flex; align-items: center; gap: .3rem; padding: .18rem .6rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .7rem; font-weight: 800; white-space: nowrap; }
@@ -292,23 +307,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .box-confirm .sec-badge { background: #fff; }
 .box-confirm .sec-badge.is-complete { background: var(--fnce-green-soft); }
 
-/* Navigation de sections (étape 1) : pastilles cliquables, collantes sur grand écran */
-.section-nav { position: relative; display: flex; gap: .5rem; overflow-x: auto; scrollbar-width: none; margin: -.25rem 0 1.25rem; padding: .25rem .1rem .5rem; }
-.section-nav::-webkit-scrollbar { display: none; }
-@media (min-width: 992px) {
-  .section-nav { position: sticky; top: var(--topbar-h); z-index: 10; flex-wrap: wrap; margin: -1.75rem -1.75rem 1.25rem; padding: .7rem 1.75rem; background: #fff; border-bottom: 1px solid var(--fnce-line); }
-}
-.sn-chip { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .4rem .3rem .7rem; border: 1px solid var(--fnce-line); border-radius: 50rem; background: #fff; color: var(--fnce-ink-2); font-size: .76rem; font-weight: 700; white-space: nowrap; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
-.sn-chip > .bi { color: var(--fnce-orange); }
-/* Écrans moyens : sans icônes, les pastilles tiennent sur une seule ligne (barre collante moins haute) */
-@media (min-width: 992px) and (max-width: 1399.98px) { .sn-chip > .bi { display: none; } }
-.sn-chip:hover { border-color: var(--fnce-orange-line); }
-.sn-chip.is-active { border-color: var(--fnce-orange); background: var(--fnce-orange-soft); color: var(--fnce-orange-text); }
-.sn-chip:focus-visible { outline: 3px solid rgba(242, 101, 34, .55); outline-offset: 2px; }
-.sn-state { display: inline-flex; align-items: center; gap: .2rem; min-width: 2.2rem; justify-content: center; padding: .08rem .45rem; border-radius: 50rem; background: #F3F4F6; color: var(--fnce-muted); font-size: .7rem; font-weight: 800; }
-.sn-chip.is-complete .sn-state { background: var(--fnce-green-soft); color: var(--fnce-green-text); }
-.sn-chip.pop { animation: fnce-pop .45s ease; }
-@keyframes fnce-pop { 40% { transform: scale(1.08); } }
 
 /* Barre d'actions collante : séparateur, statut de l'étape, boutons centrés, navigation dans les erreurs */
 .form-footer { position: sticky; bottom: 0; z-index: 12; padding: .75rem .75rem; background: #fff; border-top: 1px solid var(--fnce-line); border-radius: 0 0 12px 12px; box-shadow: 0 -10px 24px rgba(15, 23, 42, .06); }
@@ -318,6 +316,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .ab-right { justify-self: end; }
 .ab-step { font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--fnce-muted); }
 .ab-count { font-size: .8rem; font-weight: 800; color: var(--fnce-ink); }
+.ab-draft { display: inline-flex; align-items: center; gap: .3rem; margin-top: .1rem; font-size: .7rem; font-weight: 700; color: var(--fnce-muted); }
+.ab-draft .bi { color: var(--fnce-green-600); }
 .ab-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
 .ab-errors { display: inline-flex; align-items: center; gap: .4rem; padding: .42rem .85rem; border: 1px solid #FCA5A5; border-radius: 50rem; background: var(--fnce-red-soft); color: var(--fnce-red); font-size: .76rem; font-weight: 800; white-space: nowrap; }
 .ab-errors:hover { background: #FEE2E2; }
@@ -345,9 +345,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .email-suggest { margin-top: .35rem; font-size: .74rem; font-weight: 700; color: var(--fnce-warn-text); }
 .email-suggest button { padding: 0; border: 0; background: none; color: var(--fnce-navy); font-weight: 800; text-decoration: underline; }
 .phone-group .input-group-text { min-width: 52px; justify-content: center; background: var(--fnce-ro-bg); border-color: var(--fnce-border); color: var(--fnce-muted); font-size: .78rem; font-weight: 800; }
-.sync-hint { display: flex; gap: .3rem; align-items: flex-start; font-weight: 700; }
-.sync-hint.is-ok { color: var(--fnce-green-text); }
-.sync-hint.is-warn { color: var(--fnce-warn-text); }
 
 /* ==========================================================================
    6. COMPOSANTS : LISTE AVEC RECHERCHE, COMPTEUR, DATE
@@ -393,13 +390,9 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .date-native { position: absolute; right: .35rem; bottom: 0; width: 28px; height: 1px; padding: 0; border: 0; opacity: 0; pointer-events: none; }
 
 /* ==========================================================================
-   7. ÉTAPE 2 : ÉTABLISSEMENTS SECONDAIRES
+   7. ÉTAPE 3 : ÉTABLISSEMENTS SECONDAIRES
    ========================================================================== */
 .etab-counter { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .75rem; border: 1px solid #A7F3D0; border-radius: 50rem; background: var(--fnce-green-soft); color: var(--fnce-green-text); font-size: .76rem; font-weight: 800; white-space: nowrap; }
-.etab-counter.is-mismatch { border-color: #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); }
-.etab-alert { border: 1px solid #FCD34D; background: var(--fnce-warn-soft); color: var(--fnce-warn-text); border-radius: 10px; font-size: .82rem; }
-.etab-alert > .bi { font-size: 1.1rem; }
-.etab-alert .btn-link { color: var(--fnce-navy); font-size: inherit; text-decoration: underline; }
 .btn-add { --bs-btn-color: var(--fnce-orange-text); --bs-btn-bg: #fff; --bs-btn-border-color: var(--fnce-orange); --bs-btn-hover-color: var(--fnce-orange-text); --bs-btn-hover-bg: var(--fnce-orange-soft); --bs-btn-hover-border-color: var(--fnce-orange); --bs-btn-active-color: var(--fnce-orange-text); --bs-btn-active-bg: #FDE3D0; --bs-btn-active-border-color: var(--fnce-orange); --bs-btn-disabled-color: var(--fnce-orange-text); --bs-btn-disabled-bg: #fff; --bs-btn-focus-shadow-rgb: 242, 101, 34; border-radius: 50rem; padding: .4rem 1rem; font-size: .88rem; font-weight: 800; }
 /* position: relative contient les libellés masqués (sinon la page défile horizontalement) */
 .etab-table-wrap { position: relative; border: 1px solid var(--fnce-line); border-radius: 10px; }
@@ -424,7 +417,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .etab-cards .etab-empty { padding: 1.25rem; border: 1px dashed var(--fnce-border); border-radius: 12px; text-align: center; color: var(--fnce-muted); font-size: .86rem; }
 
 /* ==========================================================================
-   8. ÉTAPE 3 : PIÈCES JOINTES
+   8. ÉTAPE 4 : PIÈCES JOINTES
    ========================================================================== */
 .compl-box { min-width: min(100%, 280px); }
 .doc-card { height: 100%; display: flex; flex-direction: column; gap: .85rem; padding: 1rem; border: 1px solid var(--fnce-line); border-radius: 12px; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
@@ -446,6 +439,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 .doc-file { display: flex; align-items: center; gap: .75rem; padding: .6rem; border: 1px solid var(--fnce-line); border-radius: 10px; background: #F8FAFC; }
 .doc-thumb { flex: 0 0 48px; width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--fnce-line); border-radius: 8px; background: #fff; object-fit: cover; font-size: 1.4rem; color: var(--fnce-muted); }
 .doc-thumb.is-pdf { color: var(--fnce-red); }
+.doc-thumb.is-img { color: var(--fnce-navy); }
 .doc-name { margin: 0; overflow: hidden; font-size: .82rem; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
 .doc-meta { margin: 0; font-size: .76rem; color: var(--fnce-muted); }
 .doc-actions { margin-left: auto; display: flex; gap: .35rem; }
@@ -605,20 +599,20 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
             </a>
           </li>
           <li>
-            <a class="side-link" href="#/inscription/1" data-route="step1">
+            <a class="side-link" href="#/inscription/1" data-route="step1 step2">
               <i class="bi bi-ui-checks" aria-hidden="true"></i>
-              <span>Inscription FNCE<small>Assistant en 3 étapes</small></span>
+              <span>Inscription FNCE<small>Assistant en 4 étapes</small></span>
             </a>
           </li>
           <li>
-            <a class="side-link" href="#/inscription/2" data-route="step2" data-target="etabSection">
+            <a class="side-link" href="#/inscription/3" data-route="step3" data-target="etabSection">
               <i class="bi bi-shop" aria-hidden="true"></i>
               <span>Établissements secondaires</span>
               <span class="side-badge" id="navBadgeEtab">0</span>
             </a>
           </li>
           <li>
-            <a class="side-link" href="#/inscription/3" data-route="step3">
+            <a class="side-link" href="#/inscription/4" data-route="step4">
               <i class="bi bi-folder2-open" aria-hidden="true"></i>
               <span>Documents / Pièces jointes</span>
               <span class="side-badge" id="navBadgeDocs">0/4</span>
@@ -629,7 +623,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
       <div class="sidebar-footer">
         <strong><i class="bi bi-info-circle me-1" aria-hidden="true"></i>Maquette de démonstration</strong>
-        Les données restent en mémoire dans le navigateur : aucun envoi n'est effectué.
+        Les données restent dans ce navigateur (brouillon enregistré automatiquement) : aucun envoi n'est effectué.
       </div>
     </div>
   </aside>
@@ -680,6 +674,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
             <li><h2 class="dropdown-header">Compte entreprise</h2></li>
             <li><button type="button" class="dropdown-item" data-demo="Mon profil"><i class="bi bi-person me-2" aria-hidden="true"></i>Mon profil</button></li>
             <li><button type="button" class="dropdown-item" data-demo="Sécurité du compte"><i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Sécurité du compte</button></li>
+            <li><button type="button" class="dropdown-item" id="btnResetDraft"><i class="bi bi-arrow-counterclockwise me-2" aria-hidden="true"></i>Recommencer la saisie</button></li>
             <li><hr class="dropdown-divider"></li>
             <li><button type="button" class="dropdown-item" data-demo="Déconnexion"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Se déconnecter</button></li>
           </ul>
@@ -717,12 +712,16 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                   <div class="meter" role="progressbar" aria-labelledby="smLabel-1" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
                 </li>
                 <li id="stepMeter-2">
-                  <div class="sm-head"><span id="smLabel-2">Étape 2 · Établissements secondaires <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
+                  <div class="sm-head"><span id="smLabel-2">Étape 2 · Représentant légal <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
                   <div class="meter" role="progressbar" aria-labelledby="smLabel-2" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
                 </li>
                 <li id="stepMeter-3">
-                  <div class="sm-head"><span id="smLabel-3">Étape 3 · Pièces jointes <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
+                  <div class="sm-head"><span id="smLabel-3">Étape 3 · Établissements secondaires <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
                   <div class="meter" role="progressbar" aria-labelledby="smLabel-3" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
+                </li>
+                <li id="stepMeter-4">
+                  <div class="sm-head"><span id="smLabel-4">Étape 4 · Pièces jointes <span class="sm-state"></span></span><span class="sm-val">0/0</span></div>
+                  <div class="meter" role="progressbar" aria-labelledby="smLabel-4" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="meter-fill"></div></div>
                 </li>
               </ul>
             </article>
@@ -752,7 +751,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       </section>
 
       <!-- ==================================================================
-           VUE « INSCRIPTION AU FNCE » (assistant en 3 étapes)
+           VUE « INSCRIPTION AU FNCE » (assistant en 4 étapes)
            ================================================================== -->
       <section id="view-inscription" class="view" aria-labelledby="inscTitle">
         <div class="page-head">
@@ -773,17 +772,23 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
           <div class="wizard-tabs" role="tablist" aria-label="Étapes de l'inscription">
             <button type="button" class="wizard-tab" role="tab" id="tab-1" data-step="1" aria-controls="step-1" aria-selected="true">
               <span class="tab-num" aria-hidden="true"><span class="n">1</span><i class="bi bi-check-lg"></i></span>
-              <span><span class="visually-hidden">Étape 1 : </span>Identification du commerce<span class="visually-hidden tab-state"></span></span>
+              <span><span class="visually-hidden">Étape 1 : </span><span class="tab-label">Identification du commerce</span><span class="visually-hidden tab-state"></span></span>
             </button>
             <button type="button" class="wizard-tab" role="tab" id="tab-2" data-step="2" aria-controls="step-2" aria-selected="false" tabindex="-1">
               <span class="tab-num" aria-hidden="true"><span class="n">2</span><i class="bi bi-check-lg"></i></span>
-              <span><span class="visually-hidden">Étape 2 : </span>Établissements secondaires<span class="visually-hidden tab-state"></span></span>
+              <span><span class="visually-hidden">Étape 2 : </span><span class="tab-label">Représentant légal</span><span class="visually-hidden tab-state"></span></span>
             </button>
             <button type="button" class="wizard-tab" role="tab" id="tab-3" data-step="3" aria-controls="step-3" aria-selected="false" tabindex="-1">
               <span class="tab-num" aria-hidden="true"><span class="n">3</span><i class="bi bi-check-lg"></i></span>
-              <span><span class="visually-hidden">Étape 3 : </span>Pièces jointes<span class="visually-hidden tab-state"></span></span>
+              <span><span class="visually-hidden">Étape 3 : </span><span class="tab-label">Établissements secondaires</span><span class="visually-hidden tab-state"></span></span>
+            </button>
+            <button type="button" class="wizard-tab" role="tab" id="tab-4" data-step="4" aria-controls="step-4" aria-selected="false" tabindex="-1">
+              <span class="tab-num" aria-hidden="true"><span class="n">4</span><i class="bi bi-check-lg"></i></span>
+              <span><span class="visually-hidden">Étape 4 : </span><span class="tab-label">Pièces jointes</span><span class="visually-hidden tab-state"></span></span>
             </button>
           </div>
+          <!-- Petit écran : les onglets n'affichent que leur numéro, le titre de l'étape s'affiche ici -->
+          <p class="wizard-current" id="wizardCurrent" aria-hidden="true"></p>
 
           <form id="fnceForm" novalidate autocomplete="off">
             <fieldset id="formFieldset">
@@ -793,16 +798,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                    ============================================================ -->
               <div class="step-panel" role="tabpanel" id="step-1" aria-labelledby="tab-1" tabindex="-1">
 
-                <!-- Navigation de sections : avancement de chaque bloc, clic = premier champ à compléter -->
-                <nav class="section-nav" aria-label="Sections de l'étape 1">
-                  <button type="button" class="sn-chip" data-sec="confirm"><i class="bi bi-patch-check" aria-hidden="true"></i>Confirmation<span class="sn-state"></span></button>
-                  <button type="button" class="sn-chip" data-sec="etab"><i class="bi bi-building" aria-hidden="true"></i>Établissement<span class="visually-hidden"> principal</span><span class="sn-state"></span></button>
-                  <button type="button" class="sn-chip" data-sec="rep"><i class="bi bi-person" aria-hidden="true"></i>Représentant<span class="visually-hidden"> légal</span><span class="sn-state"></span></button>
-                  <button type="button" class="sn-chip" data-sec="piece"><i class="bi bi-person-vcard" aria-hidden="true"></i>Pièce d'identité<span class="sn-state"></span></button>
-                </nav>
-
-                <!-- Deux rangées équilibrées : 1) données DGI et confirmation côte à côte (on recopie
-                     en lisant à gauche) ; 2) établissement principal | représentant légal + pièce. -->
+                <!-- 1) Données DGI et confirmation côte à côte (on recopie en lisant à gauche) ;
+                     2) établissement principal sur toute la largeur, sous-rubriques en grille 2 × 2. -->
                 <div class="row g-4">
 
                   <!-- ---------------- Rangée 1, gauche ---------------- -->
@@ -875,128 +872,136 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                     </section>
                   </div>
 
-                  <!-- ---------------- Rangée 2, gauche ---------------- -->
-                  <div class="col-lg-6">
+                  <!-- ---------------- Rangée 2 : établissement principal ---------------- -->
+                  <div class="col-12">
 
-                    <!-- C. Établissement principal (hors encadré) -->
+                    <!-- C. Établissement principal (hors encadré) : quatre sous-rubriques en grille -->
                     <section class="form-section plain" id="secEtab" data-section="etab" aria-labelledby="secEtabTitle">
                       <h2 class="section-title" id="secEtabTitle" tabindex="-1"><i class="bi bi-building-fill" aria-hidden="true"></i>Établissement principal<span class="sec-badge" data-sec-badge="etab"></span></h2>
-
-                      <h3 class="subsection-title"><i class="bi bi-journal-bookmark" aria-hidden="true"></i>Immatriculation</h3>
-                      <div class="row g-3">
-                        <div class="col-sm-6">
-                          <label class="form-label" for="etDateCreation">Date de création<span class="req" aria-hidden="true">*</span></label>
-                          <div class="date-field">
-                            <input type="text" class="form-control" id="etDateCreation" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" required data-mask="date" data-rule="date past" data-bind="etablissement.dateCreation" data-label="Date de création de l'entreprise">
-                            <button type="button" class="date-btn" aria-label="Choisir la date de création dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
-                            <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
-                          </div>
-                          <div class="field-hint" id="etDateCreation-hint" data-for="etDateCreation"></div>
-                          <button type="button" class="suggest-chip" id="etDateCreation-suggest" title="Reprendre la date d'immatriculation du RCCM" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre la </span>Date du RCCM : <strong id="etDateCreation-suggest-val"></strong></span></button>
-                          <div class="invalid-feedback" id="etDateCreation-error"></div>
-                        </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="etSigle">Nom abrégé / Sigle<span class="opt">facultatif</span></label>
-                          <input type="text" class="form-control" id="etSigle" placeholder="Ex. : MB" data-bind="etablissement.sigle">
-                        </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="etTitre">N° Titre de commerce<span class="opt">facultatif</span></label>
-                          <input type="text" class="form-control" id="etTitre" placeholder="N° du titre de commerce" data-rule="docNum" data-bind="etablissement.titreCommerce" data-label="N° du titre de commerce">
-                          <div class="invalid-feedback" id="etTitre-error"></div>
-                        </div>
-                        <div class="col-sm-6">
-                          <label class="form-label" for="etFnce">N° d'inscription FNCE<span class="opt">facultatif</span></label>
-                          <input type="text" class="form-control" id="etFnce" placeholder="Si déjà inscrit au FNCE" data-rule="docNum" data-bind="etablissement.numFnce" data-label="N° d'inscription FNCE">
-                          <div class="field-hint" id="etFnce-hint" data-for="etFnce">Première inscription : laissez vide, le numéro sera attribué à la validation.</div>
-                          <div class="invalid-feedback" id="etFnce-error"></div>
-                        </div>
-                      </div>
-
-                      <h3 class="subsection-title"><i class="bi bi-cash-stack" aria-hidden="true"></i>Capital et structure</h3>
-                      <div class="row g-3">
-                        <div class="col-sm-7">
-                          <label class="form-label" for="capital">Capital social<span class="req" aria-hidden="true">*</span></label>
-                          <div class="spin has-unit">
-                            <input type="text" class="form-control" id="capital" inputmode="numeric" role="spinbutton" aria-valuemin="0" autocomplete="off" required data-mask="thousands" data-kind="number" data-rule="positive" data-bind="etablissement.capital" data-min="0" data-step="1000000" data-unit="FCFA" data-label="Capital social">
-                            <span class="spin-unit" aria-hidden="true">FCFA</span>
-                            <div class="spin-btns">
-                              <button type="button" tabindex="-1" data-spin="1" aria-label="Augmenter le capital d'un million"><i class="bi bi-caret-up-fill" aria-hidden="true"></i></button>
-                              <button type="button" tabindex="-1" data-spin="-1" aria-label="Diminuer le capital d'un million"><i class="bi bi-caret-down-fill" aria-hidden="true"></i></button>
+                      <div class="row g-4">
+                        <div class="col-lg-6 cq-scope">
+                          <h3 class="subsection-title"><i class="bi bi-journal-bookmark" aria-hidden="true"></i>Immatriculation</h3>
+                          <div class="row g-3">
+                            <div class="col-sm-6">
+                              <label class="form-label" for="etDateCreation">Date de création<span class="req" aria-hidden="true">*</span></label>
+                              <div class="date-field">
+                                <input type="text" class="form-control" id="etDateCreation" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" required data-mask="date" data-rule="date past" data-bind="etablissement.dateCreation" data-label="Date de création de l'entreprise">
+                                <button type="button" class="date-btn" aria-label="Choisir la date de création dans un calendrier"><i class="bi bi-calendar3" aria-hidden="true"></i></button>
+                                <input type="date" class="date-native" tabindex="-1" aria-hidden="true">
+                              </div>
+                              <div class="field-hint" id="etDateCreation-hint" data-for="etDateCreation"></div>
+                              <button type="button" class="suggest-chip" id="etDateCreation-suggest" title="Reprendre la date d'immatriculation du RCCM" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre la </span>Date du RCCM : <strong id="etDateCreation-suggest-val"></strong></span></button>
+                              <div class="invalid-feedback" id="etDateCreation-error"></div>
+                            </div>
+                            <div class="col-sm-6">
+                              <label class="form-label" for="etSigle">Nom abrégé / Sigle<span class="opt">facultatif</span></label>
+                              <input type="text" class="form-control" id="etSigle" placeholder="Ex. : MB" data-bind="etablissement.sigle">
+                            </div>
+                            <div class="col-sm-6">
+                              <label class="form-label" for="etTitre">N° Titre de commerce<span class="opt">facultatif</span></label>
+                              <input type="text" class="form-control" id="etTitre" placeholder="N° du titre de commerce" data-rule="docNum" data-bind="etablissement.titreCommerce" data-label="N° du titre de commerce">
+                              <div class="invalid-feedback" id="etTitre-error"></div>
+                            </div>
+                            <div class="col-sm-6">
+                              <label class="form-label" for="etFnce">N° d'inscription FNCE<span class="opt">facultatif</span></label>
+                              <input type="text" class="form-control" id="etFnce" placeholder="Si déjà inscrit au FNCE" data-rule="docNum" data-bind="etablissement.numFnce" data-label="N° d'inscription FNCE">
+                              <div class="field-hint" id="etFnce-hint" data-for="etFnce">Première inscription : laissez vide, le numéro sera attribué à la validation.</div>
+                              <div class="invalid-feedback" id="etFnce-error"></div>
                             </div>
                           </div>
-                          <div class="amount-words" id="capital-words" data-for="capital"></div>
-                          <div class="invalid-feedback" id="capital-error"></div>
                         </div>
-                        <div class="col-sm-5">
-                          <label class="form-label" for="nbEts">Nbre ets secondaire<span class="req" aria-hidden="true">*</span></label>
-                          <div class="spin">
-                            <input type="text" class="form-control" id="nbEts" inputmode="numeric" role="spinbutton" aria-valuemin="0" aria-valuemax="999" autocomplete="off" required data-mask="digits" data-max-digits="3" data-kind="number" data-bind="etablissement.nbEts" data-min="0" data-max-value="999" data-step="1" data-label="Nombre d'établissements secondaires">
-                            <div class="spin-btns">
-                              <button type="button" tabindex="-1" data-spin="1" aria-label="Augmenter le nombre d'établissements"><i class="bi bi-caret-up-fill" aria-hidden="true"></i></button>
-                              <button type="button" tabindex="-1" data-spin="-1" aria-label="Diminuer le nombre d'établissements"><i class="bi bi-caret-down-fill" aria-hidden="true"></i></button>
+                        <div class="col-lg-6 cq-scope">
+                          <h3 class="subsection-title"><i class="bi bi-cash-stack" aria-hidden="true"></i>Capital et structure</h3>
+                          <div class="row g-3">
+                            <div class="col-sm-7">
+                              <label class="form-label" for="capital">Capital social<span class="req" aria-hidden="true">*</span></label>
+                              <div class="spin has-unit">
+                                <input type="text" class="form-control" id="capital" inputmode="numeric" role="spinbutton" aria-valuemin="0" autocomplete="off" required data-mask="thousands" data-kind="number" data-rule="positive" data-bind="etablissement.capital" data-min="0" data-step="1000000" data-unit="FCFA" data-label="Capital social">
+                                <span class="spin-unit" aria-hidden="true">FCFA</span>
+                                <div class="spin-btns">
+                                  <button type="button" tabindex="-1" data-spin="1" aria-label="Augmenter le capital d'un million"><i class="bi bi-caret-up-fill" aria-hidden="true"></i></button>
+                                  <button type="button" tabindex="-1" data-spin="-1" aria-label="Diminuer le capital d'un million"><i class="bi bi-caret-down-fill" aria-hidden="true"></i></button>
+                                </div>
+                              </div>
+                              <div class="amount-words" id="capital-words" data-for="capital"></div>
+                              <div class="invalid-feedback" id="capital-error"></div>
+                            </div>
+                            <div class="col-sm-5">
+                              <span class="form-label d-block" id="etsCountLabel">Établissements secondaires</span>
+                              <div class="ets-count" role="group" aria-labelledby="etsCountLabel">
+                                <strong id="etsCount">0</strong>
+                                <a class="ets-count-link" href="#/inscription/3">Gérer la liste<i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></a>
+                              </div>
+                              <div class="form-text">Calculé depuis la liste de l'étape 3.</div>
                             </div>
                           </div>
-                          <div class="form-text sync-hint" id="nbEts-sync" data-for="nbEts"></div>
-                          <div class="invalid-feedback" id="nbEts-error"></div>
                         </div>
-                      </div>
-
-                      <h3 class="subsection-title"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Localisation du siège</h3>
-                      <div class="row g-3">
-                        <div class="col-sm-5 cq-full" data-cq="480">
-                          <label class="form-label" for="etLocalite">Localité<span class="req" aria-hidden="true">*</span></label>
-                          <input type="text" class="form-control" id="etLocalite" placeholder="Rechercher…" required data-label="Localité du siège">
-                          <div class="invalid-feedback" id="etLocalite-error"></div>
-                        </div>
-                        <div class="col-sm-7 cq-full" data-cq="480">
-                          <label class="form-label" for="etQuartier">Quartier<span class="req" aria-hidden="true">*</span></label>
-                          <input type="text" class="form-control" id="etQuartier" required data-bind="etablissement.quartier" data-label="Quartier du siège">
-                          <div class="invalid-feedback" id="etQuartier-error"></div>
-                        </div>
-                        <div class="col-12">
-                          <label class="form-label" for="etRue">Rue<span class="opt">facultatif</span></label>
-                          <input type="text" class="form-control" id="etRue" placeholder="Ex. : BOULEVARD LATRILLE, LOT 12" data-bind="etablissement.rue">
-                        </div>
-                      </div>
-
-                      <h3 class="subsection-title"><i class="bi bi-telephone-fill" aria-hidden="true"></i>Coordonnées</h3>
-                      <div class="row g-3">
-                        <div class="col-sm-6 cq-full" data-cq="362">
-                          <label class="form-label" for="etMobile">Contact mobile<span class="req" aria-hidden="true">*</span></label>
-                          <div class="input-group phone-group">
-                            <span class="input-group-text" id="etMobile-cc">+225</span>
-                            <input type="tel" class="form-control text-center tabular" id="etMobile" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile" data-bind="etablissement.mobile" data-label="Contact mobile de l'établissement" aria-describedby="etMobile-cc">
+                        <div class="col-lg-6 cq-scope">
+                          <h3 class="subsection-title"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Localisation du siège</h3>
+                          <div class="row g-3">
+                            <div class="col-sm-6 cq-full" data-cq="476">
+                              <label class="form-label" for="etLocalite">Localité<span class="req" aria-hidden="true">*</span></label>
+                              <input type="text" class="form-control" id="etLocalite" placeholder="Rechercher…" required data-label="Localité du siège">
+                              <div class="invalid-feedback" id="etLocalite-error"></div>
+                            </div>
+                            <div class="col-sm-6 cq-full" data-cq="476">
+                              <label class="form-label" for="etQuartier">Quartier<span class="req" aria-hidden="true">*</span></label>
+                              <input type="text" class="form-control" id="etQuartier" required data-bind="etablissement.quartier" data-label="Quartier du siège">
+                              <div class="invalid-feedback" id="etQuartier-error"></div>
+                            </div>
+                            <div class="col-12">
+                              <label class="form-label" for="etRue">Rue<span class="opt">facultatif</span></label>
+                              <input type="text" class="form-control" id="etRue" placeholder="Ex. : BOULEVARD LATRILLE, LOT 12" data-bind="etablissement.rue">
+                            </div>
                           </div>
-                          <div class="field-hint" id="etMobile-op" data-for="etMobile"></div>
-                          <button type="button" class="suggest-chip" id="etMobile-suggest" title="Reprendre le numéro du représentant légal" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre le </span>Mobile du représentant : <strong id="etMobile-suggest-val"></strong></span></button>
-                          <div class="invalid-feedback" id="etMobile-error"></div>
                         </div>
-                        <div class="col-sm-6 cq-full" data-cq="362">
-                          <label class="form-label" for="etTelFixe">Téléphone fixe<span class="opt">facultatif</span></label>
-                          <div class="input-group phone-group">
-                            <span class="input-group-text" id="etTelFixe-cc">+225</span>
-                            <input type="tel" class="form-control text-center tabular" id="etTelFixe" inputmode="numeric" placeholder="27 20 00 00 00" autocomplete="off" data-mask="phone" data-kind="digits" data-rule="fixe" data-bind="etablissement.telFixe" data-label="Téléphone fixe" aria-describedby="etTelFixe-cc">
+                        <div class="col-lg-6 cq-scope">
+                          <h3 class="subsection-title"><i class="bi bi-telephone-fill" aria-hidden="true"></i>Coordonnées</h3>
+                          <div class="row g-3">
+                            <div class="col-sm-6 cq-full" data-cq="362">
+                              <label class="form-label" for="etMobile">Contact mobile<span class="req" aria-hidden="true">*</span></label>
+                              <div class="input-group phone-group">
+                                <span class="input-group-text" id="etMobile-cc">+225</span>
+                                <input type="tel" class="form-control text-center tabular" id="etMobile" inputmode="numeric" placeholder="07 00 00 00 00" autocomplete="off" required data-mask="phone" data-kind="digits" data-rule="mobile" data-bind="etablissement.mobile" data-label="Contact mobile de l'établissement" aria-describedby="etMobile-cc">
+                              </div>
+                              <div class="field-hint" id="etMobile-op" data-for="etMobile"></div>
+                              <button type="button" class="suggest-chip" id="etMobile-suggest" title="Reprendre le numéro du représentant légal" hidden><i class="bi bi-magic" aria-hidden="true"></i><span><span class="visually-hidden">Reprendre le </span>Mobile du représentant : <strong id="etMobile-suggest-val"></strong></span></button>
+                              <div class="invalid-feedback" id="etMobile-error"></div>
+                            </div>
+                            <div class="col-sm-6 cq-full" data-cq="362">
+                              <label class="form-label" for="etTelFixe">Téléphone fixe<span class="opt">facultatif</span></label>
+                              <div class="input-group phone-group">
+                                <span class="input-group-text" id="etTelFixe-cc">+225</span>
+                                <input type="tel" class="form-control text-center tabular" id="etTelFixe" inputmode="numeric" placeholder="27 20 00 00 00" autocomplete="off" data-mask="phone" data-kind="digits" data-rule="fixe" data-bind="etablissement.telFixe" data-label="Téléphone fixe" aria-describedby="etTelFixe-cc">
+                              </div>
+                              <div class="field-hint" id="etTelFixe-op" data-for="etTelFixe"></div>
+                              <div class="invalid-feedback" id="etTelFixe-error"></div>
+                            </div>
+                            <div class="col-sm-6 cq-full" data-cq="372">
+                              <label class="form-label" for="etBp">Boîte postale<span class="opt">facultatif</span></label>
+                              <input type="text" class="form-control" id="etBp" placeholder="Ex. : 01 BP 1234 ABIDJAN 01" data-bind="etablissement.bp">
+                            </div>
+                            <div class="col-sm-6 cq-full" data-cq="372">
+                              <label class="form-label" for="etEmail">Email officiel<span class="opt">facultatif</span></label>
+                              <input type="email" class="form-control" id="etEmail" inputmode="email" placeholder="contact@entreprise.ci" autocomplete="off" data-rule="email" data-bind="etablissement.email" data-label="Email officiel">
+                              <div class="email-suggest" id="etEmail-suggest" data-for="etEmail" hidden></div>
+                              <div class="invalid-feedback" id="etEmail-error"></div>
+                            </div>
                           </div>
-                          <div class="field-hint" id="etTelFixe-op" data-for="etTelFixe"></div>
-                          <div class="invalid-feedback" id="etTelFixe-error"></div>
-                        </div>
-                        <div class="col-sm-6 cq-full" data-cq="372">
-                          <label class="form-label" for="etBp">Boîte postale<span class="opt">facultatif</span></label>
-                          <input type="text" class="form-control" id="etBp" placeholder="Ex. : 01 BP 1234 ABIDJAN 01" data-bind="etablissement.bp">
-                        </div>
-                        <div class="col-sm-6 cq-full" data-cq="372">
-                          <label class="form-label" for="etEmail">Email officiel<span class="opt">facultatif</span></label>
-                          <input type="email" class="form-control" id="etEmail" inputmode="email" placeholder="contact@entreprise.ci" autocomplete="off" data-rule="email" data-bind="etablissement.email" data-label="Email officiel">
-                          <div class="email-suggest" id="etEmail-suggest" data-for="etEmail" hidden></div>
-                          <div class="invalid-feedback" id="etEmail-error"></div>
                         </div>
                       </div>
                     </section>
                   </div>
 
-                  <!-- ---------------- Rangée 2, droite ---------------- -->
-                  <div class="col-lg-6">
+                </div>
+              </div>
 
+              <!-- ============================================================
+                   ÉTAPE 2 – REPRÉSENTANT LÉGAL (identité, contact, pièce d'identité)
+                   ============================================================ -->
+              <div class="step-panel" role="tabpanel" id="step-2" aria-labelledby="tab-2" tabindex="-1" hidden>
+                <div class="row g-4">
+                  <div class="col-lg-6">
                     <!-- D. Représentant légal -->
                     <section class="form-section plain" id="secRep" data-section="rep" aria-labelledby="secRepTitle">
                       <h2 class="section-title" id="secRepTitle" tabindex="-1"><i class="bi bi-person-fill" aria-hidden="true"></i>Représentant légal<span class="sec-badge" data-sec-badge="rep"></span></h2>
@@ -1042,12 +1047,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                           <input type="text" class="form-control" id="repLieu" placeholder="Saisir ou choisir…" required data-label="Lieu de naissance">
                           <div class="invalid-feedback" id="repLieu-error"></div>
                         </div>
-                        <div class="col-sm-5 cq-full" data-cq="388">
+                        <div class="col-sm-5 cq-full" data-cq="627">
                           <label class="form-label" for="repNationalite">Nationalité<span class="req" aria-hidden="true">*</span></label>
                           <input type="text" class="form-control" id="repNationalite" placeholder="Rechercher…" required data-label="Nationalité">
                           <div class="invalid-feedback" id="repNationalite-error"></div>
                         </div>
-                        <div class="col-sm-7 cq-full" data-cq="388">
+                        <div class="col-sm-7 cq-full" data-cq="627">
                           <label class="form-label" for="repFonction">Fonction<span class="opt">facultatif</span></label>
                           <input type="text" class="form-control" id="repFonction" placeholder="Saisir ou choisir…" data-label="Fonction">
                         </div>
@@ -1076,7 +1081,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                         </div>
                       </div>
                     </section>
-
+                  </div>
+                  <div class="col-lg-6">
                     <!-- E. Pièce d'identité (ONECI avec NNI, ou autre pièce + filiation) -->
                     <section class="form-section plain" id="secPiece" data-section="piece" aria-labelledby="secPieceTitle">
                       <div class="piece-head">
@@ -1152,7 +1158,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             <input type="text" class="form-control" id="autreNumero" required data-rule="pieceNum" data-bind="piece.autre.numero" data-label="N° de la pièce">
                             <div class="invalid-feedback" id="autreNumero-error"></div>
                           </div>
-                          <div class="col-sm-6">
+                          <div class="col-sm-5 cq-full" data-cq="384">
                             <label class="form-label" for="autreDelivre">Délivré le<span class="opt">facultatif</span></label>
                             <div class="date-field">
                               <input type="text" class="form-control" id="autreDelivre" inputmode="numeric" placeholder="JJ/MM/AAAA" autocomplete="off" data-mask="date" data-rule="date past" data-bind="piece.autre.delivre" data-label="Date de délivrance de la pièce">
@@ -1161,7 +1167,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                             </div>
                             <div class="invalid-feedback" id="autreDelivre-error"></div>
                           </div>
-                          <div class="col-sm-6 cq-full" data-cq="398">
+                          <div class="col-sm-7 cq-full" data-cq="384">
                             <label class="form-label" for="autreLieu">Lieu de délivrance<span class="opt">facultatif</span></label>
                             <input type="text" class="form-control" id="autreLieu" placeholder="Saisir ou choisir…" data-label="Lieu de délivrance de la pièce">
                           </div>
@@ -1199,15 +1205,23 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                         </div>
                       </div>
                     </section>
+                    <aside class="step-aside" aria-labelledby="asideDocsTitle">
+                      <p class="step-aside-title" id="asideDocsTitle"><i class="bi bi-paperclip" aria-hidden="true"></i>À préparer pour l'étape 4</p>
+                      <ul>
+                        <li>Pièce d'identité du représentant, en cours de validité</li>
+                        <li>Photo d'identité récente, sur fond clair</li>
+                        <li>Document de nomination (PV ou acte)</li>
+                      </ul>
+                    </aside>
                   </div>
                 </div>
               </div>
 
               <!-- ============================================================
-                   ÉTAPE 2 – ÉTABLISSEMENTS SECONDAIRES
+                   ÉTAPE 3 – ÉTABLISSEMENTS SECONDAIRES
                    (les frais d'inscription sont réglés avant l'accès à l'Espace Entreprise)
                    ============================================================ -->
-              <div class="step-panel" role="tabpanel" id="step-2" aria-labelledby="tab-2" tabindex="-1" hidden>
+              <div class="step-panel" role="tabpanel" id="step-3" aria-labelledby="tab-3" tabindex="-1" hidden>
                 <section class="form-section plain" id="etabSection" data-section="ets" aria-labelledby="secEtsTitle">
                   <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
                     <h2 class="section-title m-0" id="secEtsTitle" tabindex="-1"><i class="bi bi-shop" aria-hidden="true"></i>Établissements secondaires</h2>
@@ -1216,9 +1230,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
                       <button type="button" class="btn btn-add" id="btnAddEtab"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>Ajouter</button>
                     </div>
                   </div>
-                  <p class="box-note">Déclarez chaque établissement secondaire (agence, succursale, point de vente) : leur nombre doit correspondre au « Nbre ets secondaire » indiqué à l'étape 1.</p>
-                  <!-- Zone d'avertissement (annoncée aux lecteurs d'écran) -->
-                  <div id="etabLive" aria-live="polite"></div>
+                  <p class="box-note">Déclarez chaque établissement secondaire (agence, succursale, point de vente) : leur nombre est reporté automatiquement à l'étape 1.</p>
                   <!-- Tableau (≥ 768 px) -->
                   <div class="table-responsive etab-table-wrap d-none d-md-block">
                     <table class="table etab-table align-middle">
@@ -1243,9 +1255,9 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
               </div>
 
               <!-- ============================================================
-                   ÉTAPE 3 – PIÈCES JOINTES
+                   ÉTAPE 4 – PIÈCES JOINTES
                    ============================================================ -->
-              <div class="step-panel" role="tabpanel" id="step-3" aria-labelledby="tab-3" tabindex="-1" hidden>
+              <div class="step-panel" role="tabpanel" id="step-4" aria-labelledby="tab-4" tabindex="-1" hidden>
                 <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3">
                   <div>
                     <h2 class="section-title mb-1" id="secDocsTitle"><i class="bi bi-paperclip" aria-hidden="true"></i>Pièces jointes</h2>
@@ -1268,8 +1280,9 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
             <div class="form-footer">
               <div class="ab-inner">
                 <div class="ab-left">
-                  <span class="ab-step" id="abStep">Étape 1 sur 3</span>
+                  <span class="ab-step" id="abStep">Étape 1 sur 4</span>
                   <span class="ab-count" id="abCount"></span>
+                  <span class="ab-draft" id="abDraft" hidden></span>
                 </div>
                 <div class="ab-buttons">
                   <button type="button" class="btn btn-prev" id="btnPrev" hidden><i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Précédent</button>
@@ -1530,7 +1543,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   const OPERATEURS_FIXE = { '21': 'Moov Africa', '25': 'MTN', '27': 'Orange' };
   const EMAIL_DOMAINS = ['gmail.com', 'yahoo.fr', 'yahoo.com', 'hotmail.com', 'hotmail.fr', 'outlook.com', 'outlook.fr', 'live.fr', 'live.com', 'icloud.com', 'aol.com', 'protonmail.com'];
 
-  /* Pièces jointes exigées (étape 3) */
+  /* Les quatre étapes de l'inscription */
+  const STEP_NAMES = { 1: 'Identification du commerce', 2: 'Représentant légal', 3: 'Établissements secondaires', 4: 'Pièces jointes' };
+  const STEP_COUNT = 4;
+  const STEPS = [1, 2, 3, 4];
+
+  /* Pièces jointes exigées (étape 4) */
   const DOCS = [
     { key: 'pieceIdentite', title: "Pièce d'identité du représentant", desc: 'CNI, carte de résident ou passeport en cours de validité.', icon: 'bi-person-vcard' },
     { key: 'rccm', title: 'Registre du commerce (RCCM)', desc: 'Extrait du registre du commerce et du crédit mobilier.', icon: 'bi-journal-text' },
@@ -1553,7 +1571,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     confirmation: { raisonSociale: '', formeJuridique: '', rccm: '', activite: '' },
     etablissement: {
       dateCreation: '', sigle: '', titreCommerce: '', numFnce: '',
-      capital: 20943530000, nbEts: 2,
+      capital: 20943530000,
       localite: 'ABIDJAN', quartier: 'COCODY-RIVERA BEVERLY HILLS', rue: '',
       mobile: '', bp: '', telFixe: '', email: '',
     },
@@ -1567,6 +1585,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       { id: uid('ets'), denomination: 'AGENCE PLATEAU', activite: 'BANQUES', localite: 'ABIDJAN - PLATEAU', quartier: 'PLATEAU', rue: '' },
       { id: uid('ets'), denomination: 'AGENCE SAN-PEDRO', activite: 'BANQUES', localite: 'SAN-PEDRO', quartier: 'CENTRE-VILLE', rue: '' },
     ],
+    etabsVus: false, // liste des établissements secondaires consultée : l'étape 3 ne se valide qu'une fois vue
     documents: { pieceIdentite: null, rccm: null, photo: null, nomination: null },
     notifications: [],
   };
@@ -1817,21 +1836,23 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   /* 4.4 Rangées adaptatives : équivalent JavaScript d'une « container query ». Une vraie
      container query créerait un contexte d'empilement qui masquerait les listes déroulantes
      sous la barre d'actions collante. */
-  function classifySection(sec) {
-    const cs = getComputedStyle(sec);
-    const width = sec.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    if (width <= 0) return; // section masquée : classée à son prochain affichage
-    sec.classList.toggle('is-tiny', width < 340);
-    $$('.cq-full', sec).forEach((col) => col.classList.toggle('is-full', width < Number(col.dataset.cq || 470)));
+  // Zone de mesure : la section, ou une sous-rubrique « cq-scope » (ex. établissement principal en grille)
+  const scopeOf = (el) => el.closest('.cq-scope, .form-section');
+  function classifySection(scope) {
+    const cs = getComputedStyle(scope);
+    const width = scope.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    if (width <= 0) return; // zone masquée : classée à son prochain affichage
+    scope.classList.toggle('is-tiny', width < 340);
+    $$('.cq-full', scope).filter((col) => scopeOf(col) === scope).forEach((col) => col.classList.toggle('is-full', width < Number(col.dataset.cq || 470)));
   }
   function initAdaptiveSections() {
-    const sections = $$('.form-section');
-    sections.forEach(classifySection); // avant le premier affichage
+    const scopes = $$('.form-section, .cq-scope');
+    scopes.forEach(classifySection); // avant le premier affichage
     if (!('ResizeObserver' in window)) return;
     let frame = 0;
     // Reclassement à la frame suivante : évite l'alerte « ResizeObserver loop » quand la hauteur change
-    const ro = new ResizeObserver(() => { if (!frame) frame = requestAnimationFrame(() => { frame = 0; sections.forEach(classifySection); }); });
-    sections.forEach((sec) => ro.observe(sec));
+    const ro = new ResizeObserver(() => { if (!frame) frame = requestAnimationFrame(() => { frame = 0; scopes.forEach(classifySection); }); });
+    scopes.forEach((scope) => ro.observe(scope));
   }
 
   const combos = new Map();
@@ -2090,8 +2111,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       if (reveal) setGroupState(fs, msg);
       if (msg) bad.push(fs);
     });
-    if (n === 2 && !etabConsistent()) bad.push(byId('etabLive'));
-    if (n === 3) {
+    if (n === 3 && !state.etabsVus) bad.push(byId('secEtsTitle'));
+    if (n === 4) {
       DOCS.forEach((d) => {
         const missing = !state.documents[d.key];
         if (reveal && (missing || byId(`file-${d.key}`).classList.contains('is-invalid'))) setDocError(d.key, missing ? MSG.doc : '');
@@ -2103,9 +2124,10 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
   /* Affiche l'erreur d'un seul élément (utilisé par les raccourcis vers un champ) */
   function revealOne(el) {
+    if (!el.matches('input, select, fieldset')) return; // ex. liste des établissements à vérifier
     if (el.tagName === 'FIELDSET') setGroupState(el, groupError(el));
     else if (el.type === 'file') setDocError(el.dataset.doc, state.documents[el.dataset.doc] ? '' : MSG.doc);
-    else if (el.id !== 'etabLive') { const msg = fieldError(el); setFieldState(el, msg, { valid: validFlag(el, msg) }); }
+    else { const msg = fieldError(el); setFieldState(el, msg, { valid: validFlag(el, msg) }); }
   }
 
   /* Défilement doux jusqu'à un élément en erreur, puis focus */
@@ -2116,9 +2138,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     if (el.tagName === 'FIELDSET') {
       focusEl = $('input:checked', el) || $('input', el);
       scrollEl = el;
-    } else if (el.id === 'etabLive') {
-      focusEl = byId('btnAddEtab');
-      scrollEl = byId('etabSection');
     } else if (el.type === 'file') {
       const key = el.dataset.doc;
       scrollEl = byId(`doc-${key}`);
@@ -2138,12 +2157,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   /* Liste des éléments obligatoires du dossier (sert au calcul de progression) */
   function collectChecks() {
     const checks = [];
-    [1, 2, 3].forEach((step) => {
+    STEPS.forEach((step) => {
       const { fields, groups } = controlsIn(byId(`step-${step}`));
       fields.filter((el) => el.required).forEach((el) => checks.push({ step, kind: 'field', ok: !fieldError(el), label: labelOf(el), target: el }));
       groups.filter((fs) => fs.hasAttribute('data-required')).forEach((fs) => checks.push({ step, kind: 'field', ok: !groupError(fs), label: labelOf(fs), target: fs }));
-      if (step === 2) checks.push({ step, kind: 'etab', ok: etabConsistent(), label: 'Établissements secondaires conformes au nombre déclaré', target: byId('etabLive') });
-      if (step === 3) DOCS.forEach((d) => checks.push({ step, kind: 'doc', ok: !!state.documents[d.key], label: d.title, target: byId(`file-${d.key}`) }));
+      if (step === 3) checks.push({ step, kind: 'review', ok: state.etabsVus, label: 'Vérification de la liste des établissements', target: byId('secEtsTitle') });
+      if (step === 4) DOCS.forEach((d) => checks.push({ step, kind: 'doc', ok: !!state.documents[d.key], label: d.title, target: byId(`file-${d.key}`) }));
     });
     return checks.sort((a, b) => a.step - b.step || domOrder(a.target, b.target));
   }
@@ -2184,7 +2203,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       if (opts.focus !== 'none') afterNav(() => byId('dashTitle').focus({ preventScroll: true }));
       return;
     }
-    const m = /^#\/inscription\/([1-3])$/.exec(location.hash);
+    const m = /^#\/inscription\/([1-4])$/.exec(location.hash);
     if (!m) history.replaceState(null, '', '#/inscription/1');
     const step = m ? Number(m[1]) : 1;
     const entering = state.view !== 'inscription'; // arrivée depuis le tableau de bord
@@ -2218,6 +2237,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
   function setStep(n) {
     state.step = n;
+    if (n === 3) state.etabsVus = true;
     $$('.wizard-tab').forEach((tab) => {
       const on = Number(tab.dataset.step) === n;
       tab.setAttribute('aria-selected', String(on));
@@ -2225,9 +2245,10 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     });
     $$('.step-panel').forEach((p) => { p.hidden = p.id !== `step-${n}`; });
     byId('btnPrev').hidden = n === 1;
-    byId('btnNext').hidden = n === 3;
-    byId('btnSubmit').hidden = n !== 3 || state.submitted;
-    byId('btnSubmitted').hidden = n !== 3 || !state.submitted;
+    byId('btnNext').hidden = n === STEP_COUNT;
+    byId('btnSubmit').hidden = n !== STEP_COUNT || state.submitted;
+    byId('btnSubmitted').hidden = n !== STEP_COUNT || !state.submitted;
+    byId('wizardCurrent').textContent = `Étape ${n} sur ${STEP_COUNT} · ${STEP_NAMES[n]}`;
     errCursor = -1;
     closeAllCombos();
     updateSidebarActive();
@@ -2237,7 +2258,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   function updateSidebarActive() {
     const key = state.view === 'dashboard' ? 'dashboard' : `step${state.step}`;
     $$('.side-link').forEach((a) => {
-      const on = a.dataset.route === key;
+      const on = a.dataset.route.split(' ').includes(key); // « Inscription FNCE » couvre les étapes 1 et 2
       a.classList.toggle('active', on);
       if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
@@ -2252,10 +2273,10 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       errCursor = 0;
       focusError(bad[0]);
       renderActionBar();
-      toast('error', 'Étape incomplète', `${plural(bad.length, 'élément')} à corriger avant de continuer.`);
+      toast('error', 'Étape incomplète', `${plural(bad.length, 'élément')} à corriger avant de continuer.`, { key: 'step' });
       return;
     }
-    toast('success', `Étape ${n} enregistrée`, n === 1 ? 'Identification du commerce validée.' : 'Établissements secondaires enregistrés.');
+    toast('success', `Étape ${n} enregistrée`, { 1: 'Identification du commerce validée.', 2: 'Représentant légal enregistré.', 3: 'Établissements secondaires enregistrés.' }[n], { key: 'step' });
     navigate(`#/inscription/${n + 1}`);
   }
 
@@ -2279,35 +2300,27 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     if (next) next.focus(); else goNext();
   }
 
-  /* Pastilles de sections : clic → premier champ à compléter de la section */
-  function goToSection(key) {
-    const sec = $(`.form-section[data-section="${key}"]`);
-    if (!sec) return;
-    const { bad } = sectionStats(sec);
-    if (bad.length) { revealOne(bad[0]); focusError(bad[0]); return; }
-    sec.scrollIntoView({ behavior: scrollMode(), block: 'start' });
-    $('.section-title', sec).focus({ preventScroll: true });
-  }
 
-  /* Barre d'actions : « Étape x sur 3 », avancement, bouton de parcours des erreurs */
+  /* Barre d'actions : « Étape x sur 4 », avancement, bouton de parcours des erreurs */
   let errCursor = -1;
   function renderActionBar(checks = collectChecks()) {
     const n = state.step;
     const cs = checks.filter((c) => c.step === n);
     const ok = cs.filter((c) => c.ok).length;
-    byId('abStep').textContent = `Étape ${n} sur 3`;
+    byId('abStep').textContent = `Étape ${n} sur ${STEP_COUNT}`;
     const nEts = state.etablissements.length;
     byId('abCount').textContent = {
       1: `${ok}/${cs.length} éléments obligatoires`,
-      2: `${plural(nEts, 'établissement')} · ${etabConsistent() ? 'liste conforme' : 'écart avec le nombre déclaré'}`,
-      3: `${ok}/${cs.length} pièces transmises`,
+      2: `${ok}/${cs.length} éléments obligatoires`,
+      3: nEts ? `${plural(nEts, 'établissement')} déclaré${nEts > 1 ? 's' : ''}` : 'Aucun établissement déclaré',
+      4: `${ok}/${cs.length} pièces transmises`,
     }[n];
     const panel = byId(`step-${n}`);
     const bad = panel.dataset.submitted === '1' && !state.submitted ? validateStep(n) : [];
     const btn = byId('abErrors');
     btn.hidden = !bad.length;
     if (bad.length) {
-      const [what, todo] = { 1: ['champ', 'à corriger'], 2: ['écart', 'à corriger'], 3: ['pièce', 'à joindre'] }[n];
+      const [what, todo] = { 1: ['champ', 'à corriger'], 2: ['champ', 'à corriger'], 3: ['élément', 'à corriger'], 4: ['pièce', 'à joindre'] }[n];
       byId('abErrorsText').textContent = `${plural(bad.length, what)} ${todo}`;
       btn.setAttribute('aria-label', `${plural(bad.length, what)} ${todo} : aller au suivant`);
     }
@@ -2327,6 +2340,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   /* Bascule ONECI / Autre avec transition douce ; les champs masqués sont exclus de la validation */
   function setPieceMode(mode, animate = true) {
     state.piece.mode = mode;
+    $$('input[name="pieceMode"]').forEach((r) => { r.checked = r.value === mode; }); // ex. mode « Autre » restauré
     const panels = { ONECI: byId('pieceOneci'), AUTRE: byId('pieceAutre') };
     const show = panels[mode];
     const hide = panels[mode === 'ONECI' ? 'AUTRE' : 'ONECI'];
@@ -2423,10 +2437,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   }
 
   /* ==========================================================================
-   * 8. ÉTAPE 2 : établissements secondaires
+   * 8. ÉTAPE 3 : établissements secondaires (leur nombre est calculé, jamais saisi)
    * ======================================================================== */
-  const etabConsistent = () => state.etablissement.nbEts != null && state.etablissements.length === state.etablissement.nbEts;
-
   function rowActions(e) {
     return `<button type="button" class="btn btn-row edit" data-edit="${e.id}" title="Modifier"><i class="bi bi-pencil-square" aria-hidden="true"></i><span class="visually-hidden">Modifier ${esc(e.denomination)}</span></button>
       <button type="button" class="btn btn-row del" data-del="${e.id}" title="Supprimer"><i class="bi bi-trash3" aria-hidden="true"></i><span class="visually-hidden">Supprimer ${esc(e.denomination)}</span></button>`;
@@ -2467,31 +2479,13 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     renderEtabSync();
   }
 
-  /* Compteur, avertissement de l'étape 2 et indication sous « Nbre ets secondaire » */
-  let lastEtabAlert = null;
+  /* Compteur de l'étape 3 et nombre reporté à l'étape 1 (rubrique « Capital et structure ») */
   function renderEtabSync() {
     const n = state.etablissements.length;
-    const d = state.etablissement.nbEts;
-    const ok = etabConsistent();
+    const html = `<i class="bi bi-shop" aria-hidden="true"></i>${n ? `${plural(n, 'établissement')} déclaré${n > 1 ? 's' : ''}` : 'Aucun établissement'}`;
     const counter = byId('etabCounter');
-    counter.className = `etab-counter${ok ? '' : ' is-mismatch'}`;
-    counter.innerHTML = `<i class="bi ${ok ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}" aria-hidden="true"></i>${n} saisi${n > 1 ? 's' : ''} / ${d ?? '–'} déclaré${d > 1 ? 's' : ''}`;
-
-    const declared = d == null ? 'aucun nombre déclaré' : `${plural(d, 'établissement')} déclaré${d > 1 ? 's' : ''}`;
-    const alertHtml = ok ? '' : `
-      <div class="alert etab-alert d-flex gap-2 align-items-start mb-3">
-        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
-        <div><strong>Écart détecté :</strong> ${declared} à l'étape 1 (« Nbre ets secondaire ») pour ${plural(n, 'établissement')} dans la liste ci-dessous.
-        <button type="button" class="btn btn-link p-0 align-baseline fw-bold" data-fix-nb>Corriger le nombre déclaré</button> ou ajustez la liste.</div>
-      </div>`;
-    if (alertHtml !== lastEtabAlert) { byId('etabLive').innerHTML = alertHtml; lastEtabAlert = alertHtml; }
-
-    const hint = byId('nbEts-sync');
-    hint.className = `form-text sync-hint ${ok ? 'is-ok' : 'is-warn'}`;
-    const html = ok
-      ? `<i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Cohérent avec l'étape 2 (${plural(n, 'établissement')}).</span>`
-      : `<i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i><span>Écart : ${plural(n, 'établissement')} saisi${n > 1 ? 's' : ''} à l'étape 2.</span>`;
-    if (hint.innerHTML !== html) hint.innerHTML = html;
+    if (counter.innerHTML !== html) counter.innerHTML = html;
+    byId('etsCount').textContent = String(n);
   }
 
   const ETAB_FIELDS = ['etabDenom', 'etabActivite', 'etabLocalite', 'etabQuartier', 'etabRue'];
@@ -2567,7 +2561,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   }
 
   /* ==========================================================================
-   * 9. ÉTAPE 3 : pièces jointes (glisser-déposer ou clic)
+   * 9. ÉTAPE 4 : pièces jointes (glisser-déposer ou clic)
    * ======================================================================== */
   const docsCount = () => DOCS.filter((d) => state.documents[d.key]).length;
   const uploadTokens = {};
@@ -2615,7 +2609,9 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     box.hidden = false;
     const thumb = doc.url
       ? `<img class="doc-thumb" src="${doc.url}" alt="Aperçu : ${esc(doc.name)}">`
-      : '<span class="doc-thumb is-pdf"><i class="bi bi-file-earmark-pdf-fill" aria-hidden="true"></i></span>';
+      : doc.kind === 'PDF'
+        ? '<span class="doc-thumb is-pdf"><i class="bi bi-file-earmark-pdf-fill" aria-hidden="true"></i></span>'
+        : '<span class="doc-thumb is-img"><i class="bi bi-file-earmark-image-fill" aria-hidden="true"></i></span>';
     box.innerHTML = `
       ${thumb}
       <div class="flex-grow-1 min-w-0">
@@ -2745,7 +2741,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     const checks = collectChecks();
     const done = checks.filter((c) => c.ok).length;
     const pct = checks.length ? Math.round((done / checks.length) * 100) : 0;
-    const stepOk = [1, 2, 3].map((n) => validateStep(n).length === 0);
+    const stepOk = STEPS.map((n) => validateStep(n).length === 0);
     const ready = stepOk.every(Boolean);
     stepOk.forEach((ok, i) => {
       const tab = byId(`tab-${i + 1}`);
@@ -2761,6 +2757,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     renderActionBar(checks);
     renderSidebarBadges(pct);
     renderDashboard(checks, pct, stepOk);
+    queueDraftSave();
   }
 
   function setMeter(el, pct) {
@@ -2771,7 +2768,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   }
 
   /* Pastilles d'avancement : titres de section et navigation de sections */
-  let sectionsReady = false;
   function renderSections() {
     $$('.form-section[data-section]').forEach((sec) => {
       const key = sec.dataset.section;
@@ -2781,21 +2777,11 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       const badge = $(`[data-sec-badge="${key}"]`);
       if (badge) {
         badge.classList.toggle('is-complete', complete);
-        // Pastille discrète : n'apparaît qu'une fois la section complète (l'avancement est dans la navigation)
+        // Pastille discrète : n'apparaît qu'une fois la section complète (l'avancement est dans la barre d'actions)
         const html = complete ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i>Complet' : '';
         if (badge.innerHTML !== html) badge.innerHTML = html;
       }
-      const chip = $(`.sn-chip[data-sec="${key}"]`);
-      if (chip) {
-        const was = chip.classList.contains('is-complete');
-        chip.classList.toggle('is-complete', complete);
-        const stateEl = $('.sn-state', chip);
-        const html = complete ? '<i class="bi bi-check-lg" aria-hidden="true"></i><span class="visually-hidden">complète</span>' : `<span class="visually-hidden">, </span>${ok}/${total}`;
-        if (stateEl.innerHTML !== html) stateEl.innerHTML = html;
-        if (sectionsReady && complete && !was && !reducedMotion()) { chip.classList.remove('pop'); void chip.offsetWidth; chip.classList.add('pop'); }
-      }
     });
-    sectionsReady = true;
   }
 
   /* Badge de statut global (topbar) */
@@ -2814,7 +2800,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   function renderSidebarBadges(pct) {
     const etab = byId('navBadgeEtab');
     etab.textContent = String(state.etablissements.length);
-    etab.classList.toggle('warn', !etabConsistent());
     byId('navBadgeDocs').textContent = `${docsCount()}/${DOCS.length}`;
   }
 
@@ -2836,13 +2821,13 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   function timelineItems(stepOk, checks) {
     const sub = state.submitted;
     const ready = stepOk.every(Boolean);
-    const first = [1, 2, 3].find((n) => !stepOk[n - 1]) || 3;
+    const first = STEPS.find((n) => !stepOk[n - 1]) || STEP_COUNT;
     const left = checks.filter((c) => !c.ok).length;
     const docs = docsCount();
     return [
       { key: 'pre', title: 'Pré-inscription', status: ready || sub ? 'done' : 'current', step: sub ? 1 : first, link: sub ? 'Consulter le dossier' : `Voir l'étape ${first}`,
-        detail: ready || sub ? 'Identification, établissements et pièces jointes complets.' : `${plural(left, 'élément')} à compléter, à commencer par l'étape ${first}.` },
-      { key: 'submit', title: 'Soumission du dossier', status: sub ? 'done' : (ready ? 'current' : 'upcoming'), step: sub ? null : 3, link: sub ? '' : "Voir l'étape 3",
+        detail: ready || sub ? 'Identification, représentant légal, établissements et pièces jointes complets.' : `${plural(left, 'élément')} à compléter, à commencer par l'étape ${first}.` },
+      { key: 'submit', title: 'Soumission du dossier', status: sub ? 'done' : (ready ? 'current' : 'upcoming'), step: sub ? null : STEP_COUNT, link: sub ? '' : `Voir l'étape ${STEP_COUNT}`,
         info: sub ? `Dossier ${state.dossierRef} soumis le ${fmtDateTime(state.submittedAt)}.` : '',
         detail: sub ? `Référence ${state.dossierRef}, le ${fmtDateTime(state.submittedAt)}.` : (ready ? "Dossier prêt : vérifiez le récapitulatif puis confirmez l'envoi." : 'Possible dès que le dossier est complet.') },
       { key: 'verif', title: 'Vérification des pièces', status: sub ? 'current' : 'upcoming', step: null, link: '',
@@ -2871,7 +2856,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     }).join(''));
   }
 
-  const STEP_NAMES = { 1: 'Identification du commerce', 2: 'Établissements secondaires', 3: 'Pièces jointes' };
   let todoItems = [];
   function renderTodo(checks) {
     todoItems = checks.filter((c) => !c.ok);
@@ -2879,10 +2863,10 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     if (state.submitted) {
       html = `<li class="todo-empty"><i class="bi bi-send-check-fill" aria-hidden="true"></i><span>Dossier soumis le ${esc(fmtDateTime(state.submittedAt))}, référence ${esc(state.dossierRef)}. Aucune action requise pour le moment.</span></li>`;
     } else if (!todoItems.length) {
-      html = '<li class="todo-empty"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Toutes les informations sont complètes : vous pouvez soumettre le dossier depuis l\'étape 3.</span></li>';
+      html = '<li class="todo-empty"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>Toutes les informations sont complètes : vous pouvez soumettre le dossier depuis l\'étape 4.</span></li>';
     } else {
       // Regroupées par étape : jusqu'à quatre actions, sinon trois puis un raccourci vers la suite
-      html = [1, 2, 3].map((step) => {
+      html = STEPS.map((step) => {
         const items = todoItems.map((c, i) => ({ c, i })).filter(({ c }) => c.step === step);
         if (!items.length) return '';
         const shown = items.length <= 4 ? items : items.slice(0, 3); // « Et 1 autre » prendrait autant de place que l'élément
@@ -2905,13 +2889,14 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     byId('dashPct').textContent = String(pct);
     setMeter(byId('dashMeter'), pct);
     byId('dashProgText').textContent = `${done} élément${done > 1 ? 's' : ''} sur ${checks.length} complété${done > 1 ? 's' : ''}`;
-    [1, 2, 3].forEach((n) => {
+    STEPS.forEach((n) => {
       const cs = checks.filter((c) => c.step === n);
       const ok = cs.filter((c) => c.ok).length;
       const row = byId(`stepMeter-${n}`);
-      $('.sm-val', row).textContent = n === 2 ? (stepOk[1] ? 'Conforme' : 'Écart') : `${ok}/${cs.length}`;
+      const nEts = state.etablissements.length;
+      $('.sm-val', row).textContent = n !== 3 ? `${ok}/${cs.length}` : !state.etabsVus ? 'À vérifier' : nEts ? plural(nEts, 'établissement') : 'Aucun';
       $('.sm-state', row).innerHTML = stepOk[n - 1] ? '<i class="bi bi-check-circle-fill" aria-hidden="true"></i><span class="visually-hidden"> (étape complète)</span>' : '';
-      setMeter($('.meter', row), cs.length ? Math.round((ok / cs.length) * 100) : 0);
+      setMeter($('.meter', row), Math.round((ok / cs.length) * 100));
     });
 
     renderTimeline(stepOk, checks);
@@ -2979,8 +2964,11 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   };
   /* Un groupe (ex. envois de pièces) met à jour un seul toast au lieu d'en empiler plusieurs */
   const toastGroups = {};
-  function toast(tone, title, body = '', { action = null, group = null, groupItem = '' } = {}) {
+  const toastKeys = {}; // clé → dernier toast affiché (remplacé par le suivant de même clé)
+  function toast(tone, title, body = '', { action = null, group = null, groupItem = '', key = null } = {}) {
     const t = TOASTS[tone];
+    // Même clé : le nouveau toast remplace l'ancien (ex. résultat de « Suivant » : un seul à la fois)
+    if (key && toastKeys[key]?.isConnected) toastKeys[key].remove();
     if (group) {
       const g = toastGroups[group] || (toastGroups[group] = { items: [], el: null });
       g.items.push(groupItem || body);
@@ -3006,6 +2994,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     syncToastOffset();
     byId('toastZone').appendChild(el);
     el.addEventListener('hidden.bs.toast', () => el.remove());
+    if (key) toastKeys[key] = el;
     if (group) {
       toastGroups[group].el = el;
       el.addEventListener('hidden.bs.toast', () => { if (toastGroups[group]?.el === el) delete toastGroups[group]; });
@@ -3032,12 +3021,12 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
   function trySubmit() {
     if (state.submitted) return;
-    const results = [1, 2, 3].map((n) => validateStep(n, true));
+    const results = STEPS.map((n) => validateStep(n, true));
     const idx = results.findIndex((r) => r.length);
     if (idx >= 0) {
       results.forEach((r, i) => { if (r.length) byId(`step-${i + 1}`).dataset.submitted = '1'; });
       navigate(`#/inscription/${idx + 1}`, { then: () => { errCursor = 0; focusError(results[idx][0]); } });
-      toast('error', 'Dossier incomplet', `Étape ${idx + 1} : ${plural(results[idx].length, 'élément')} à corriger.`);
+      toast('error', 'Dossier incomplet', `Étape ${idx + 1} : ${idx === 2 ? 'vérifiez la liste des établissements' : `${plural(results[idx].length, 'élément')} à corriger`}.`, { key: 'step' });
       return;
     }
     byId('recapBody').innerHTML = recapHTML();
@@ -3058,7 +3047,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       ['bi-briefcase-fill', 'Entreprise (données DGI)', [['Raison sociale', DGI.denomination], ['Forme juridique', DGI.formeJuridique], ['N° RCCM', DGI.rccm], ['Activité', `${DGI.activiteCode} – ${DGI.activiteLibelle}`]]],
       ['bi-building-fill', 'Établissement principal', [
         ['Date de création', et.dateCreation], ['Nom abrégé / Sigle', et.sigle || '—'], ['N° Titre de commerce', et.titreCommerce || '—'], ["N° d'inscription FNCE", et.numFnce || 'À attribuer'],
-        ['Capital social', `${fmtFCFA(et.capital)} (${montantEnLettres(et.capital)})`], ['Établissements secondaires', String(et.nbEts)],
+        ['Capital social', `${fmtFCFA(et.capital)} (${montantEnLettres(et.capital)})`], ['Établissements secondaires', String(state.etablissements.length)],
         ['Localité', et.localite], ['Quartier', et.quartier], ['Rue', et.rue || '—'],
         ['Contact mobile', fmtIntl(et.mobile)], ['Boîte postale', et.bp || '—'], ['Téléphone fixe', et.telFixe ? fmtIntl(et.telFixe) : '—'], ['Email officiel', et.email || '—'],
       ]],
@@ -3076,6 +3065,16 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       </section>`).join('');
   }
 
+  /* Dossier soumis : formulaire verrouillé et bandeau de confirmation */
+  function applySubmittedUI() {
+    byId('formFieldset').disabled = true;
+    closeAllCombos();
+    combos.forEach((c) => c.syncClear());
+    byId('submittedAt').textContent = fmtDateTime(state.submittedAt);
+    byId('submittedRef').textContent = state.dossierRef;
+    byId('submittedAlert').hidden = false;
+  }
+
   function confirmSubmit() {
     const btn = byId('btnConfirmSubmit');
     const original = btn.innerHTML;
@@ -3085,12 +3084,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       state.submitted = true;
       state.submittedAt = new Date();
       state.dossierRef = `FNCE-${state.submittedAt.getFullYear()}-${String(Math.floor(100000 + Math.random() * 900000))}`;
-      byId('formFieldset').disabled = true; // dossier verrouillé après soumission
-      closeAllCombos();
-      combos.forEach((c) => c.syncClear());
-      byId('submittedAt').textContent = fmtDateTime(state.submittedAt);
-      byId('submittedRef').textContent = state.dossierRef;
-      byId('submittedAlert').hidden = false;
+      applySubmittedUI();
       setStep(state.step);
       btn.innerHTML = original;
       notify(`Dossier ${state.dossierRef} soumis : vérification des pièces en cours.`, 'bi-send-check-fill', 'success');
@@ -3101,6 +3095,92 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       recapModal.hide();
       scheduleRefresh();
     }, reducedMotion() ? 300 : 1200);
+  }
+
+  /* ==========================================================================
+   * 12 bis. BROUILLON : enregistrement automatique dans ce navigateur (localStorage).
+   *    Un rechargement retrouve la saisie. Des pièces jointes, seuls le nom, la taille
+   *    et l'heure d'envoi sont conservés (comme le ferait un serveur).
+   * ======================================================================== */
+  const DRAFT_KEY = 'fnce-espace-entreprise:brouillon:v1';
+  const DRAFT_PARTS = ['confirmation', 'etablissement', 'representant', 'piece'];
+  const draftStore = (() => {
+    try { const k = `${DRAFT_KEY}:test`; localStorage.setItem(k, '1'); localStorage.removeItem(k); return localStorage; } catch (_) { return null; }
+  })();
+  let draftJSON = '';     // dernière version enregistrée : aucune écriture si rien n'a changé
+  let draftSavedAt = null;
+  let draftTimer = 0;
+  let draftOff = false;   // « Recommencer la saisie » : plus aucun enregistrement avant le rechargement
+
+  function draftData() {
+    const data = { etablissements: state.etablissements.map(({ id, ...e }) => e), etabsVus: state.etabsVus };
+    DRAFT_PARTS.forEach((k) => { data[k] = state[k]; });
+    data.documents = Object.fromEntries(Object.entries(state.documents).map(([k, d]) => [k, d && { name: d.name, size: d.size, kind: d.kind, at: d.at }]));
+    if (state.submitted) Object.assign(data, { submitted: true, submittedAt: state.submittedAt, dossierRef: state.dossierRef });
+    return JSON.stringify(data);
+  }
+  function renderDraftStatus(saving = false) {
+    const el = byId('abDraft');
+    el.hidden = !draftStore || state.submitted || (!saving && !draftSavedAt);
+    if (el.hidden) return;
+    const html = saving
+      ? '<i class="bi bi-arrow-repeat" aria-hidden="true"></i>Enregistrement…'
+      : `<i class="bi bi-cloud-check" aria-hidden="true"></i>Brouillon enregistré à ${fmtTime(draftSavedAt)}`;
+    if (el.innerHTML !== html) el.innerHTML = html;
+  }
+  function saveDraft() {
+    draftTimer = 0;
+    if (draftOff) return;
+    const json = draftData();
+    if (json !== draftJSON) {
+      try {
+        draftStore.setItem(DRAFT_KEY, JSON.stringify({ v: 1, savedAt: Date.now(), data: JSON.parse(json) }));
+        draftJSON = json;
+        draftSavedAt = new Date();
+      } catch (_) { /* stockage plein ou refusé : nouvel essai à la prochaine modification */ }
+    }
+    renderDraftStatus();
+  }
+  /* Appelé à chaque rafraîchissement : enregistre (avec un court délai) seulement si les données ont changé */
+  function queueDraftSave() {
+    if (!draftStore || draftOff || draftData() === draftJSON) return;
+    renderDraftStatus(true);
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(saveDraft, 600);
+  }
+  /* Fusion prudente : seules les clés connues du modèle sont reprises */
+  function mergeInto(target, src) {
+    Object.entries(src || {}).forEach(([k, v]) => {
+      if (!(k in target)) return;
+      const t = target[k];
+      if (v && typeof v === 'object' && !Array.isArray(v) && t && typeof t === 'object' && !Array.isArray(t)) mergeInto(t, v);
+      else target[k] = v;
+    });
+  }
+  /* Au chargement : reprend le brouillon s'il existe ; renvoie sa date d'enregistrement.
+     Une date illisible (brouillon altéré) devient la date du jour : l'affichage ne doit jamais échouer. */
+  const toDate = (v) => { const d = new Date(v); return Number.isNaN(d.getTime()) ? new Date() : d; };
+  function restoreDraft() {
+    if (!draftStore) return null;
+    let saved = null;
+    try { saved = JSON.parse(draftStore.getItem(DRAFT_KEY) || 'null'); } catch (_) { return null; }
+    if (!saved || saved.v !== 1 || !saved.data) return null;
+    const d = saved.data;
+    DRAFT_PARTS.forEach((k) => mergeInto(state[k], d[k]));
+    if (Array.isArray(d.etablissements)) state.etablissements = d.etablissements.map((e) => ({ ...e, id: uid('ets') }));
+    state.etabsVus = d.etabsVus === true;
+    Object.entries(d.documents || {}).forEach(([k, doc]) => {
+      if (k in state.documents) state.documents[k] = doc && { name: doc.name, size: doc.size, kind: doc.kind, url: null, at: toDate(doc.at) };
+    });
+    if (d.submitted) Object.assign(state, { submitted: true, submittedAt: toDate(d.submittedAt), dossierRef: d.dossierRef || '' });
+    return toDate(saved.savedAt);
+  }
+  function resetDraft() {
+    draftOff = true;
+    clearTimeout(draftTimer);
+    try { draftStore?.removeItem(DRAFT_KEY); } catch (_) { /* rien à effacer */ }
+    location.hash = '#/inscription/1';
+    location.reload();
   }
 
   /* ==========================================================================
@@ -3153,7 +3233,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
   function seedNotifications() {
     const now = Date.now();
     state.notifications = [
-      { id: uid('notif'), text: "Bienvenue sur l'Espace Entreprise : complétez les 3 étapes de votre inscription au FNCE.", icon: 'bi-info-circle-fill', tone: 'info', time: now - 8 * 60000, read: false },
+      { id: uid('notif'), text: "Bienvenue sur l'Espace Entreprise : complétez les 4 étapes de votre inscription au FNCE.", icon: 'bi-info-circle-fill', tone: 'info', time: now - 8 * 60000, read: false },
       { id: uid('notif'), text: `Données DGI importées : ${DGI.denomination} (NCC ${DGI.ncc}).`, icon: 'bi-cloud-check-fill', tone: 'success', time: now - 12 * 60000, read: false },
     ];
     renderNotifs();
@@ -3161,7 +3241,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
   function bindEvents() {
     const form = byId('fnceForm');
-    form.addEventListener('submit', (e) => { e.preventDefault(); if (state.step < 3) goNext(); });
+    form.addEventListener('submit', (e) => { e.preventDefault(); if (state.step < STEP_COUNT) goNext(); });
     form.addEventListener('input', onFieldEdit);
     form.addEventListener('change', onFieldEdit);
     form.addEventListener('keydown', onEnterKey);
@@ -3177,13 +3257,6 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
       if (String(el.value).trim()) el.dataset.touched = '1';
       liveValidate(el, true);
     });
-
-    // Section active : la pastille correspondante est mise en évidence
-    form.addEventListener('focusin', (e) => {
-      const sec = e.target.closest('.form-section[data-section]');
-      $$('.sn-chip').forEach((c) => c.classList.toggle('is-active', !!sec && c.dataset.sec === sec.dataset.section));
-    });
-    $$('.sn-chip').forEach((chip) => chip.addEventListener('click', () => goToSection(chip.dataset.sec)));
 
     // Aides : suggestions en un clic
     byId('etDateCreation-suggest').addEventListener('click', () => fillField(byId('etDateCreation'), RCCM_DATE));
@@ -3223,17 +3296,16 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     window.addEventListener('scroll', queueToastOffset, { passive: true });
     window.addEventListener('resize', queueToastOffset);
 
-    // Étape 1
+    // Étape 2 : type de pièce d'identité
     $$('input[name="pieceMode"]').forEach((r) => r.addEventListener('change', () => { if (r.checked) setPieceMode(r.value); }));
 
-    // Étape 2 : établissements
+    // Étape 3 : établissements
     byId('btnAddEtab').addEventListener('click', () => openEtabModal());
     byId('etabSection').addEventListener('click', (e) => {
       const edit = e.target.closest('[data-edit]');
       const del = e.target.closest('[data-del]');
       if (edit) openEtabModal(edit.dataset.edit);
       if (del) deleteEtab(del.dataset.del);
-      if (e.target.closest('[data-fix-nb]')) navigate('#/inscription/1', { then: () => focusError(byId('nbEts')) });
     });
     byId('etabForm').addEventListener('submit', saveEtab);
     byId('etabForm').addEventListener('input', (e) => { if (!e.target.classList.contains('combo-input')) liveValidate(e.target); });
@@ -3256,8 +3328,8 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
 
     // Tableau de bord
     byId('btnResume').addEventListener('click', () => {
-      const first = [1, 2, 3].find((n) => validateStep(n).length);
-      navigate(`#/inscription/${state.submitted ? 1 : (first || 3)}`);
+      const first = STEPS.find((n) => validateStep(n).length);
+      navigate(`#/inscription/${state.submitted ? 1 : (first || STEP_COUNT)}`);
     });
     byId('timeline').addEventListener('click', (e) => {
       const card = e.target.closest('[data-tl]');
@@ -3278,9 +3350,13 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     byId('notifBtn').addEventListener('hidden.bs.dropdown', markAllRead);
     byId('notifReadAll').addEventListener('click', markAllRead);
     $$('[data-demo]').forEach((b) => b.addEventListener('click', () => toast('info', b.dataset.demo, 'Fonction non disponible dans cette maquette.')));
+    byId('btnResetDraft').addEventListener('click', () => toast('info', 'Recommencer la saisie ?',
+      state.submitted ? 'Le dossier soumis et toutes les informations saisies seront effacés de ce navigateur.' : 'Le brouillon et toutes les informations saisies seront effacés.',
+      { action: { label: 'Tout effacer', onClick: resetDraft } }));
   }
 
   function init() {
+    const restoredAt = restoreDraft(); // avant toute hydratation des champs
     if (!window.bootstrap) {
       document.body.insertAdjacentHTML('afterbegin', '<div class="alert alert-danger m-3" role="alert">Bootstrap n\'a pas pu être chargé : vérifiez votre connexion Internet.</div>');
     }
@@ -3298,6 +3374,7 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     makeCombo('etabActivite', ACTIVITES, { free: true });
     makeCombo('etabLocalite', LOCALITES_ETS);
     initDocs();
+    DOCS.forEach((d) => { if (state.documents[d.key]) renderDoc(d.key); });
     initAdaptiveSections();
     hydrate();
     initMasks();
@@ -3317,10 +3394,24 @@ fieldset.radio-group > legend { float: none; margin-bottom: .3rem; }
     linkDescriptions();
     bindEvents();
 
+    if (state.submitted) applySubmittedUI();
+
+    // Brouillon : la version chargée sert de référence (aucun enregistrement tant que rien ne change)
+    draftJSON = draftData();
+    draftSavedAt = restoredAt;
+    renderDraftStatus();
+    // Fermeture de la page juste après une frappe : l'enregistrement en attente est fait tout de suite
+    const flushDraft = () => { if (draftTimer) { clearTimeout(draftTimer); saveDraft(); } };
+    window.addEventListener('pagehide', flushDraft);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushDraft(); });
+
     // Première vue (sans voler le focus)
     routeOpts = { focus: 'none', scroll: false };
     onRoute();
     refreshUI();
+    if (restoredAt && !state.submitted) {
+      toast('info', 'Brouillon restauré', `Votre saisie du ${fmtDateTime(restoredAt)} a été retrouvée.`, { action: { label: 'Recommencer', onClick: resetDraft } });
+    }
   }
 
   init();
